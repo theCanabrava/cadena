@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Input, Palette } from '../design-system';
 
 const Welcome = () =>
-(
-  <View style={styles.container}>
-    <Text style={styles.title}>
-      Boas vindas!
-    </Text>
-    <Text style={styles.info}>
-        Cadastre as informações de seu usuário.
-    </Text>
-    <Input
-        label='Nome:'
-        placeholder='Nome de Usuário'
-        accessibilityLabel='nome-de-usuário'
-        value=''
-        setValue={(v) => {}}
-    />
-  </View>
-)
+{
+  const [ username, setUsername ] = useState('');
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        Boas vindas!
+      </Text>
+      <Text style={styles.info}>
+          Cadastre as informações de seu usuário.
+      </Text>
+      <Input
+          label='Nome:'
+          placeholder='Nome de Usuário'
+          accessibilityLabel='nome-de-usuário'
+          value={username}
+          setValue={setUsername}
+      />
+      <View style={styles.spacer}/>
+      <Input
+          label='Escala:'
+          placeholder='TODO - Dropdown!'
+          accessibilityLabel='nome-de-usuário'
+          value=''
+          setValue={(v) => {}}
+      />
+    </View>
+  )
+  
+}
 
 export default Welcome;
 
@@ -44,6 +57,8 @@ const styles = StyleSheet.create(
         fontSize: 12,
         textAlign: 'left',
         marginBottom: 8
-    }
+    },
+
+    spacer: { height: 16 }
   }
 )
