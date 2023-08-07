@@ -54,7 +54,7 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                 > 
                     <View style={styles.optionsCover}>
                         <TouchableOpacity style={optionsStyle}>
-                            <Text> TODO - Opções de dropdown </Text>
+                            <Text> TODO - Opções de dropdown e ícones de dropdown</Text>
                         </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>
