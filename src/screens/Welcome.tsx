@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Input, Palette } from '../design-system';
+import { Dropdown, Input, Palette } from '../design-system';
 
 const Welcome = () =>
 {
@@ -22,10 +22,10 @@ const Welcome = () =>
           setValue={setUsername}
       />
       <View style={styles.spacer}/>
-      <Input
-          label='Escala:'
-          placeholder='TODO - Dropdown!'
-          accessibilityLabel='nome-de-usuário'
+      <Dropdown
+          label='Graduação:'
+          placeholder='Graduação de vias'
+          accessibilityLabel='graduação-de-vias'
           value=''
           setValue={(v) => {}}
       />
