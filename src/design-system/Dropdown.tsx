@@ -12,7 +12,6 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
     if(value === '') selectedStyle.color = Palette.grey.t600
 
     const optionsStyle = { ...styles.optionsContainer, ...position }
-    console.log('OPTIONS', optionsStyle)
 
     return (
         <>
@@ -20,7 +19,6 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                 style={styles.container}
                 onLayout={ev =>
                 {
-                    console.log(ev.nativeEvent.layout)
                     setPosition(
                         {
                             left: ev.nativeEvent.layout.x,
@@ -44,11 +42,8 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                     </View>
                 </TouchableOpacity>
             </View>
-            <Modal
-                animationType='none'
-                visible={open}
-                transparent={true}
-            >
+            {
+                open && 
                 <TouchableWithoutFeedback 
                     onPress={() => setOpen(false)}
                 > 
@@ -58,7 +53,7 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                         </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>
-            </Modal>
+            }
         </>
     )
 }
@@ -107,8 +102,11 @@ const styles = StyleSheet.create(
         },
 
         optionsCover: {
-            flex: 1
-            
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
         },
 
         optionsContainer: {
