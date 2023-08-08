@@ -2,21 +2,22 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import Palette from "./Palette";
 
+type Option = { id: string, value: string }
 type InputProps = { 
     label: string, 
     placeholder: string, 
-    value: string, 
-    setValue: (v: string) => void, 
+    option: Option, 
+    selectedOption: (v: Option) => void, 
     accessibilityLabel: string,
-    options: { id: string, value: string }[]
+    options: Option[]
 }
-const Input = ({label, placeholder, value, setValue, accessibilityLabel, options}: InputProps) =>
+const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, options}: InputProps) =>
 {
     const [ open, setOpen ] = useState(false)
     const [ position, setPosition ] = useState({left: 0, top: 0, width: 0})
 
     const selectedStyle = {...styles.selected}
-    if(value === '') selectedStyle.color = Palette.grey.t600
+    if(option.value === '') selectedStyle.color = Palette.grey.t600
 
     const optionsStyle = { 
         ...styles.optionsContainer, 
@@ -30,7 +31,7 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel, options
                 <TouchableOpacity
                     onPress={() => 
                     {
-                        setValue(o.value);
+                        selectedOption(o);
                         setOpen(false);
                     }}
                     key={o.id}
@@ -65,7 +66,7 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel, options
                 <TouchableOpacity onPress={() => setOpen(true)} accessibilityLabel={accessibilityLabel}>
                     <View style={styles.dropdown}>
                         <Text style={selectedStyle}>
-                            { value != "" ? value : placeholder}
+                            { option.value != "" ? option.value : placeholder }
                         </Text>
                         <Text style={selectedStyle}>
                             V

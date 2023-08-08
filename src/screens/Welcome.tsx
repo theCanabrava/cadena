@@ -5,7 +5,7 @@ import { Dropdown, Input, Palette } from '../design-system';
 const Welcome = () =>
 {
   const [ username, setUsername ] = useState('');
-  const [ grade, setGrade ] = useState('');
+  const [ grade, setGrade ] = useState({id: '-1', value: ''});
   const grades = [
     { id: '0', value: 'Escala Font'},
     { id: '1', value: 'Escala V'},
@@ -32,8 +32,8 @@ const Welcome = () =>
           label='Graduação:'
           placeholder='Graduação de vias'
           accessibilityLabel='graduação-de-vias'
-          value={grade}
-          setValue={(v) => {setGrade(v)}}
+          option={grade}
+          selectedOption={(v) => {setGrade(v)}}
           options={grades}
       />
     </View>
