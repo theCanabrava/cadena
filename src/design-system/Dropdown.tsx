@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import Palette from "./Palette";
 
-type InputProps = { label: string, placeholder: string, value: string, setValue: (v: string) => void, accessibilityLabel: string }
-const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputProps) =>
+type InputProps = { 
+    label: string, 
+    placeholder: string, 
+    value: string, 
+    setValue: (v: string) => void, 
+    accessibilityLabel: string,
+    options: { id: string, value: string }[]
+}
+const Input = ({label, placeholder, value, setValue, accessibilityLabel, options}: InputProps) =>
 {
     const [ open, setOpen ] = useState(false)
     const [ position, setPosition ] = useState({left: 0, top: 0, width: 0})
@@ -11,7 +18,31 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
     const selectedStyle = {...styles.selected}
     if(value === '') selectedStyle.color = Palette.grey.t600
 
-    const optionsStyle = { ...styles.optionsContainer, ...position }
+    const optionsStyle = { 
+        ...styles.optionsContainer, 
+        ...position, 
+        maxHeight: options.length >= 5 ? 150 : (32.8 * options.length)
+    }
+
+    const optionElements = options.map(o =>
+        {
+            return (
+                <TouchableOpacity
+                    onPress={() => 
+                    {
+                        setValue(o.value);
+                        setOpen(false);
+                    }}
+                    key={o.id}
+                >
+                    <Text 
+                        style={styles.option}
+                    >
+                        {o.value}
+                    </Text>
+                </TouchableOpacity>
+            )
+        })
 
     return (
         <>
@@ -31,7 +62,7 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                 <Text style={styles.label}>
                     {label}
                 </Text>
-                <TouchableOpacity onPress={() => setOpen(true)}>
+                <TouchableOpacity onPress={() => setOpen(true)} accessibilityLabel={accessibilityLabel}>
                     <View style={styles.dropdown}>
                         <Text style={selectedStyle}>
                             { value != "" ? value : placeholder}
@@ -48,9 +79,12 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                     onPress={() => setOpen(false)}
                 > 
                     <View style={styles.optionsCover}>
-                        <TouchableOpacity style={optionsStyle}>
-                            <Text> TODO - Opções de dropdown e ícones de dropdown</Text>
-                        </TouchableOpacity>
+                        <ScrollView
+                            style={optionsStyle}
+                            nestedScrollEnabled
+                        >
+                            {optionElements}
+                        </ScrollView>
                     </View>
                 </TouchableWithoutFeedback>
             }
@@ -101,6 +135,15 @@ const styles = StyleSheet.create(
             color: Palette.grey.t900,
         },
 
+        option: 
+        {
+            fontFamily: 'Roboto-Regular',
+            fontSize: 18,
+            color: Palette.grey.t900,
+            paddingHorizontal: 8,
+            paddingVertical: 4
+        },
+
         optionsCover: {
             position: 'absolute',
             top: 0,
@@ -111,11 +154,10 @@ const styles = StyleSheet.create(
 
         optionsContainer: {
             backgroundColor: Palette.mono.t50,
-            height: 100,
+            maxHeight: 150,
             borderBottomLeftRadius: 8,
             borderBottomRightRadius: 8
         }
-
 
     }
 )
