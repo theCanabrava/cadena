@@ -8,8 +8,7 @@ const Welcome = () =>
   const [ grade, setGrade ] = useState({id: '-1', value: ''});
   const grades = [
     { id: '0', value: 'Escala Font'},
-    { id: '1', value: 'Escala V'},
-    { id: '2', value: 'TODO - Ícone de dropdown!!'},
+    { id: '1', value: 'Escala V'}
   ]
 
   return (
@@ -36,6 +35,9 @@ const Welcome = () =>
           selectedOption={(v) => {setGrade(v)}}
           options={grades}
       />
+      <Text>
+        TODO - Botão de câmera
+      </Text>
     </View>
   )
   

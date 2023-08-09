@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { ChevronDown } from "../icons";
 import Palette from "./Palette";
 
 type Option = { id: string, value: string }
@@ -68,26 +69,25 @@ const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, 
                         <Text style={selectedStyle}>
                             { option.value != "" ? option.value : placeholder }
                         </Text>
-                        <Text style={selectedStyle}>
-                            V
-                        </Text>
+                        <ChevronDown
+                            height={24}
+                            width={24}
+                            primary={Palette.grey.t900}
+                            rotation={open ? 180 : 0}
+                        />
                     </View>
                 </TouchableOpacity>
             </View>
             {
                 open && 
-                <TouchableWithoutFeedback 
-                    onPress={() => setOpen(false)}
-                > 
-                    <View style={styles.optionsCover}>
-                        <ScrollView
-                            style={optionsStyle}
-                            nestedScrollEnabled
-                        >
-                            {optionElements}
-                        </ScrollView>
-                    </View>
-                </TouchableWithoutFeedback>
+                <View style={styles.optionsCover}>
+                    <ScrollView
+                        style={optionsStyle}
+                        nestedScrollEnabled
+                    >
+                        {optionElements}
+                    </ScrollView>
+                </View>
             }
         </>
     )
@@ -157,7 +157,8 @@ const styles = StyleSheet.create(
             backgroundColor: Palette.mono.t50,
             maxHeight: 150,
             borderBottomLeftRadius: 8,
-            borderBottomRightRadius: 8
+            borderBottomRightRadius: 8,
+            zIndex: 1
         }
 
     }
