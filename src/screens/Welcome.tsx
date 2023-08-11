@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { CircleButton, Dropdown, Input, Palette } from '../design-system';
+import { CircleButton, Dropdown, Input, Palette, TextButton } from '../design-system';
 
 const Welcome = () =>
 {
@@ -44,8 +44,12 @@ const Welcome = () =>
           accessibilityLabel='foto-perfil'
         />
       </View>
-      <View style={{flex: 1, justifyContent: 'flex-end'}}>
-        <Text>TODO - Botão de prosseguir!!!</Text>
+      <View style={styles.dashboard}>
+        <TextButton
+          label='REGISTRAR'
+          onPress={() => {console.log('TODO - Fluxo de done')}}
+          accessibilityLabel='registrar'
+        />
       </View>
     </View>
   )
@@ -83,6 +87,12 @@ const styles = StyleSheet.create(
     pictureContainer: {
       justifyContent: 'center',
       alignItems: 'center'
+    },
+
+    dashboard: {
+      flex: 1, 
+      justifyContent: 'flex-end', 
+      alignItems: 'stretch'
     }
   }
 )
