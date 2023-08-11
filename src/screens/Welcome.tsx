@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Dropdown, Input, Palette } from '../design-system';
+import { CircleButton, Dropdown, Input, Palette } from '../design-system';
 
 const Welcome = () =>
 {
@@ -13,31 +13,40 @@ const Welcome = () =>
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Boas vindas!
-      </Text>
-      <Text style={styles.info}>
-          Cadastre as informações de seu usuário.
-      </Text>
-      <Input
-          label='Nome:'
-          placeholder='Nome de Usuário'
-          accessibilityLabel='nome-de-usuário'
-          value={username}
-          setValue={setUsername}
-      />
-      <View style={styles.spacer}/>
-      <Dropdown
-          label='Graduação:'
-          placeholder='Graduação de vias'
-          accessibilityLabel='graduação-de-vias'
-          option={grade}
-          selectedOption={(v) => {setGrade(v)}}
-          options={grades}
-      />
-      <Text>
-        TODO - Botão de câmera
-      </Text>
+      <View style={{flex: 1}}>
+        <Text style={styles.title}>
+          Boas vindas!
+        </Text>
+        <Text style={styles.info}>
+            Cadastre as informações de seu usuário.
+        </Text>
+        <Input
+            label='Nome:'
+            placeholder='Nome de Usuário'
+            accessibilityLabel='nome-de-usuário'
+            value={username}
+            setValue={setUsername}
+        />
+        <View style={styles.spacer}/>
+        <Dropdown
+            label='Graduação:'
+            placeholder='Graduação de vias'
+            accessibilityLabel='graduação-de-vias'
+            option={grade}
+            selectedOption={(v) => {setGrade(v)}}
+            options={grades}
+        />
+      </View>
+      <View style={styles.pictureContainer}>
+        <CircleButton 
+          iconSource='camera'
+          onPress={() => {}}
+          accessibilityLabel='foto-perfil'
+        />
+      </View>
+      <View style={{flex: 1, justifyContent: 'flex-end'}}>
+        <Text>TODO - Botão de prosseguir!!!</Text>
+      </View>
     </View>
   )
   
@@ -50,7 +59,8 @@ const styles = StyleSheet.create(
     container: {
       flex: 1,
       padding: 24,
-      backgroundColor: Palette.deepPurple.t50
+      backgroundColor: Palette.deepPurple.t50,
+      alignItems: 'stretch'
     },
 
     title: {
@@ -68,6 +78,11 @@ const styles = StyleSheet.create(
         marginBottom: 8
     },
 
-    spacer: { height: 16 }
+    spacer: { height: 16 },
+
+    pictureContainer: {
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
   }
 )

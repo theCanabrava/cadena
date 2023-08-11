@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
-import { ChevronDown } from "../icons";
+import Icon from "../icons";
 import Palette from "./Palette";
 
 type Option = { id: string, value: string }
@@ -69,7 +69,8 @@ const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, 
                         <Text style={selectedStyle}>
                             { option.value != "" ? option.value : placeholder }
                         </Text>
-                        <ChevronDown
+                        <Icon
+                            source='chevron-down'
                             height={24}
                             width={24}
                             primary={Palette.grey.t900}
