@@ -2,8 +2,16 @@ import React from "react";
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Palette from "./Palette";
 
-type InputProps = { label: string, placeholder: string, value: string, setValue: (v: string) => void, accessibilityLabel: string }
-const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputProps) =>
+type InputProps = { 
+    label: string, 
+    placeholder: string, 
+    value: string, 
+    setValue: (v: string) => void, 
+    accessibilityLabel: string,
+    onStart?: () => void
+    onDone?: () => void
+}
+const Input = ({label, placeholder, value, setValue, accessibilityLabel, onStart = () => {}, onDone = () => {}}: InputProps) =>
 {
     return (
         <View style={styles.container}>
@@ -18,6 +26,8 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel}: InputP
                 value={value}
                 onChangeText={setValue}
                 accessibilityLabel={accessibilityLabel}
+                onFocus={onStart}
+                onBlur={onDone}
             />
         </View>
     )

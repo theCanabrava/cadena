@@ -6,6 +6,8 @@ const Welcome = () =>
 {
   const [ username, setUsername ] = useState('');
   const [ grade, setGrade ] = useState({id: '-1', value: ''});
+  const [ dropdownOpen, setDropdownOpen ] = useState(false);
+  const [ showCameraButton, setShowCameraButton ] = useState(true)
   const grades = [
     { id: '0', value: 'Escala Font'},
     { id: '1', value: 'Escala V'}
@@ -26,6 +28,15 @@ const Welcome = () =>
             accessibilityLabel='nome-de-usuário'
             value={username}
             setValue={setUsername}
+            onStart={() =>
+            {
+              setShowCameraButton(false);
+            }}
+            onDone={() =>
+            {
+              setShowCameraButton(true);
+              if(grade.id === '-1') setDropdownOpen(true);
+            }}
         />
         <View style={styles.spacer}/>
         <Dropdown
@@ -35,19 +46,23 @@ const Welcome = () =>
             option={grade}
             selectedOption={(v) => {setGrade(v)}}
             options={grades}
+            openHandlers={[dropdownOpen, setDropdownOpen]}
         />
       </View>
       <View style={styles.pictureContainer}>
-        <CircleButton 
-          iconSource='camera'
-          onPress={() => {}}
-          accessibilityLabel='foto-perfil'
-        />
+        {
+          showCameraButton &&
+          <CircleButton 
+            iconSource='camera'
+            onPress={() => {}}
+            accessibilityLabel='foto-perfil'
+          />
+        }
       </View>
       <View style={styles.dashboard}>
         <TextButton
           label='REGISTRAR'
-          onPress={() => {console.log('TODO - Fluxo de done')}}
+          onPress={() => {console.log('TODO - Botão desabilitado')}}
           accessibilityLabel='registrar'
         />
       </View>

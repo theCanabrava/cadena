@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import Icon from "../icons";
 import Palette from "./Palette";
@@ -10,11 +10,12 @@ type InputProps = {
     option: Option, 
     selectedOption: (v: Option) => void, 
     accessibilityLabel: string,
-    options: Option[]
+    options: Option[],
+    openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>]
 }
-const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, options}: InputProps) =>
+const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, options, openHandlers = useState(false)}: InputProps) =>
 {
-    const [ open, setOpen ] = useState(false)
+    const [ open, setOpen ] = openHandlers
     const [ position, setPosition ] = useState({left: 0, top: 0, width: 0})
 
     const selectedStyle = {...styles.selected}
