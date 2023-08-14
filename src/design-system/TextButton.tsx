@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import Palette from './Palette';
 
@@ -6,16 +6,29 @@ type TextButtonProps =
 {
     label: string,
     onPress: () => void,
-    accessibilityLabel: string
+    accessibilityLabel: string,
+    status?: 'active' | 'disabled'
 }
-const TextButton = ({label, onPress, accessibilityLabel}: TextButtonProps) =>
+const TextButton = ({label, onPress, accessibilityLabel, status = 'active'}: TextButtonProps) =>
 {
+    const [ buttonStyle, setButtonStyle ] = useState({...styles.button})
+
+    useEffect(() =>
+    {
+        setButtonStyle(b => 
+        ({
+            ...b,
+            backgroundColor: STYLE_MAP.buttonColor[status]
+        }))
+    }, [status])
+
     return (
         <TouchableOpacity
             onPress={onPress}
             accessibilityLabel={accessibilityLabel}
+            disabled={status === 'disabled'}
         >
-            <View style={styles.button}>
+            <View style={buttonStyle}>
                 <Text style={styles.label}>
                     {label}
                 </Text>
@@ -46,3 +59,11 @@ const styles = StyleSheet.create(
         }
     }
 )
+
+const STYLE_MAP =
+{
+    buttonColor: {
+        active: Palette.green.t600,
+        disabled: Palette.grey.t600
+    }
+}

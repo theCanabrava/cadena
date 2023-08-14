@@ -62,8 +62,9 @@ const Welcome = () =>
       <View style={styles.dashboard}>
         <TextButton
           label='REGISTRAR'
-          onPress={() => {console.log('TODO - Botão desabilitado')}}
+          onPress={() => {console.log('TODO - Tela de academias')}}
           accessibilityLabel='registrar'
+          status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
         />
       </View>
     </View>
