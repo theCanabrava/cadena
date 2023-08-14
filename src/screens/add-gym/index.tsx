@@ -1,70 +1,70 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { CircleButton, Dropdown, Input, Palette, TextButton } from '../design-system';
+import { CircleButton, Dropdown, Input, Palette, TextButton } from '../../design-system';
 
-const Welcome = () =>
+const AddGym = () =>
 {
-  const [ username, setUsername ] = useState('');
-  const [ grade, setGrade ] = useState({id: '-1', value: ''});
+  const [ placeName, setPlaceName ] = useState('');
+  const [ type, setType ] = useState({id: '-1', value: ''});
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
-  const [ showCameraButton, setShowCameraButton ] = useState(true)
+  const [ showLocationButton, setShowLocationButton ] = useState(true)
   const grades = [
-    { id: '0', value: 'Escala Font'},
-    { id: '1', value: 'Escala V'}
+    { id: '0', value: 'Ginásio'},
+    { id: '1', value: 'Rochedo'}
   ]
 
   return (
     <View style={styles.container}>
       <View style={{flex: 1}}>
         <Text style={styles.title}>
-          Boas vindas!
+            Aonde você escala?
         </Text>
         <Text style={styles.info}>
-            Cadastre as informações de seu usuário.
+            Cadastre os ginásios e trilhas aonde você escala.
         </Text>
         <Input
-            label='Nome:'
-            placeholder='Nome de Usuário'
-            accessibilityLabel='nome-de-usuário'
-            value={username}
-            setValue={setUsername}
+            label='Academia:'
+            placeholder='Nome da academia'
+            accessibilityLabel='nome-da-academia'
+            value={placeName}
+            setValue={setPlaceName}
             onStart={() =>
             {
-              setShowCameraButton(false);
+              setShowLocationButton(false);
             }}
             onDone={() =>
             {
-              setShowCameraButton(true);
-              if(grade.id === '-1') setDropdownOpen(true);
+              setShowLocationButton(true);
+              if(type.id === '-1') setDropdownOpen(true);
             }}
         />
         <View style={styles.spacer}/>
         <Dropdown
-            label='Graduação:'
-            placeholder='Graduação de vias'
-            accessibilityLabel='graduação-de-vias'
-            option={grade}
-            selectedOption={(v) => {setGrade(v)}}
+            label='Local:'
+            placeholder='Tipo de local'
+            accessibilityLabel='tipo-de-local'
+            option={type}
+            selectedOption={(v) => {setType(v)}}
             options={grades}
             openHandlers={[dropdownOpen, setDropdownOpen]}
         />
       </View>
       <View style={styles.pictureContainer}>
         {
-          showCameraButton &&
+          showLocationButton &&
           <CircleButton 
-            iconSource='camera'
+            iconSource='location'
             onPress={() => {}}
-            accessibilityLabel='foto-perfil'
+            accessibilityLabel='endereço'
           />
         }
       </View>
       <View style={styles.dashboard}>
         <TextButton
-          label='REGISTRAR'
-          onPress={() => {}}
-          accessibilityLabel='registrar'
-          status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
+          label='CONTINUAR'
+          onPress={() => {console.log('TODO - Paginação de página de local')}}
+          accessibilityLabel='continuar'
+          status={placeName.length > 0 && type.id !== '-1' ? 'active' : 'disabled'}
         />
       </View>
     </View>
@@ -72,7 +72,7 @@ const Welcome = () =>
   
 }
 
-export default Welcome;
+export default AddGym;
 
 const styles = StyleSheet.create(
   {

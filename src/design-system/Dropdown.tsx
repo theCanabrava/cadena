@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
-import Icon from "../icons";
+import Icon from "./icons";
 import Palette from "./Palette";
 
 type Option = { id: string, value: string }

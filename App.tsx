@@ -1,8 +1,8 @@
-import Welcome from './src/screens/Welcome'
+import AddGym from './src/screens/add-gym'
 
 const App = () =>
 (
-  <Welcome/>
+  <AddGym/>
 )
 
 export default App;
