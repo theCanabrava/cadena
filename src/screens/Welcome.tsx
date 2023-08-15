@@ -39,8 +39,7 @@ const Welcome = () =>
             accessibilityLabel='nome-de-usuário'
             value={username}
             setValue={setUsername}
-            onStart={() =>
-            { setShowCameraButton(false) }}
+            onStart={() => { setShowCameraButton(false) }}
             onDone={() => { if(grade.id === '-1') setDropdownOpen(true); }}
         />
         <View style={styles.spacer}/>
