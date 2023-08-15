@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { CircleButton, Dropdown, Input, Palette, TextButton } from '../design-system';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Keyboard } from 'react-native';
+import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../design-system';
 
 const Welcome = () =>
 {
@@ -13,8 +13,19 @@ const Welcome = () =>
     { id: '1', value: 'Escala V'}
   ]
 
+  useEffect(() =>
+  {
+    if(dropdownOpen) Keyboard.dismiss() 
+  }, [dropdownOpen]);
+
   return (
     <View style={styles.container}>
+      <KeyboardListener
+        onHide={() => {
+          Keyboard.dismiss();
+          setShowCameraButton(true);
+        }}
+      />
       <View style={{flex: 1}}>
         <Text style={styles.title}>
           Boas vindas!
@@ -29,14 +40,8 @@ const Welcome = () =>
             value={username}
             setValue={setUsername}
             onStart={() =>
-            {
-              setShowCameraButton(false);
-            }}
-            onDone={() =>
-            {
-              setShowCameraButton(true);
-              if(grade.id === '-1') setDropdownOpen(true);
-            }}
+            { setShowCameraButton(false) }}
+            onDone={() => { if(grade.id === '-1') setDropdownOpen(true); }}
         />
         <View style={styles.spacer}/>
         <Dropdown
