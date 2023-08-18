@@ -1,6 +1,7 @@
 import Camera from './Camera';
 import ChevronDown from './ChevronDown'
 import Location from './Location';
+import Previous from './Previous';
 import SourceProp from './SourceProp';
 import Trash from './Trash';
 
@@ -9,6 +10,7 @@ const ICON_MAP =
     camera: Camera,
     'chevron-down': ChevronDown,
     location: Location,
+    previous: Previous,
     trash: Trash
 }
 

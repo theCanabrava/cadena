@@ -70,7 +70,8 @@ const styles = StyleSheet.create(
   {
     container: {
       flex: 1,
-      alignItems: 'stretch'
+      alignItems: 'stretch',
+      paddingHorizontal: 24
     },
 
     spacer: { height: 16 },

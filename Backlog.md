@@ -7,6 +7,8 @@
 3. Observações ao concluir uma seção de escalada.
 4. Readme md
 5. Testes unitários
+6. Centralizar verticalmente botão de camera e localização
+7. Glitch de jitter ao dispensar teclado
 
 
 ## Concluidos
