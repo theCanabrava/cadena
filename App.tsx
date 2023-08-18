@@ -3,7 +3,7 @@ import Welcome from './src/screens/Welcome';
 
 const App = () =>
 (
-  <Welcome/>
+  <AddGym/>
 )
 
 export default App;

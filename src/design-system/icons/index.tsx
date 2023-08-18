@@ -2,12 +2,14 @@ import Camera from './Camera';
 import ChevronDown from './ChevronDown'
 import Location from './Location';
 import SourceProp from './SourceProp';
+import Trash from './Trash';
 
 const ICON_MAP =
 {
     camera: Camera,
     'chevron-down': ChevronDown,
-    location: Location
+    location: Location,
+    trash: Trash
 }
 
 export type IconSource = keyof typeof ICON_MAP;

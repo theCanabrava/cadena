@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Palette, TextButton } from '../../design-system';
+import { IconButton, Palette, TextButton } from '../../design-system';
 import Form from './Form';
 
 const AddGym = () =>
@@ -15,11 +15,24 @@ const AddGym = () =>
       </Text>
       <Form/>
       <View style={styles.dashboard}>
+        <View style={styles.horizontalButtons}>
+          <View style={styles.moreContainer}>
+            <TextButton
+              label='CADASTRAR MAIS'
+              onPress={() => {}}
+              accessibilityLabel='cadastrar-mais'
+            />
+          </View>
+          <IconButton 
+            source='trash'
+            onPress={() => {}}
+            accessibilityLabel='excluir-academia'
+          />
+        </View>
         <TextButton
           label='CONTINUAR'
           onPress={() => {console.log('TODO - Inclusão de tamanho de formulários')}}
           accessibilityLabel='continuar'
-          status={'active' }
         />
       </View>
     </View>
@@ -56,7 +69,20 @@ const styles = StyleSheet.create(
     dashboard: {
       height: 56.8,
       justifyContent: 'flex-end', 
-      alignItems: 'stretch'
+      alignItems: 'stretch',
+      overflow: 'visible'
+    },
+
+    horizontalButtons: {
+      flexDirection: 'row',
+      marginBottom: 16
+    },
+
+    moreContainer: {
+      flex: 1,
+      marginRight: 16,
+      flexDirection:'column',
+      alignContent: 'stretch'
     }
   }
 )

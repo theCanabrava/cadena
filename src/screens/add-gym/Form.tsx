@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Keyboard } from 'react-native';
 import { CircleButton, Dropdown, Input } from '../../design-system';
 
 const Form = () =>
@@ -12,6 +12,11 @@ const Form = () =>
     { id: '0', value: 'Ginásio'},
     { id: '1', value: 'Rochedo'}
   ]
+
+  useEffect(() =>
+  {
+    if(dropdownOpen) Keyboard.dismiss() 
+  }, [dropdownOpen]);
 
   return (
     <View style={styles.container}>
