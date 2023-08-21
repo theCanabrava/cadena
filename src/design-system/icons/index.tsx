@@ -1,6 +1,8 @@
 import Camera from './Camera';
 import ChevronDown from './ChevronDown'
+import Drawer from './Drawer';
 import Location from './Location';
+import Logo from './Logo';
 import Previous from './Previous';
 import SourceProp from './SourceProp';
 import Trash from './Trash';
@@ -9,7 +11,9 @@ const ICON_MAP =
 {
     camera: Camera,
     'chevron-down': ChevronDown,
+    drawer: Drawer,
     location: Location,
+    logo: Logo,
     previous: Previous,
     trash: Trash
 }
