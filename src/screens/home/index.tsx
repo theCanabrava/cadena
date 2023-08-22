@@ -1,12 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Palette } from '../design-system';
-import Icon from '../design-system/icons';
+import { Palette } from '../../design-system';
+import Icon from '../../design-system/icons';
+import LetsStart from './LetsStart';
 
 const Home = () => {
     return (
         <View style={styles.container}>
             <Header/>
+            <LetsStart/>
+            <View style={{flex: 1}}/>
+            <Text style={styles.footer}>
+                Cadena 2023 - <Text style={styles.footerLink}>Termos de uso</Text>
+            </Text>
         </View>
     )
 }
@@ -110,5 +116,17 @@ const styles = StyleSheet.create({
         color: Palette.mono.t50,
         fontSize: 12,
         lineHeight: 12
+    },
+
+    footer: {
+        fontFamily: 'Roboto-Regular',
+        color: Palette.grey.t900,
+        fontSize: 12,
+        paddingBottom: 8,
+        textAlign: 'center'
+    },
+
+    footerLink: {
+        color: Palette.deepPurple.t900
     }
 })
