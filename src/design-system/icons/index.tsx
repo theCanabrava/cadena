@@ -1,3 +1,4 @@
+import Back from './Back';
 import Camera from './Camera';
 import ChevronDown from './ChevronDown'
 import Drawer from './Drawer';
@@ -9,6 +10,7 @@ import Trash from './Trash';
 
 const ICON_MAP =
 {
+    back: Back,
     camera: Camera,
     'chevron-down': ChevronDown,
     drawer: Drawer,
