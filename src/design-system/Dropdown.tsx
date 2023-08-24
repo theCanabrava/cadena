@@ -11,9 +11,19 @@ type InputProps = {
     selectedOption: (v: Option) => void, 
     accessibilityLabel: string,
     options: Option[],
-    openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>]
+    openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
+    obrigatory?: boolean
 }
-const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, options, openHandlers = useState(false)}: InputProps) =>
+const Input = ({
+    label, 
+    placeholder, 
+    option, 
+    selectedOption, 
+    accessibilityLabel, 
+    options, 
+    openHandlers = useState(false),
+    obrigatory = false
+}: InputProps) =>
 {
     const [ open, setOpen ] = openHandlers
     const [ position, setPosition ] = useState({left: 0, top: 0, width: 0})
@@ -79,6 +89,12 @@ const Input = ({label, placeholder, option, selectedOption, accessibilityLabel, 
                         />
                     </View>
                 </TouchableOpacity>
+                {
+                    obrigatory &&
+                    <Text style={styles.obrigatory}>
+                        *Campo obrigatório
+                    </Text>
+                }
             </View>
             {
                 open && 
@@ -112,6 +128,13 @@ const styles = StyleSheet.create(
             fontSize: 14,
             lineHeight: 16,
             color: Palette.deepPurple.t900
+        },
+
+        obrigatory: 
+        {
+            fontFamily: 'Roboto-Regular',
+            fontSize: 10,
+            color: Palette.red.t600
         },
 
         dropdown:
