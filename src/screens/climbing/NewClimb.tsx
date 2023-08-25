@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from 'react-native';
-import { Dropdown, Palette } from '../../design-system';
+import { DatePicker, Dropdown, Palette } from '../../design-system';
 import Header from '../shared/Header';
 
 const NewClimb = () =>
@@ -18,6 +18,13 @@ const NewClimb = () =>
                     selectedOption={(v) => {console.log('Selected ', v)}}
                     options={[{id: '1', value: 'Rokaz - Savassi'}]}
                     accessibilityLabel='local'
+                    obrigatory
+                />
+                <View style={styles.spacer}/>
+                <DatePicker
+                    label='Data:'
+                    accessibilityLabel='data'
+                    onDateSelected={d => console.log('Selected', d)}
                     obrigatory
                 />
             </View>
@@ -46,6 +53,8 @@ const styles = StyleSheet.create(
             lineHeight: 18,
             marginBottom: 16,
             color: Palette.grey.t900
-        }
+        },
+
+        spacer: {height: 8}
     }
 )

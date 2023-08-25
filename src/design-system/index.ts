@@ -1,4 +1,5 @@
 export { default as CircleButton } from './CircleButton';
+export { default as DatePicker } from './DatePicker';
 export { default as Dropdown } from './Dropdown';
 export { default as Icon } from './icons'
 export { default as IconButton } from './IconButton'
