@@ -8,19 +8,23 @@ type DatePickerProps = {
     label: string, 
     accessibilityLabel: string,
     obrigatory?: boolean,
-    onDateSelected: (d: Date) => void
+    starting?: Date,
+    onSelected: (d: Date) => void,
+    mode?: 'date' | 'time'
 }
 const DatePicker = ({
     label, 
     accessibilityLabel, 
-    onDateSelected,
-    obrigatory = false
+    onSelected,
+    obrigatory = false,
+    starting,
+    mode = 'date'
 }: DatePickerProps) =>
 {
 
     const selectedStyle = {...styles.selected}
     const [open, setOpen] = useState(false)
-    const [date, setDate] = useState<Date | undefined>(new Date())
+    const [date, setDate] = useState<Date | undefined>(starting)
     if(!date) selectedStyle.color = Palette.grey.t600
     
     return (
@@ -34,13 +38,13 @@ const DatePicker = ({
                     accessibilityLabel={accessibilityLabel}>
                     <View style={styles.picker}>
                         <Text style={selectedStyle}>
-                            { date ? `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}` : '__ /__ /____' }
+                            { displaySelected[mode](date) }
                         </Text>
                         <Icon
-                            source='calendar'
+                            source={mode === 'date' ? 'calendar' : 'clock'}
                             height={24}
                             width={24}
-                            primary={Palette.grey.t900}
+                            primary={selectedStyle.color}
                         />
                     </View>
                 </TouchableOpacity>
@@ -58,10 +62,10 @@ const DatePicker = ({
                 onConfirm={(date) => {
                     setOpen(false)
                     setDate(date)
-                    onDateSelected(date)
+                    onSelected(date)
                 }}
                 onCancel={() => {setOpen(false)}}
-                mode='date'
+                mode={mode}
             />
         </>
       
@@ -120,3 +124,18 @@ const styles = StyleSheet.create(
 
     }
 )
+
+const displaySelected =
+{
+    date: (d: Date | null | undefined) =>
+    {
+        if(d === null || d === undefined) return '__ /__ /____'
+        else return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}` 
+    },
+
+    time: (t: Date | null | undefined) =>
+    {
+        if(t === null || t === undefined) return '__:__'
+        else return `${t.getHours()}:${String(t.getMinutes()).padStart(2, '0')}` 
+    }
+}

@@ -24,12 +24,42 @@ const NewClimb = () =>
                 <DatePicker
                     label='Data:'
                     accessibilityLabel='data'
-                    onDateSelected={d => console.log('Selected', d)}
+                    starting={new Date()}
+                    onSelected={d => console.log('Selected', d)}
                     obrigatory
                 />
+                <View style={styles.timeContainer}>
+                    <View style={styles.timePicker}>
+                        <DatePicker
+                            label='Inicio:'
+                            accessibilityLabel='inicio'
+                            starting={getStartingHour()}
+                            onSelected={d => console.log('Selected', d)}
+                            obrigatory
+                            mode='time'
+                        />
+                    </View>
+                    <View style={styles.widthSpacer}/>
+                    <View style={styles.timePicker}>
+                        <DatePicker
+                            label='Fim:'
+                            accessibilityLabel='fim'
+                            onSelected={d => console.log('Selected', d)}
+                            mode='time'
+                        />
+                    </View>
+                </View>
             </View>
         </View>
     )
+}
+
+const getStartingHour = () =>
+{
+    const date = new Date();
+    const quarter = Math.floor(date.getMinutes() / 15)
+    date.setMinutes(quarter*15)
+    return date;
 }
 
 export default NewClimb;
@@ -49,12 +79,22 @@ const styles = StyleSheet.create(
 
         intro: {
             fontFamily: 'Roboto-Regular',
-            fontSize: 12,
-            lineHeight: 18,
+            fontSize: 14,
+            lineHeight: 21,
             marginBottom: 16,
             color: Palette.grey.t900
         },
 
-        spacer: {height: 8}
+        spacer: {height: 8},
+
+        timeContainer: {
+            marginTop: 8,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+        },
+
+        timePicker: { flex: 1 },
+        widthSpacer: {width: 16 },
     }
 )

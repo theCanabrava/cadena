@@ -2,6 +2,7 @@ import Back from './Back';
 import Calendar from './Calendar';
 import Camera from './Camera';
 import ChevronDown from './ChevronDown'
+import Clock from './Clock';
 import Drawer from './Drawer';
 import Location from './Location';
 import Logo from './Logo';
@@ -15,6 +16,7 @@ const ICON_MAP =
     calendar: Calendar,
     camera: Camera,
     'chevron-down': ChevronDown,
+    clock: Clock,
     drawer: Drawer,
     location: Location,
     logo: Logo,
