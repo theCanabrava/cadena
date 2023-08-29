@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { DatePicker, Dropdown, Palette } from '../../design-system';
+import { Checkbox, DatePicker, Dropdown, Input, Palette, TextButton } from '../../design-system';
 import Header from '../shared/Header';
 
 const NewClimb = () =>
 {
+    const [ routes, setRoutes ] = useState('');
+
     return (
         <View style={styles.container}>
             <Header title='Nova escalada'/>
@@ -49,6 +52,29 @@ const NewClimb = () =>
                         />
                     </View>
                 </View>
+                <View style={{height: 4}}/>
+                <Checkbox
+                    label='Tocar alarme quando seção terminar'
+                    onChecked={(c) => console.log('Checked', c)}
+                    accessibilityLabel='alarme'
+                />
+                <View style={{height: 8}}/>
+                <Input
+                    label='Objetivo de vias'
+                    accessibilityLabel='objetivo'
+                    placeholder='00'
+                    value={routes}
+                    setValue={setRoutes}
+                    keyboardType='numeric'
+                />
+            </View>
+            <View style={{flex: 1}}/>
+            <View style={{margin: 24}}>
+                <TextButton
+                    label='INICIAR'
+                    accessibilityLabel='iniciar'
+                    onPress={() => {}}
+                />
             </View>
         </View>
     )
@@ -96,5 +122,6 @@ const styles = StyleSheet.create(
 
         timePicker: { flex: 1 },
         widthSpacer: {width: 16 },
+
     }
 )

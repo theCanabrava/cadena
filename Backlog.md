@@ -9,7 +9,7 @@
 5. Testes unitários
 6. Centralizar verticalmente botão de camera e localização
 7. Glitch de jitter ao dispensar teclado
-
+8. Desabilitar checkbox quando data final não for preenchida
 
 ## Concluidos
 1. Criar backlog - 15/08/23

@@ -1,6 +1,8 @@
 import Back from './Back';
 import Calendar from './Calendar';
 import Camera from './Camera';
+import CheckEmpty from './CheckEmpty'
+import CheckFilled from './CheckFilled'
 import ChevronDown from './ChevronDown'
 import Clock from './Clock';
 import Drawer from './Drawer';
@@ -15,6 +17,8 @@ const ICON_MAP =
     back: Back,
     calendar: Calendar,
     camera: Camera,
+    'check-empty': CheckEmpty,
+    'check-filled': CheckFilled,
     'chevron-down': ChevronDown,
     clock: Clock,
     drawer: Drawer,

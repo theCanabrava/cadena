@@ -9,9 +9,19 @@ type InputProps = {
     setValue: (v: string) => void, 
     accessibilityLabel: string,
     onStart?: () => void
-    onDone?: () => void
+    onDone?: () => void,
+    keyboardType?: 'numeric'
 }
-const Input = ({label, placeholder, value, setValue, accessibilityLabel, onStart = () => {}, onDone = () => {}}: InputProps) =>
+const Input = ({
+    label, 
+    placeholder, 
+    value, 
+    setValue, 
+    accessibilityLabel, 
+    onStart = () => {}, 
+    onDone = () => {},
+    keyboardType
+}: InputProps) =>
 {
     return (
         <View style={styles.container}>
@@ -28,6 +38,7 @@ const Input = ({label, placeholder, value, setValue, accessibilityLabel, onStart
                 accessibilityLabel={accessibilityLabel}
                 onFocus={onStart}
                 onBlur={onDone}
+                keyboardType={keyboardType}
             />
         </View>
     )

@@ -1,3 +1,4 @@
+export { default as Checkbox } from './Checkbox';
 export { default as CircleButton } from './CircleButton';
 export { default as DatePicker } from './DatePicker';
 export { default as Dropdown } from './Dropdown';
