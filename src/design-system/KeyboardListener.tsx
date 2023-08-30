@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, KeyboardEvent } from 'react-native';
 
 type KeyboarListenerProps =
 {
-    onShow?: () => void,
-    onHide: () => void
+    onShow?: (e: KeyboardEvent) => void,
+    onHide?: () => void
 }
-const KeyboardListener = ({onShow = () => {}, onHide}: KeyboarListenerProps) =>
+const KeyboardListener = ({onShow = () => {}, onHide = () => {}}: KeyboarListenerProps) =>
 {
     useEffect(() =>
     {

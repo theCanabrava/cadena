@@ -1,16 +1,36 @@
-import { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Checkbox, DatePicker, Dropdown, Input, Palette, TextButton } from '../../design-system';
+import { useEffect, useState } from 'react';
+import { Text, View, StyleSheet, Dimensions, LayoutAnimation } from 'react-native';
+import { Checkbox, DatePicker, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
 import Header from '../shared/Header';
 
+const INPUT_POSITION = 485;
+const DEVICE_HEIGHT = Dimensions.get('screen').height;
+const BOTTOM_PADDING = 16
 const NewClimb = () =>
 {
     const [ routes, setRoutes ] = useState('');
+    const [ top, setTop ] = useState(0);
+    const [ formStyle, setFormStyle ] = useState({...styles.form})
+
+    useEffect(() =>
+    {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+        setFormStyle(f => ({...f, top}))
+    }, [top, setFormStyle])
 
     return (
         <View style={styles.container}>
+            <KeyboardListener
+                onShow={(e) => {
+                    const keyboardHeight = e.endCoordinates.height;
+                    const topOffset = Math.floor((INPUT_POSITION + keyboardHeight) - DEVICE_HEIGHT + BOTTOM_PADDING);
+                    setTop(-topOffset)
+                }}
+
+                onHide={() => { setTop(0)} }
+            />
             <Header title='Nova escalada'/>
-            <View style={styles.form}>
+            <View style={formStyle}>
                 <Text style={styles.intro}>
                     Para começar uma nova escalada, preencha os campos obrigatórios e Clique em “Iniciar”.
                 </Text>
@@ -100,7 +120,9 @@ const styles = StyleSheet.create(
 
         form: {
             alignItems: 'stretch',
-            margin: 24
+            margin: 24,
+            top: 0,
+            zIndex: 0
         },
 
         intro: {
@@ -121,7 +143,7 @@ const styles = StyleSheet.create(
         },
 
         timePicker: { flex: 1 },
-        widthSpacer: {width: 16 },
+        widthSpacer: { width: 16 },
 
     }
 )

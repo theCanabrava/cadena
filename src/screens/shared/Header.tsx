@@ -30,7 +30,8 @@ const styles = StyleSheet.create(
             justifyContent: 'flex-start',
             alignItems: 'center',
             padding: 8,
-            backgroundColor: Palette.deepPurple.t900
+            backgroundColor: Palette.deepPurple.t900,
+            zIndex: 1
         },
 
         title: {
