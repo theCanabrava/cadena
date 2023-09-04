@@ -1,5 +1,5 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { Palette } from '../../design-system';
+import { Palette, TextButton } from '../../design-system';
 import Header from '../shared/Header';
 
 const Session = () =>
@@ -9,7 +9,32 @@ const Session = () =>
             <Header title='Rokaz - Savassi'/>
             <ScrollView style={styles.formContainer}>
                 <SessionDetails/>
+                <View style={styles.addContainer}>
+                    <TextButton
+                        label='ADICIONAR VIA'
+                        onPress={() => {}}
+                        accessibilityLabel='adicionar-via'
+                        status='outlined'
+                    />
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>
+                        Vamos escalar!
+                    </Text>
+                    <Text style={styles.text}>
+                        Registre as vias que você escalar aqui clicando no botão “Adicionar via”.
+                    </Text>
+                    <View style={styles.imagePlaceholder}/>
+                </View>
             </ScrollView>
+                <View style={styles.endContainer}>
+                    <TextButton
+                        label='FINALIZAR SEÇÃO'
+                        onPress={() => {}}
+                        accessibilityLabel='finalizar'
+                        status='carefull'
+                    />
+                </View>
         </View>
     )
 }
@@ -129,6 +154,44 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Regular',
         fontSize: 14,
         color: Palette.green.t600
+    },
+
+    addContainer: {
+        marginHorizontal: 16,
+        marginBottom: 24
+    },
+
+    textContainer: {
+        marginHorizontal: 16
+    },
+
+    title: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 16,
+        color: Palette.grey.t900
+    },
+
+    text: {
+        fontFamily: 'Roboto-Regular',
+        fontSize: 12,
+        lineHeight: 18,
+        color: Palette.grey.t900,
+        marginBottom: 8
+    },
+
+    imagePlaceholder: {
+        alignSelf: 'center',
+        height: 154,
+        width: 154,
+        backgroundColor: Palette.green.t300,
+        borderRadius: 77,
+        marginBottom: 8
+    },
+
+    endContainer: {
+        margin: 24,
+        justifyContent: 'center',
+        alignItems: 'stretch'
     }
 })
 

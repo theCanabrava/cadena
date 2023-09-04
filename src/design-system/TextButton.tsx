@@ -8,7 +8,7 @@ type TextButtonProps =
     label: string,
     onPress: () => void,
     accessibilityLabel: string,
-    status?: 'active' | 'disabled',
+    status?: 'active' | 'disabled' | 'outlined' | 'carefull',
     size?: 'small' | 'large',
     sourceLeft?: IconSource
 }
@@ -29,7 +29,14 @@ const TextButton = ({
         setButtonStyle(b => 
         ({
             ...b,
-            backgroundColor: STYLE_MAP.buttonColor[status]
+            backgroundColor: STYLE_MAP.buttonColor[status],
+            borderWidth: STYLE_MAP.borderWidth[status]
+        }))
+
+        setLabelStyle(l =>
+        ({
+            ...l,
+            color: STYLE_MAP.fontColor[status]
         }))
     }, [status])
 
@@ -86,7 +93,9 @@ const styles = StyleSheet.create(
             height: 36,
             backgroundColor: Palette.green.t600,
             borderRadius: 8,
-            paddingHorizontal: 8
+            paddingHorizontal: 8,
+            borderColor: Palette.deepPurple.t900,
+            borderWidth: 0
         },
 
         label:
@@ -108,7 +117,9 @@ const STYLE_MAP =
 {
     buttonColor: {
         active: Palette.green.t600,
-        disabled: Palette.grey.t600
+        disabled: Palette.grey.t600,
+        outlined: Palette.mono.t50,
+        carefull: Palette.red.t600
     },
 
     buttonSize: {
@@ -119,5 +130,19 @@ const STYLE_MAP =
     fontSize: {
         small: 14,
         large: 16
+    },
+
+    fontColor: {
+        active: Palette.mono.t50,
+        disabled: Palette.mono.t50,
+        outlined: Palette.deepPurple.t900,
+        carefull: Palette.mono.t50
+    },
+
+    borderWidth: {
+        active: 0,
+        disabled: 0,
+        outlined: 1,
+        carefull: 0
     }
 }
