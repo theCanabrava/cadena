@@ -1,41 +1,45 @@
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { BlurView } from '@react-native-community/blur';
+import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
 import { Palette, TextButton } from '../../design-system';
 import Header from '../shared/Header';
 
 const Session = () =>
 {
     return (
-        <View style={styles.container}>
-            <Header title='Rokaz - Savassi'/>
-            <ScrollView style={styles.formContainer}>
-                <SessionDetails/>
-                <View style={styles.addContainer}>
-                    <TextButton
-                        label='ADICIONAR VIA'
-                        onPress={() => {}}
-                        accessibilityLabel='adicionar-via'
-                        status='outlined'
-                    />
-                </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>
-                        Vamos escalar!
-                    </Text>
-                    <Text style={styles.text}>
-                        Registre as vias que você escalar aqui clicando no botão “Adicionar via”.
-                    </Text>
-                    <View style={styles.imagePlaceholder}/>
-                </View>
-            </ScrollView>
-                <View style={styles.endContainer}>
-                    <TextButton
-                        label='FINALIZAR SEÇÃO'
-                        onPress={() => {}}
-                        accessibilityLabel='finalizar'
-                        status='carefull'
-                    />
-                </View>
-        </View>
+        <>
+            <View style={styles.container}>
+                <Header title='Rokaz - Savassi'/>
+                <ScrollView style={styles.formContainer}>
+                    <SessionDetails/>
+                    <View style={styles.addContainer}>
+                        <TextButton
+                            label='ADICIONAR VIA'
+                            onPress={() => {}}
+                            accessibilityLabel='adicionar-via'
+                            status='outlined'
+                        />
+                    </View>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title}>
+                            Vamos escalar!
+                        </Text>
+                        <Text style={styles.text}>
+                            Registre as vias que você escalar aqui clicando no botão “Adicionar via”.
+                        </Text>
+                        <View style={styles.imagePlaceholder}/>
+                    </View>
+                </ScrollView>
+                    <View style={styles.endContainer}>
+                        <TextButton
+                            label='FINALIZAR SEÇÃO'
+                            onPress={() => {}}
+                            accessibilityLabel='finalizar'
+                            status='carefull'
+                        />
+                    </View>
+            </View>
+            <AddClimbModal display={true}/>
+        </>
     )
 }
 
@@ -74,6 +78,30 @@ const SessionDetails = () =>
 }
 
 export default Session;
+
+const AddClimbModal = ({display}: {display: boolean}) =>
+{
+    if(!display) return null;
+
+    return (
+        <>
+            <BlurView 
+                style={styles.cover}
+                blurAmount={5}
+                blurType='dark'
+            />
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={display}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalCard}/>
+                </View>
+            </Modal>
+        </>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -192,6 +220,32 @@ const styles = StyleSheet.create({
         margin: 24,
         justifyContent: 'center',
         alignItems: 'stretch'
+    },
+
+    cover: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    },
+
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch'
+    },
+
+    modalCard: {
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        margin: 24,
+        padding: 16,
+        height: 160,
+        borderRadius: 24,
+        borderWidth: 2,
+        borderColor: Palette.deepPurple.t600,
+        backgroundColor: Palette.deepPurple.t50
     }
 })
 
