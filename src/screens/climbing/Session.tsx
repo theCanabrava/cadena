@@ -1,6 +1,6 @@
 import { BlurView } from '@react-native-community/blur';
 import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
-import { Palette, TextButton } from '../../design-system';
+import { Dropdown, Palette, TextButton } from '../../design-system';
 import Header from '../shared/Header';
 
 const Session = () =>
@@ -96,7 +96,17 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                 visible={display}
             >
                 <View style={styles.modalContainer}>
-                    <View style={styles.modalCard}/>
+                    <View style={styles.modalCard}>
+                        <Dropdown
+                            label='Via:'
+                            placeholder='Via escalada'
+                            option={{id: "-1", value: ""}}
+                            options={[]}
+                            selectedOption={(o) => {}}
+                            accessibilityLabel='via-escalada'
+                            description='Você pode pesquisar pela graguação ou nome da via'
+                        />
+                    </View>
                 </View>
             </Modal>
         </>

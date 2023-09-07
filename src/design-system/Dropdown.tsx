@@ -12,7 +12,8 @@ type InputProps = {
     accessibilityLabel: string,
     options: Option[],
     openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
-    obrigatory?: boolean
+    obrigatory?: boolean,
+    description?: string
 }
 const Input = ({
     label, 
@@ -22,7 +23,8 @@ const Input = ({
     accessibilityLabel, 
     options, 
     openHandlers = useState(false),
-    obrigatory = false
+    obrigatory = false,
+    description
 }: InputProps) =>
 {
     const [ open, setOpen ] = openHandlers
@@ -95,6 +97,12 @@ const Input = ({
                         *Campo obrigatório
                     </Text>
                 }
+                {
+                    description &&
+                    <Text style={styles.description}>
+                        {description}
+                    </Text>
+                }
             </View>
             {
                 open && 
@@ -135,6 +143,13 @@ const styles = StyleSheet.create(
             fontFamily: 'Roboto-Regular',
             fontSize: 10,
             color: Palette.red.t600
+        },
+
+        description: 
+        {
+            fontFamily: 'Roboto-Regular',
+            fontSize: 10,
+            color: Palette.grey.t900
         },
 
         dropdown:
