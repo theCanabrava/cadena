@@ -13,7 +13,15 @@ type InputProps = {
     options: Option[],
     openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
     obrigatory?: boolean,
-    description?: string
+    description?: string,
+    action?: {
+        title: string,
+        onPress: () => void
+    },
+    shift?: {
+        x: number,
+        y: number
+    }
 }
 const Input = ({
     label, 
@@ -24,7 +32,9 @@ const Input = ({
     options, 
     openHandlers = useState(false),
     obrigatory = false,
-    description
+    description,
+    action,
+    shift = {x: 0, y: 0}
 }: InputProps) =>
 {
     const [ open, setOpen ] = openHandlers
@@ -33,10 +43,11 @@ const Input = ({
     const selectedStyle = {...styles.selected}
     if(option.value === '') selectedStyle.color = Palette.grey.t600
 
+    const elements = action ? options.length + 1 : options.length;
     const optionsStyle = { 
         ...styles.optionsContainer, 
         ...position, 
-        maxHeight: options.length >= 5 ? 150 : (32.8 * options.length)
+        maxHeight: options.length >= 5 ? 150 : (32.8 * elements)
     }
 
     const optionElements = options.map(o =>
@@ -67,8 +78,8 @@ const Input = ({
                 {
                     setPosition(
                         {
-                            left: ev.nativeEvent.layout.x,
-                            top: ev.nativeEvent.layout.y+53,
+                            left: ev.nativeEvent.layout.x + shift.x,
+                            top: ev.nativeEvent.layout.y+53 + shift.y,
                             width: ev.nativeEvent.layout.width
                         }
                     )
@@ -77,7 +88,7 @@ const Input = ({
                 <Text style={styles.label}>
                     {label}
                 </Text>
-                <TouchableOpacity onPress={() => setOpen(true)} accessibilityLabel={accessibilityLabel}>
+                <TouchableOpacity onPress={() => setOpen(!open)} accessibilityLabel={accessibilityLabel}>
                     <View style={styles.dropdown}>
                         <Text style={selectedStyle}>
                             { option.value != "" ? option.value : placeholder }
@@ -111,6 +122,14 @@ const Input = ({
                         style={optionsStyle}
                         nestedScrollEnabled
                     >
+                        {
+                            action &&
+                            <TouchableOpacity onPress={action.onPress}>
+                                <Text style={styles.action}>
+                                    {action.title}
+                                </Text>
+                            </TouchableOpacity>
+                        }
                         {optionElements}
                     </ScrollView>
                 </View>
@@ -149,6 +168,7 @@ const styles = StyleSheet.create(
         {
             fontFamily: 'Roboto-Regular',
             fontSize: 10,
+            marginHorizontal: 2,
             color: Palette.grey.t900
         },
 
@@ -181,6 +201,15 @@ const styles = StyleSheet.create(
             fontFamily: 'Roboto-Regular',
             fontSize: 18,
             color: Palette.grey.t900,
+            paddingHorizontal: 8,
+            paddingVertical: 4
+        },
+
+        action: 
+        {
+            fontFamily: 'Roboto-Regular',
+            fontSize: 18,
+            color: Palette.deepPurple.t900,
             paddingHorizontal: 8,
             paddingVertical: 4
         },

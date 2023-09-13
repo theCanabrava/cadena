@@ -105,6 +105,11 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                             selectedOption={(o) => {}}
                             accessibilityLabel='via-escalada'
                             description='Você pode pesquisar pela graguação ou nome da via'
+                            action={{
+                                title: '+ ADICIONAR VIA',
+                                onPress: () => {}
+                            }}
+                            shift={{x: -2, y: -2}}
                         />
                     </View>
                 </View>
