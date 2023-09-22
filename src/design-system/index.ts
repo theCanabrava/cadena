@@ -7,4 +7,5 @@ export { default as IconButton } from './IconButton'
 export { default as Input } from './Input';
 export { default as KeyboardListener } from './KeyboardListener';
 export { default as Palette } from './Palette';
+export { default as Slider } from './Slider'
 export { default as TextButton } from './TextButton'

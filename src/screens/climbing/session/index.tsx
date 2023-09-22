@@ -1,7 +1,8 @@
 import { BlurView } from '@react-native-community/blur';
 import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
-import { Dropdown, Palette, TextButton } from '../../design-system';
-import Header from '../shared/Header';
+import { Dropdown, Palette, TextButton } from '../../../design-system';
+import Header from '../../shared/Header';
+import AddClimbModal from './AddClimbModal';
 
 const Session = () =>
 {
@@ -78,45 +79,6 @@ const SessionDetails = () =>
 }
 
 export default Session;
-
-const AddClimbModal = ({display}: {display: boolean}) =>
-{
-    if(!display) return null;
-
-    return (
-        <>
-            <BlurView 
-                style={styles.cover}
-                blurAmount={5}
-                blurType='dark'
-            />
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={display}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalCard}>
-                        <Dropdown
-                            label='Via:'
-                            placeholder='Via escalada'
-                            option={{id: "-1", value: ""}}
-                            options={[]}
-                            selectedOption={(o) => {}}
-                            accessibilityLabel='via-escalada'
-                            description='Você pode pesquisar pela graguação ou nome da via'
-                            action={{
-                                title: '+ ADICIONAR VIA',
-                                onPress: () => {}
-                            }}
-                            shift={{x: -2, y: -2}}
-                        />
-                    </View>
-                </View>
-            </Modal>
-        </>
-    )
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -243,24 +205,6 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0
-    },
-
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch'
-    },
-
-    modalCard: {
-        justifyContent: 'flex-start',
-        alignItems: 'stretch',
-        margin: 24,
-        padding: 16,
-        height: 160,
-        borderRadius: 24,
-        borderWidth: 2,
-        borderColor: Palette.deepPurple.t600,
-        backgroundColor: Palette.deepPurple.t50
     }
 })
 

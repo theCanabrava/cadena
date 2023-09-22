@@ -10,6 +10,7 @@
 6. Centralizar verticalmente botão de camera e localização
 7. Glitch de jitter ao dispensar teclado
 8. Desabilitar checkbox quando data final não for preenchida
+9. Criar uma tela separada para seleção da via escalada
 
 ## Concluidos
 1. Criar backlog - 15/08/23
