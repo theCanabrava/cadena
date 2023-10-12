@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'Roboto-Regular',
         fontSize: 12,
-        color: Palette.deepPurple.t900
+        color: Palette.deepPurple.t900,
+        paddingLeft: 2
     }
 })
