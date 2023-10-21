@@ -1,7 +1,7 @@
 import { BlurView } from '@react-native-community/blur';
 import { useState } from 'react';
 import { View, StyleSheet, Modal } from 'react-native';
-import { Checkbox, Dropdown, Palette, Slider } from '../../../design-system';
+import { Checkbox, Dropdown, IconButton, Palette, Slider, TextButton } from '../../../design-system';
 
 const AddClimbModal = ({display}: {display: boolean}) =>
 {
@@ -54,6 +54,27 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                                 accessibilityLabel='trabalhado'
                             />
                         </View>
+                        <View style={styles.routeRow}>
+                            <View style={styles.dashboardButton}>
+                                <TextButton
+                                    label='INCLUIR MAIS VIAS'
+                                    onPress={() => {}}
+                                    accessibilityLabel='incluir-mais-via'
+                                    status='outlined'
+                                />
+                            </View>
+                            <IconButton 
+                                source='trash'
+                                onPress={() => {}}
+                                accessibilityLabel='excluir-academia'
+                            />
+                        </View>
+                        <TextButton
+                            label='CONFIRMAR'
+                            onPress={() => {}}
+                            accessibilityLabel='incluir-mais-via'
+                            status='outlined'
+                        />
                     </View>
                 </View>
             </Modal>
@@ -94,6 +115,15 @@ const styles = StyleSheet.create({
     checkboxRow: {
         flexDirection: 'row',
         gap: 16
+    },
+
+    routeRow: {
+        flexDirection: 'row',
+        gap: 16,
+    },
+
+    dashboardButton: {
+        flex: 1
     }
 })
 
