@@ -1,12 +1,46 @@
 import { BlurView } from '@react-native-community/blur';
 import { useState } from 'react';
-import { View, StyleSheet, Modal } from 'react-native';
+import { View, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
 import { Checkbox, Dropdown, IconButton, Palette, Slider, TextButton } from '../../../design-system';
 
+type Route = {id: string, name: string, value: number, status: 'unfinished' | 'worked' | 'redpoint' | 'onsight'};
+const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
 const AddClimbModal = ({display}: {display: boolean}) =>
 {
     if(!display) return null;
-    const [ value, setValue ] = useState(3);
+    const [routes, setRoutes] = useState<Route[]>([
+        {
+            id: '1',
+            name: '',
+            value: 3,
+            status: 'unfinished'
+        },
+        {
+            id: '2',
+            name: '',
+            value: 3,
+            status: 'unfinished'
+        },
+        {
+            id: '3',
+            name: '',
+            value: 3,
+            status: 'unfinished'
+        },
+        {
+            id: '4',
+            name: '',
+            value: 3,
+            status: 'unfinished'
+        },
+        {
+            id: '5',
+            name: '',
+            value: 3,
+            status: 'unfinished'
+        },
+
+    ]);
 
     return (
         <>
@@ -22,38 +56,23 @@ const AddClimbModal = ({display}: {display: boolean}) =>
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalCard}>
-                        <Dropdown
-                            label='Via:'
-                            placeholder='Via escalada'
-                            option={{id: "-1", value: ""}}
-                            options={[]}
-                            selectedOption={(o) => {}}
-                            accessibilityLabel='via-escalada'
-                            description='Você pode pesquisar pela graguação ou nome da via'
-                            action={{
-                                title: '+ ADICIONAR VIA',
-                                onPress: () => {}
-                            }}
-                            shift={{x: -2, y: -2}}
+                        <FlatList
+                            data={routes}
+                            keyExtractor={(r) => r.id}
+                            renderItem={({item}) => 
+                                <RoutePage
+                                    value={item.value}
+                                    setValue={(v) => {
+                                        item.value = v;
+                                        setRoutes( [...routes]);
+                                    }} 
+                                    last={item.id === routes[routes.length-1].id}                           
+                                />
+                            }
+                            horizontal
+                            snapToInterval={PAGE_WIDTH}
+                            showsHorizontalScrollIndicator={false}
                         />
-                        <Slider
-                            value={value}
-                            setValue={setValue}
-                            label='Esforço'
-                            accessibilityLabel='esforço'
-                        />
-                        <View style={styles.checkboxRow}>
-                            <Checkbox
-                                label='Cadena'
-                                onChecked={() => {}}
-                                accessibilityLabel='cadena'
-                            />
-                            <Checkbox
-                                label='Trabalhado'
-                                onChecked={() => {}}
-                                accessibilityLabel='trabalhado'
-                            />
-                        </View>
                         <View style={styles.routeRow}>
                             <View style={styles.dashboardButton}>
                                 <TextButton
@@ -79,6 +98,52 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                 </View>
             </Modal>
         </>
+    )
+}
+
+const RoutePage = ({value, setValue, last}: {value: number, setValue: (v: number) => void, last: boolean}) => {
+
+    const pageStyle = {
+        ...styles.routePage,
+        paddingRight: last ? 0 : 16,
+        width: last ? PAGE_WIDTH - 16 : PAGE_WIDTH
+    }
+
+    return (
+        <View style={pageStyle}>
+            <Dropdown
+                label='Via:'
+                placeholder='Via escalada'
+                option={{id: "-1", value: ""}}
+                options={[]}
+                selectedOption={(o) => {}}
+                accessibilityLabel='via-escalada'
+                description='Você pode pesquisar pela graguação ou nome da via'
+                action={{
+                    title: '+ ADICIONAR VIA',
+                    onPress: () => {}
+                }}
+                shift={{x: -2, y: -2}}
+            />
+            <Slider
+                value={value}
+                setValue={setValue}
+                label='Esforço'
+                accessibilityLabel='esforço'
+            />
+            <View style={styles.checkboxRow}>
+                <Checkbox
+                    label='Cadena'
+                    onChecked={() => {}}
+                    accessibilityLabel='cadena'
+                />
+                <Checkbox
+                    label='Trabalhado'
+                    onChecked={() => {}}
+                    accessibilityLabel='trabalhado'
+                />
+            </View>
+        </View>
     )
 }
 
@@ -114,6 +179,12 @@ const styles = StyleSheet.create({
 
     checkboxRow: {
         flexDirection: 'row',
+        gap: 16
+    },
+
+    routePage: {
+        width: PAGE_WIDTH, 
+        paddingRight: 16,
         gap: 16
     },
 
