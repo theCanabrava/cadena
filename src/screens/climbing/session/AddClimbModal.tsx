@@ -1,7 +1,7 @@
 import { BlurView } from '@react-native-community/blur';
 import { useState } from 'react';
 import { View, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
-import { Checkbox, Dropdown, IconButton, Palette, Slider, TextButton } from '../../../design-system';
+import { Checkbox, Dropdown, IconButton, Pagination, Palette, Slider, TextButton } from '../../../design-system';
 
 type Route = {id: string, name: string, value: number, status: 'unfinished' | 'worked' | 'redpoint' | 'onsight'};
 const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
@@ -72,6 +72,10 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                             horizontal
                             snapToInterval={PAGE_WIDTH}
                             showsHorizontalScrollIndicator={false}
+                        />
+                        <Pagination
+                            page={0}
+                            length={3}
                         />
                         <View style={styles.routeRow}>
                             <View style={styles.dashboardButton}>
@@ -173,8 +177,7 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         borderWidth: 2,
         borderColor: Palette.deepPurple.t600,
-        backgroundColor: Palette.deepPurple.t50,
-        gap: 16
+        backgroundColor: Palette.deepPurple.t50
     },
 
     checkboxRow: {
@@ -191,6 +194,7 @@ const styles = StyleSheet.create({
     routeRow: {
         flexDirection: 'row',
         gap: 16,
+        marginBottom: 16
     },
 
     dashboardButton: {
