@@ -3,6 +3,7 @@ import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
 import { Dropdown, Palette, TextButton } from '../../../design-system';
 import Header from '../../shared/Header';
 import AddClimbModal from './AddClimbModal';
+import FinishClimbModal from './FinishClimbModal';
 
 const Session = () =>
 {
@@ -39,7 +40,8 @@ const Session = () =>
                         />
                     </View>
             </View>
-            <AddClimbModal display={true}/>
+            <AddClimbModal display={false}/>
+            <FinishClimbModal display={true}/>
         </>
     )
 }

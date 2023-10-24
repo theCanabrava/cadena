@@ -10,7 +10,8 @@ type InputProps = {
     accessibilityLabel: string,
     onStart?: () => void
     onDone?: () => void,
-    keyboardType?: 'numeric'
+    keyboardType?: 'numeric',
+    multiline?: boolean
 }
 const Input = ({
     label, 
@@ -20,7 +21,8 @@ const Input = ({
     accessibilityLabel, 
     onStart = () => {}, 
     onDone = () => {},
-    keyboardType
+    keyboardType,
+    multiline = false
 }: InputProps) =>
 {
     return (
@@ -31,7 +33,7 @@ const Input = ({
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={Palette.grey.t600}
-                style={styles.input}
+                style={multiline ? styles.inputMultiline : styles.input}
                 cursorColor={Palette.deepPurple.t800}
                 value={value}
                 onChangeText={setValue}
@@ -39,6 +41,8 @@ const Input = ({
                 onFocus={onStart}
                 onBlur={onDone}
                 keyboardType={keyboardType}
+                multiline={multiline}
+                textAlignVertical={multiline ? 'top' : undefined}
             />
         </View>
     )
@@ -75,6 +79,19 @@ const styles = StyleSheet.create(
             fontFamily: 'Roboto-Regular',
             fontSize: 18,
             color: Palette.grey.t900
+        },
+
+        inputMultiline:
+        {
+            paddingHorizontal: 8,
+            paddingVertical: 4,
+            borderRadius: 8,
+            backgroundColor: Palette.mono.t50,
+            fontFamily: 'Roboto-Regular',
+            fontSize: 14,
+            lineHeight: 21,
+            height: 96,
+            color: Palette.grey.t900,
         }
 
 
