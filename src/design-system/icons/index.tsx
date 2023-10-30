@@ -6,6 +6,7 @@ import CheckFilled from './CheckFilled'
 import ChevronDown from './ChevronDown'
 import Clock from './Clock';
 import Drawer from './Drawer';
+import Edit from './Edit';
 import Location from './Location';
 import Logo from './Logo';
 import Previous from './Previous';
@@ -22,6 +23,7 @@ const ICON_MAP =
     'chevron-down': ChevronDown,
     clock: Clock,
     drawer: Drawer,
+    edit: Edit,
     location: Location,
     logo: Logo,
     previous: Previous,

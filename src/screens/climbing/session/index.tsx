@@ -1,9 +1,9 @@
-import { BlurView } from '@react-native-community/blur';
 import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
-import { Dropdown, Palette, TextButton } from '../../../design-system';
+import { Palette, TextButton } from '../../../design-system';
 import Header from '../../shared/Header';
 import AddClimbModal from './AddClimbModal';
 import FinishClimbModal from './FinishClimbModal';
+import RouteCell from './RouteCell';
 
 const Session = () =>
 {
@@ -21,15 +21,10 @@ const Session = () =>
                             status='outlined'
                         />
                     </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.title}>
-                            Vamos escalar!
-                        </Text>
-                        <Text style={styles.text}>
-                            Registre as vias que você escalar aqui clicando no botão “Adicionar via”.
-                        </Text>
-                        <View style={styles.imagePlaceholder}/>
-                    </View>
+                    <RouteCell id='1'/>
+                    <RouteCell id='2'/>
+                    <RouteCell id='3'/>
+                    <RouteCell id='4'/>
                 </ScrollView>
                     <View style={styles.endContainer}>
                         <TextButton
@@ -41,7 +36,7 @@ const Session = () =>
                     </View>
             </View>
             <AddClimbModal display={false}/>
-            <FinishClimbModal display={true}/>
+            <FinishClimbModal display={false}/>
         </>
     )
 }
@@ -78,6 +73,21 @@ const SessionDetails = () =>
             </View>
         </View>
     );
+}
+
+const LetsStart = () => {
+
+    return (
+        <View style={styles.textContainer}>
+            <Text style={styles.title}>
+                Vamos escalar!
+            </Text>
+            <Text style={styles.text}>
+                Registre as vias que você escalar aqui clicando no botão “Adicionar via”.
+            </Text>
+            <View style={styles.imagePlaceholder}/>
+        </View>
+    )
 }
 
 export default Session;

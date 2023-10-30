@@ -14,7 +14,7 @@ if (Platform.OS === 'android') {
 
 const App = () =>
 (
-  <NewRoute/>
+  <Session/>
 )
 
 export default App;
