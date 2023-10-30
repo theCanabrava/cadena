@@ -3,12 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
 import LetsStart from './LetsStart';
+import Progress from './Progress';
 
+let newUser:boolean = false;
 const Home = () => {
+
     return (
         <View style={styles.container}>
             <Header/>
-            <LetsStart/>
+            { newUser && <LetsStart/> }
+            {
+                !newUser && 
+                <>
+                    <Progress/>
+                </>
+            }
             <View style={{flex: 1}}/>
             <Text style={styles.footer}>
                 Cadena 2023 - <Text style={styles.footerLink}>Termos de uso</Text>

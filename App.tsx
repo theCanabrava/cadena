@@ -14,7 +14,7 @@ if (Platform.OS === 'android') {
 
 const App = () =>
 (
-  <Session/>
+  <Home/>
 )
 
 export default App;
