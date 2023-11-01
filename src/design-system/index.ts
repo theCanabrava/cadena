@@ -10,3 +10,4 @@ export { default as Pagination } from './Pagination';
 export { default as Palette } from './Palette';
 export { default as Slider } from './Slider'
 export { default as TextButton } from './TextButton'
+export { default as UnderlineButton } from './UnderlineButton'

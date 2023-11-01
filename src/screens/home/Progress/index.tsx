@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { Palette, TextButton } from '../../../design-system';
+import { Palette, TextButton, UnderlineButton } from '../../../design-system';
 
 const Progress = () =>
 {
@@ -11,6 +11,26 @@ const Progress = () =>
             <Text style={styles.text}>
                 Acompanhe a sua evolução a cada nova escalada
             </Text>
+            <View style={styles.dashboard}>
+                <UnderlineButton
+                    label='Vias'
+                    accessibilityLabel='vias'
+                    onPress={() => {}}
+                    status='selected'
+                />
+                <UnderlineButton
+                    label='Pontos'
+                    accessibilityLabel='pontos'
+                    onPress={() => {}}
+                    status='unselected'
+                />
+                <UnderlineButton
+                    label='Esforço'
+                    accessibilityLabel='esforço'
+                    onPress={() => {}}
+                    status='unselected'
+                />
+            </View>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="NOVA SEÇÃO"
@@ -49,7 +69,6 @@ const styles = StyleSheet.create(
             fontSize: 12,
             lineHeight: 18,
             color: Palette.grey.t900,
-            marginBottom: 8
         },
 
         imagePlaceholder: {
@@ -63,6 +82,12 @@ const styles = StyleSheet.create(
 
         buttonContainer: {
             alignSelf: 'flex-end'
+        },
+
+        dashboard: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginVertical: 16
         }
     }
 )
