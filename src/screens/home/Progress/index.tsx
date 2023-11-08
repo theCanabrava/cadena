@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Palette, TextButton, UnderlineButton } from '../../../design-system';
+import Graph from './Graph';
 
 const Progress = () =>
 {
@@ -31,6 +32,7 @@ const Progress = () =>
                     status='unselected'
                 />
             </View>
+            <Graph/>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="NOVA SEÇÃO"
