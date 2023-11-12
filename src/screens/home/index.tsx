@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
+import Latest from './Latest';
 import LetsStart from './LetsStart';
 import Progress from './Progress';
 
@@ -11,17 +12,20 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <Header/>
+            <ScrollView>
             { newUser && <LetsStart/> }
             {
                 !newUser && 
                 <>
                     <Progress/>
+                    <Latest/>
                 </>
             }
             <View style={{flex: 1}}/>
             <Text style={styles.footer}>
                 Cadena 2023 - <Text style={styles.footerLink}>Termos de uso</Text>
             </Text>
+            </ScrollView>
         </View>
     )
 }
@@ -132,7 +136,8 @@ const styles = StyleSheet.create({
         color: Palette.grey.t900,
         fontSize: 12,
         paddingBottom: 8,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: 29
     },
 
     footerLink: {

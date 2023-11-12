@@ -9,6 +9,7 @@ import Drawer from './Drawer';
 import Edit from './Edit';
 import Location from './Location';
 import Logo from './Logo';
+import MountainDetails from './MountainDetails';
 import Previous from './Previous';
 import SourceProp from './SourceProp';
 import Trash from './Trash';
@@ -26,6 +27,7 @@ const ICON_MAP =
     edit: Edit,
     location: Location,
     logo: Logo,
+    'mountain-details': MountainDetails,
     previous: Previous,
     trash: Trash
 }

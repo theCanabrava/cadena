@@ -8,7 +8,7 @@ type TextButtonProps =
     label: string,
     onPress: () => void,
     accessibilityLabel: string,
-    status?: 'active' | 'disabled' | 'outlined' | 'carefull',
+    status?: 'active' | 'disabled' | 'outlined' | 'carefull' | 'secondary',
     size?: 'small' | 'large',
     sourceLeft?: IconSource
 }
@@ -117,6 +117,7 @@ const STYLE_MAP =
 {
     buttonColor: {
         active: Palette.green.t600,
+        secondary: Palette.deepPurple.t600,
         disabled: Palette.grey.t600,
         outlined: Palette.mono.t50,
         carefull: Palette.red.t600
@@ -134,6 +135,7 @@ const STYLE_MAP =
 
     fontColor: {
         active: Palette.mono.t50,
+        secondary: Palette.mono.t50,
         disabled: Palette.mono.t50,
         outlined: Palette.deepPurple.t900,
         carefull: Palette.mono.t50
@@ -141,6 +143,7 @@ const STYLE_MAP =
 
     borderWidth: {
         active: 0,
+        secondary: 0,
         disabled: 0,
         outlined: 1,
         carefull: 0
