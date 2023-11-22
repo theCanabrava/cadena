@@ -65,6 +65,19 @@ const Palette =
         t800: '#c62828',
         t900: '#b71c1c',
     },
+
+    orange: {
+        t50: '#fff3e0',
+        t100: '#ffe0b2',
+        t200: '#ffcc80',
+        t300: '#ffb74d',
+        t400: '#ffa726',
+        t500: '#ff9800',
+        t600: '#fb8c00',
+        t700: '#f57c00',
+        t800: '#ef6c00',
+        t900: '#e65100',
+    }
 }
 
 export default Palette;

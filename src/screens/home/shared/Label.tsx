@@ -31,7 +31,7 @@ const styles = StyleSheet.create(
 
         title: {
             fontFamily: 'Roboto-Regular',
-            fontSize: 12,
+            fontSize: 14,
             color: Palette.grey.t900
         },
 

@@ -3,7 +3,7 @@ import { Icon, Palette } from '../../../design-system';
 
 const routes = [
     { id: '1', name: 'Arestless', grade: '4', efort: 1, status: 'Encadenado', palette: Palette.deepPurple },
-    { id: '2', name: 'Arestida', grade: '5+', efort: 2, status: 'Encadenado', palette: Palette.red },
+    { id: '2', name: 'Arestida', grade: '5+', efort: 2, status: 'Encadenado', palette: Palette.orange },
     { id: '3', name: 'Arestuda', grade: '6B', efort: 3, status: 'Trabalhado', palette: Palette.green },
     { id: '4', name: 'Twister', grade: '7A', efort: 5, status: '', palette: {...Palette.grey, t300: Palette.grey.t400}  },
 ]

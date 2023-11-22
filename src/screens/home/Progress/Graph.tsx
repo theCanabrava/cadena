@@ -6,7 +6,7 @@ const Graph = () => {
     return (
         <View style={styles.container}>
             <Bar value={4/7} label={4} color={Palette.deepPurple.t600} date={new Date()}/>
-            <Bar value={6/7} label={6} color={Palette.red.t600} date={new Date()}/>
+            <Bar value={6/7} label={6} color={Palette.orange.t600} date={new Date()}/>
             <Bar value={2/7} label={2} color={Palette.green.t600} date={new Date()}/>
             <Bar value={7/7} label={7} color={Palette.deepPurple.t600} date={new Date()}/>
             <Bar value={0} label={0} color={Palette.deepPurple.t100}/>

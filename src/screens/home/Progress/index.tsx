@@ -68,8 +68,8 @@ const styles = StyleSheet.create(
 
         text: {
             fontFamily: 'Roboto-Regular',
-            fontSize: 12,
-            lineHeight: 18,
+            fontSize: 14,
+            lineHeight: 20,
             color: Palette.grey.t900,
         },
 

@@ -16,7 +16,7 @@ const Latest = () =>
             <Label title='Data' value='11/09/2023'/>
             <Label title='Duração' value='1:35'/>
             <Label title='Vias escaladas' value='10'/>
-            <Label title='Graduação' value='5' color={Palette.red.t900}/>
+            <Label title='Graduação' value='5' color={Palette.orange.t900}/>
             <Label title='Esforço' value='3.5' color={Palette.green.t900}/>
             <View style={styles.buttonContainer}>
                 <TextButton
@@ -54,8 +54,8 @@ const styles = StyleSheet.create(
 
         text: {
             fontFamily: 'Roboto-Regular',
-            fontSize: 12,
-            lineHeight: 18,
+            fontSize: 14,
+            lineHeight: 20,
             color: Palette.grey.t900,
             marginBottom: 16
         },
