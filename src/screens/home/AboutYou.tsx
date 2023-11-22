@@ -2,29 +2,28 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Palette, TextButton } from '../../design-system';
 import Label from './shared/Label';
 
-const Latest = () =>
+const AboutYou = () =>
 {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
-                Mais recente:
+                Sobre Você:
             </Text>
             <Text style={styles.text}>
-                Veja os dados da sua última escalada
+                Continue se esforçando!
             </Text>
-            <Label title='Local' value='Rokaz - Savassi'/>
-            <Label title='Data' value='11/09/2023'/>
-            <Label title='Duração' value='1:35'/>
-            <Label title='Vias escaladas' value='10'/>
-            <Label title='Graduação' value='5' color={Palette.red.t900}/>
-            <Label title='Esforço' value='3.5' color={Palette.green.t900}/>
+            <Label title='Já foi escalar' value='3 vezes'/>
+            <Label title='Escala' value='5 vias por seção'/>
+            <Label title='Modalidade favorita' value='Top Rope'/>
+            <Label title='Graduação média' value='5' color={Palette.red.t900}/>
+            <Label title='Consegue escalar' value='6B' color={Palette.green.t900}/>
             <View style={styles.buttonContainer}>
                 <TextButton
-                    label="VER DETALHES"
+                    label="VER PERFIL"
                     onPress={() => {}}
-                    accessibilityLabel='ver-detalhes'
+                    accessibilityLabel='ver-perfil'
                     size='small'
-                    sourceLeft='mountain-details'
+                    sourceLeft='profile'
                     status='secondary'
                 />
             </View>
@@ -32,7 +31,7 @@ const Latest = () =>
     )
 }
 
-export default Latest;
+export default AboutYou;
 
 const styles = StyleSheet.create(
     {

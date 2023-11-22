@@ -11,6 +11,7 @@ import Location from './Location';
 import Logo from './Logo';
 import MountainDetails from './MountainDetails';
 import Previous from './Previous';
+import Profile from './Profile';
 import SourceProp from './SourceProp';
 import Trash from './Trash';
 
@@ -29,6 +30,7 @@ const ICON_MAP =
     logo: Logo,
     'mountain-details': MountainDetails,
     previous: Previous,
+    profile: Profile,
     trash: Trash
 }
 
