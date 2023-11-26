@@ -12,12 +12,14 @@ const AboutYou = () =>
             <Text style={styles.text}>
                 Continue se esforçando!
             </Text>
-            <ProfileBadge />
-            <Label title='Já foi escalar' value='3 vezes'/>
-            <Label title='Escala' value='5 vias por seção'/>
-            <Label title='Modalidade favorita' value='Top Rope'/>
-            <Label title='Graduação média' value='5' color={Palette.orange.t900}/>
-            <Label title='Consegue escalar' value='6B' color={Palette.green.t900}/>
+            <View style={styles.content}>
+                <ProfileBadge />
+                <Label title='Já foi escalar' value='3 vezes'/>
+                <Label title='Escala' value='5 vias por seção'/>
+                <Label title='Modalidade favorita' value='Top Rope'/>
+                <Label title='Graduação média' value='5' color={Palette.orange.t900}/>
+            </View>
+            <ClimbUpTo grade='6B' palette={Palette.green}/>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="VER PERFIL"
@@ -57,6 +59,31 @@ const ProfileBadge = () => {
     )
 }
 
+const ClimbUpTo = ({grade, palette}: {grade: string, palette: { t50: string, t900: string}}) => {
+
+
+    const containerStyle = {
+        ...climbUpToStyles.container,
+        backgroundColor: palette.t50
+    };
+
+    const gradeStyle = {
+        ...climbUpToStyles.grade,
+        color: palette.t900
+    };
+
+    return (
+        <View style={containerStyle}>
+            <Text style={climbUpToStyles.label}>
+                Consegue escalar:
+            </Text>
+            <Text style={gradeStyle}>
+                {grade}
+            </Text>
+        </View>
+    )
+}
+
 const styles = StyleSheet.create(
     {
         container: {
@@ -66,7 +93,14 @@ const styles = StyleSheet.create(
             alignItems: 'stretch',
             marginTop: 24,
             marginHorizontal: 24,
-            padding: 16
+            paddingVertical: 16,
+            paddingHorizontal: 8,
+        },
+
+        content: {
+            justifyContent: 'flex-start',
+            alignItems: 'stretch',
+            paddingHorizontal: 8
         },
 
         title: {
@@ -85,7 +119,8 @@ const styles = StyleSheet.create(
 
         buttonContainer: {
             alignSelf: 'flex-end',
-            marginTop: 8
+            marginTop: 16,
+            paddingHorizontal: 8
         }
     }
 )
@@ -124,3 +159,30 @@ const profileStyles = StyleSheet.create(
 
     }
 )
+
+const climbUpToStyles = StyleSheet.create({
+
+    container: {
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+        backgroundColor: Palette.green.t50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+    },
+
+    label: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 14,
+        color: Palette.grey.t900,
+        marginBottom: 2
+    },
+
+    grade: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 24,
+        color: Palette.green.t900
+    }
+
+})
