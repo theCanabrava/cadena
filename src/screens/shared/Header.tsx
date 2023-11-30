@@ -1,12 +1,15 @@
+import { useNavigation } from '@react-navigation/native'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { Palette, Icon } from '../../design-system'
 
 type HeaderProps = { title: string }
 const Header = ({title}: HeaderProps) =>
 {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => console.log('Should go back')}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Icon
                     source='back'
                     width={36}

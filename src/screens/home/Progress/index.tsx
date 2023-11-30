@@ -1,9 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
 import { Palette, TextButton, UnderlineButton } from '../../../design-system';
+import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Graph from './Graph';
 
 const Progress = () =>
 {
+    const navigation = useNavigation<HomeNavigationProps>();
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -36,7 +39,7 @@ const Progress = () =>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="NOVA SEÇÃO"
-                    onPress={() => {}}
+                    onPress={() => navigation.navigate('home/new-climb')}
                     accessibilityLabel='nova-seção'
                     size='small'
                     sourceLeft='logo'

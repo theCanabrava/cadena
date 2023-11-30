@@ -1,7 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
+import { HomeNavigationProps } from '../navigator/HomeStack';
 import AboutYou from './AboutYou';
 import Latest from './Latest';
 import LetsStart from './LetsStart';
@@ -35,6 +37,9 @@ const Home = () => {
 export default Home;
 
 const Header = () => {
+
+    const navigation = useNavigation<HomeNavigationProps>();
+
     return (
         <View style={styles.header}>
             <TouchableOpacity>
@@ -68,7 +73,7 @@ const Header = () => {
                     </View>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('home/new-climb')}>
                 <Icon
                     source='logo'
                     width={36}

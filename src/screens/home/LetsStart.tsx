@@ -1,8 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
 import { Palette, TextButton } from '../../design-system';
+import { HomeNavigationProps } from '../navigator/HomeStack';
 
 const LetsStart = () =>
 {
+    const navigation = useNavigation<HomeNavigationProps>();
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -15,7 +19,7 @@ const LetsStart = () =>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="CONTINUAR"
-                    onPress={() => {}}
+                    onPress={() => navigation.navigate('home/new-climb')}
                     accessibilityLabel='continuar'
                     size='small'
                     sourceLeft='logo'
