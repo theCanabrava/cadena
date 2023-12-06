@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
-import { HomeNavigationProps } from '../navigator/HomeStack';
+import { HomeNavigationProps } from '../../navigator/HomeStack';
 import AboutYou from './AboutYou';
 import Latest from './Latest';
 import LetsStart from './LetsStart';

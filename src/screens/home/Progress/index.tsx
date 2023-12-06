@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
 import { Palette, TextButton, UnderlineButton } from '../../../design-system';
-import { HomeNavigationProps } from '../../navigator/HomeStack';
+import { HomeNavigationProps } from '../../../navigator/HomeStack';
 import Graph from './Graph';
 
 const Progress = () =>

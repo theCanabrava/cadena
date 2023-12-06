@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
 import { Palette, TextButton } from '../../../design-system';
 import Header from '../../shared/Header';
@@ -7,6 +8,9 @@ import RouteCell from './RouteCell';
 
 const Session = () =>
 {
+
+    const [modals, setModals] = useState({add: false, finish: false});
+
     return (
         <>
             <View style={styles.container}>
@@ -16,7 +20,7 @@ const Session = () =>
                     <View style={styles.addContainer}>
                         <TextButton
                             label='ADICIONAR VIA'
-                            onPress={() => {}}
+                            onPress={() => setModals({add: true, finish: false})}
                             accessibilityLabel='adicionar-via'
                             status='outlined'
                         />
@@ -29,14 +33,14 @@ const Session = () =>
                     <View style={styles.endContainer}>
                         <TextButton
                             label='FINALIZAR SEÇÃO'
-                            onPress={() => {}}
+                            onPress={() => setModals({add: false, finish: true})}
                             accessibilityLabel='finalizar'
                             status='carefull'
                         />
                     </View>
             </View>
-            <AddClimbModal display={false}/>
-            <FinishClimbModal display={false}/>
+            <AddClimbModal display={modals.add} onClose={() => setModals({add: false, finish: false})}/>
+            <FinishClimbModal display={modals.finish} onClose={() => setModals({add: false, finish: false})}/>
         </>
     )
 }

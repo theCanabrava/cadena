@@ -1,11 +1,14 @@
 import { BlurView } from '@react-native-community/blur';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View, StyleSheet, Modal, TouchableOpacity, Text } from 'react-native';
 import { Icon, Input, Palette, TextButton } from '../../../design-system';
+import { HomeNavigationProps } from '../../../navigator/HomeStack';
 
-const FinishClimbModal = ({display}: {display: boolean}) =>
+const FinishClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     const [observations, setObservations] = useState('');
+    const navigation = useNavigation<HomeNavigationProps>();
     if(!display) return null;
 
     return (
@@ -23,7 +26,7 @@ const FinishClimbModal = ({display}: {display: boolean}) =>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalCard}>
                         <View style={styles.titleRow}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={onClose}>
                                 <Icon
                                     source='back'
                                     primary={Palette.deepPurple.t900}
@@ -65,7 +68,7 @@ const FinishClimbModal = ({display}: {display: boolean}) =>
                         <View style={styles.spacer}/>
                         <TextButton
                             label='FINALIZAR'
-                            onPress={() => {}}
+                            onPress={() => {navigation.navigate('home/index')}}
                             accessibilityLabel='finalizar'
                         />
                     </View>

@@ -1,5 +1,5 @@
 import { Platform, UIManager } from 'react-native';
-import Navigator from './src/screens/navigator';
+import Navigator from './src/navigator';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

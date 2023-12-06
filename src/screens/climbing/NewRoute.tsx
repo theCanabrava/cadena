@@ -1,13 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
+import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
 
 const NewRoute = () =>
 {
     const [ name, setName ] = useState('');
     const [ showCamera, setShowCamera ] = useState(true);
-    const [ formStyle ] = useState({...styles.form})
+    const [ formStyle ] = useState({...styles.form});
+    const navigation = useNavigation<HomeNavigationProps>();
 
     return (
         <View style={styles.container}>
@@ -68,7 +71,7 @@ const NewRoute = () =>
                 <TextButton
                     label='CADASTRAR'
                     accessibilityLabel='cadastrar'
-                    onPress={() => {}}
+                    onPress={() => navigation.goBack()}
                 />
             </View>
         </View>
@@ -82,7 +85,7 @@ const styles = StyleSheet.create(
         container: {
             flex: 1,
             backgroundColor: Palette.deepPurple.t50,
-            alignItems: 'stretch'
+            alignItems: 'stretch',
         },
 
         form: {

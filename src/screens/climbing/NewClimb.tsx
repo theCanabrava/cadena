@@ -1,6 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Dimensions, LayoutAnimation } from 'react-native';
 import { Checkbox, DatePicker, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
+import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
 
 const INPUT_POSITION = 485;
@@ -8,6 +10,7 @@ const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const BOTTOM_PADDING = 16
 const NewClimb = () =>
 {
+    const navigation = useNavigation<HomeNavigationProps>();
     const [ routes, setRoutes ] = useState('');
     const [ top, setTop ] = useState(0);
     const [ formStyle, setFormStyle ] = useState({...styles.form})
@@ -93,7 +96,7 @@ const NewClimb = () =>
                 <TextButton
                     label='INICIAR'
                     accessibilityLabel='iniciar'
-                    onPress={() => {}}
+                    onPress={() => navigation.navigate('home/session')}
                 />
             </View>
         </View>

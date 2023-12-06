@@ -1,11 +1,13 @@
 import { BlurView } from '@react-native-community/blur';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
 import { Checkbox, Dropdown, IconButton, Pagination, Palette, Slider, TextButton } from '../../../design-system';
+import { HomeNavigationProps } from '../../../navigator/HomeStack';
 
 type Route = {id: string, name: string, value: number, status: 'unfinished' | 'worked' | 'redpoint' | 'onsight'};
 const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
-const AddClimbModal = ({display}: {display: boolean}) =>
+const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     if(!display) return null;
     const [routes, setRoutes] = useState<Route[]>([
@@ -66,7 +68,8 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                                         item.value = v;
                                         setRoutes( [...routes]);
                                     }} 
-                                    last={item.id === routes[routes.length-1].id}                           
+                                    last={item.id === routes[routes.length-1].id}         
+                                    onClose={onClose}                  
                                 />
                             }
                             horizontal
@@ -89,12 +92,12 @@ const AddClimbModal = ({display}: {display: boolean}) =>
                             <IconButton 
                                 source='trash'
                                 onPress={() => {}}
-                                accessibilityLabel='excluir-academia'
+                                accessibilityLabel='excluir-rota'
                             />
                         </View>
                         <TextButton
                             label='CONFIRMAR'
-                            onPress={() => {}}
+                            onPress={() => onClose()}
                             accessibilityLabel='incluir-mais-via'
                             status='outlined'
                         />
@@ -105,8 +108,9 @@ const AddClimbModal = ({display}: {display: boolean}) =>
     )
 }
 
-const RoutePage = ({value, setValue, last}: {value: number, setValue: (v: number) => void, last: boolean}) => {
+const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (v: number) => void, last: boolean, onClose: () => void}) => {
 
+    const navigation = useNavigation<HomeNavigationProps>();
     const pageStyle = {
         ...styles.routePage,
         paddingRight: last ? 0 : 16,
@@ -125,7 +129,10 @@ const RoutePage = ({value, setValue, last}: {value: number, setValue: (v: number
                 description='Você pode pesquisar pela graguação ou nome da via'
                 action={{
                     title: '+ ADICIONAR VIA',
-                    onPress: () => {}
+                    onPress: () => {
+                        onClose();
+                        setTimeout(() => navigation.navigate('home/new-route'), 250)
+                    }
                 }}
                 shift={{x: -2, y: -2}}
             />
