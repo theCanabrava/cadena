@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { create } from 'zustand';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
 import { HomeNavigationProps } from '../../navigator/HomeStack';
@@ -9,8 +10,18 @@ import Latest from './Latest';
 import LetsStart from './LetsStart';
 import Progress from './Progress';
 
+type State = {
+    count: number;
+}
+
+const useCountStore = create<State>(() => ({
+    count: 1
+}))
+
 let newUser:boolean = false;
 const Home = () => {
+
+    const { count } = useCountStore();
 
     return (
         <View style={styles.container}>
@@ -26,9 +37,13 @@ const Home = () => {
                 </>
             }
             <View style={{flex: 1}}/>
-            <Text style={styles.footer}>
-                Cadena 2023 - <Text style={styles.footerLink}>Termos de uso</Text>
-            </Text>
+            <TouchableOpacity onPress={() => {
+                useCountStore.setState(s => ({ count: s.count+1 }))
+            }}>
+                <Text style={styles.footer}>
+                    {count} Cadena 2023 - <Text style={styles.footerLink}>Termos de uso</Text>
+                </Text>
+            </TouchableOpacity>
             </ScrollView>
         </View>
     )
