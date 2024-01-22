@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
+import State from '../business-logic/intex';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../design-system';
 
 const Welcome = () =>
@@ -66,7 +67,7 @@ const Welcome = () =>
       <View style={styles.dashboard}>
         <TextButton
           label='REGISTRAR'
-          onPress={() => {}}
+          onPress={() => State.dispatch.profileActions.registerUser(username)}
           accessibilityLabel='registrar'
           status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
         />
