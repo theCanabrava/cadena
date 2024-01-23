@@ -1,3 +1,4 @@
+import { Api, setApi } from "./api";
 import { useProfileStore, profileActions } from "./profile";
 
 const State = {
@@ -7,6 +8,10 @@ const State = {
 
     dispatch: {
         profileActions
+    },
+
+    configure: (apiImplementation: Api) => {
+        setApi(apiImplementation);
     }
 }
 

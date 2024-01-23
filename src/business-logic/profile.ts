@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { api } from "./api";
 
 type ProfileState = {
     username?: string;
@@ -12,8 +13,9 @@ export const profileActions = {
 
     registerUser: async (username: string) => {
     
-        //api.Profile.registerUser(username);
+        await api!.Profile.registerUser(username);
         useProfileStore.setState(() => ({username}));
+
     }
     
 }
