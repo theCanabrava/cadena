@@ -12,6 +12,7 @@ const State = {
 
     configure: (apiImplementation: Api) => {
         setApi(apiImplementation);
+        profileActions.loadState();
     }
 }
 

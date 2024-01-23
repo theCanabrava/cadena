@@ -12,7 +12,18 @@ State.configure({
   Profile: {
     registerUser: async u => {
       console.log('Mock register of', u)
-    }
+    },
+
+    getGradingSystems: async () =>  [
+      {
+        id: 1,
+        name: 'Escala Font'
+      },
+      {
+        id: 2,
+        name: 'Graduação Brasileira'
+      }
+    ]
   }
 })
 

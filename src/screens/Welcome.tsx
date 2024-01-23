@@ -9,10 +9,8 @@ const Welcome = () =>
   const [ grade, setGrade ] = useState({id: '-1', value: ''});
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const [ showCameraButton, setShowCameraButton ] = useState(true)
-  const grades = [
-    { id: '0', value: 'Escala Font'},
-    { id: '1', value: 'Escala V'}
-  ]
+  const { gradingSystems } = State.stateHooks.useProfileStore();
+  const grades = gradingSystems.map(g => ({id: String(g.id), value: g.name}));
 
   useEffect(() =>
   {

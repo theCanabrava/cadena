@@ -1,12 +1,14 @@
 import { create } from "zustand";
-import { api } from "./api";
+import { api, GradeSystem } from "./api";
 
 type ProfileState = {
     username?: string;
+    gradingSystems: GradeSystem[];
 }
 
 export const useProfileStore = create<ProfileState>(() => ({
-    username: undefined
+    username: undefined,
+    gradingSystems: []
 }))
 
 export const profileActions = {
@@ -16,6 +18,11 @@ export const profileActions = {
         await api!.Profile.registerUser(username);
         useProfileStore.setState(() => ({username}));
 
+    },
+
+    loadState: async () => {
+        const gradingSystems = await api.Profile.getGradingSystems();
+        useProfileStore.setState(() => ({gradingSystems}))
     }
     
 }
