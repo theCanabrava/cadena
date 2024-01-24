@@ -10,17 +10,18 @@ if (Platform.OS === 'android') {
 
 State.configure({
   Profile: {
-    registerUser: async u => {
-      console.log('Mock register of', u)
+    registerUser: async (u, g) => {
+      console.log('Mock register of', u);
+      console.log('Selected grade', g);
     },
 
-    getGradingSystems: async () =>  [
+    getGradingSystemOptions: async () =>  [
       {
-        id: 1,
+        id: '1',
         name: 'Escala Font'
       },
       {
-        id: 2,
+        id: '2',
         name: 'Graduação Brasileira'
       }
     ]

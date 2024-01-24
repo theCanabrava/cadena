@@ -12,6 +12,7 @@
 8. Desabilitar checkbox quando data final não for preenchida
 9. Criar uma tela separada para seleção da via escalada
 10. Passar onClose dos modais para gerenciamento de estados
+11. Generalizar dropdown para aceitar qualquer tipo com um extrator de valor
 
 ## Concluidos
 1. Criar backlog - 15/08/23

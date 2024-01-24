@@ -9,8 +9,8 @@ const Welcome = () =>
   const [ grade, setGrade ] = useState({id: '-1', value: ''});
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const [ showCameraButton, setShowCameraButton ] = useState(true)
-  const { gradingSystems } = State.stateHooks.useProfileStore();
-  const grades = gradingSystems.map(g => ({id: String(g.id), value: g.name}));
+  const { gradingSystemOptions } = State.stateHooks.useProfileStore();
+  const grades = gradingSystemOptions.map(g => ({id: g.id, value: g.name}));
 
   useEffect(() =>
   {
@@ -65,7 +65,14 @@ const Welcome = () =>
       <View style={styles.dashboard}>
         <TextButton
           label='REGISTRAR'
-          onPress={() => State.dispatch.profileActions.registerUser(username)}
+          onPress={() => {
+
+            const selectedGrade = gradingSystemOptions.find(
+              g => g.id === grade.id
+            );
+            State.dispatch.profileActions.registerUser(username, selectedGrade!)
+
+          }}
           accessibilityLabel='registrar'
           status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
         />

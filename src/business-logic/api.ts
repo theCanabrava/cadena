@@ -1,9 +1,9 @@
 const mockApi = {
     Profile: {
-        registerUser: async (username: string) => {},
-        getGradingSystems: async () => {
-            const systems: GradeSystem[] = [];
-            return systems;
+        registerUser: async (username: string, system: GradeSystem) => {},
+        getGradingSystemOptions: async () => {
+            const options: GradeSystem[] = [];
+            return options;
         }
     }
 }
@@ -21,6 +21,6 @@ export const setApi = (apiImplementation: Api) => {
 // TYPE DEFINITIONS
 
 export type GradeSystem = {
-    id: number,
+    id: string,
     name: string
 }
