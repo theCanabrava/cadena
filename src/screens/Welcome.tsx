@@ -6,11 +6,10 @@ import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } 
 const Welcome = () =>
 {
   const [ username, setUsername ] = useState('');
-  const [ grade, setGrade ] = useState({id: '-1', value: ''});
+  const [ grade, setGrade ] = useState({id: '-1', name: ''});
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const [ showCameraButton, setShowCameraButton ] = useState(true)
   const { gradingSystemOptions } = State.stateHooks.useProfileStore();
-  const grades = gradingSystemOptions.map(g => ({id: g.id, value: g.name}));
 
   useEffect(() =>
   {
@@ -48,8 +47,9 @@ const Welcome = () =>
             accessibilityLabel='graduação-de-vias'
             option={grade}
             selectedOption={(v) => {setGrade(v)}}
-            options={grades}
+            options={gradingSystemOptions}
             openHandlers={[dropdownOpen, setDropdownOpen]}
+            extractOption={o => ({id: o.id, value: o.name})}
         />
       </View>
       <View style={styles.pictureContainer}>
@@ -65,14 +65,7 @@ const Welcome = () =>
       <View style={styles.dashboard}>
         <TextButton
           label='REGISTRAR'
-          onPress={() => {
-
-            const selectedGrade = gradingSystemOptions.find(
-              g => g.id === grade.id
-            );
-            State.dispatch.profileActions.registerUser(username, selectedGrade!)
-
-          }}
+          onPress={() =>  State.dispatch.profileActions.registerUser(username, grade)}
           accessibilityLabel='registrar'
           status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
         />

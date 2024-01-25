@@ -125,6 +125,7 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
                 option={{id: "-1", value: ""}}
                 options={[]}
                 selectedOption={(o) => {}}
+                extractOption={o => ({...o})}
                 accessibilityLabel='via-escalada'
                 description='Você pode pesquisar pela graguação ou nome da via'
                 action={{

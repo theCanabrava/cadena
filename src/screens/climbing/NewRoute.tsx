@@ -30,6 +30,7 @@ const NewRoute = () =>
                             placeholder='4+'
                             option={{id: '1', value: ''}}
                             selectedOption={(v) => {console.log('Selected ', v)}}
+                            extractOption={o => ({...o})}
                             options={[{id: '1', value: '4+'}]}
                             accessibilityLabel='graduação'
                             obrigatory
@@ -51,6 +52,7 @@ const NewRoute = () =>
                     placeholder='Top rope'
                     option={{id: '1', value: ''}}
                     selectedOption={(v) => {console.log('Selected ', v)}}
+                    extractOption={o => ({...o})}
                     options={[{id: '1', value: 'Top rope'}]}
                     accessibilityLabel='graduação'
                     obrigatory

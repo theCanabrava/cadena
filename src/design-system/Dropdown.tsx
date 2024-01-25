@@ -3,14 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Scr
 import Icon from "./icons";
 import Palette from "./Palette";
 
-type Option = { id: string, value: string }
-type InputProps = { 
+type InputProps<T> = { 
     label: string, 
     placeholder: string, 
-    option: Option, 
-    selectedOption: (v: Option) => void, 
+    option: T, 
+    selectedOption: (v: T) => void, 
     accessibilityLabel: string,
-    options: Option[],
+    options: T[],
+    extractOption: (d: T) => {id: string, value: string},
     openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
     obrigatory?: boolean,
     description?: string,
@@ -23,25 +23,27 @@ type InputProps = {
         y: number
     }
 }
-const Input = ({
+function Input<T> ({
     label, 
     placeholder, 
     option, 
     selectedOption, 
     accessibilityLabel, 
     options, 
+    extractOption,
     openHandlers = useState(false),
     obrigatory = false,
     description,
     action,
     shift = {x: 0, y: 0}
-}: InputProps) =>
+}: InputProps<T>)
 {
     const [ open, setOpen ] = openHandlers
     const [ position, setPosition ] = useState({left: 0, top: 0, width: 0})
 
     const selectedStyle = {...styles.selected}
-    if(option.value === '') selectedStyle.color = Palette.grey.t600
+    const extractedOption = extractOption(option);
+    if(extractedOption.value === '') selectedStyle.color = Palette.grey.t600
 
     const elements = action ? options.length + 1 : options.length;
     const optionsStyle = { 
@@ -52,6 +54,7 @@ const Input = ({
 
     const optionElements = options.map(o =>
         {
+            const eO = extractOption(o);
             return (
                 <TouchableOpacity
                     onPress={() => 
@@ -59,12 +62,12 @@ const Input = ({
                         selectedOption(o);
                         setOpen(false);
                     }}
-                    key={o.id}
+                    key={eO.id}
                 >
                     <Text 
                         style={styles.option}
                     >
-                        {o.value}
+                        {eO.value}
                     </Text>
                 </TouchableOpacity>
             )
@@ -91,7 +94,7 @@ const Input = ({
                 <TouchableOpacity onPress={() => setOpen(!open)} accessibilityLabel={accessibilityLabel}>
                     <View style={styles.dropdown}>
                         <Text style={selectedStyle}>
-                            { option.value != "" ? option.value : placeholder }
+                            { extractedOption.value != "" ? extractedOption.value : placeholder }
                         </Text>
                         <Icon
                             source='chevron-down'

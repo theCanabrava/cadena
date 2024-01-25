@@ -44,6 +44,7 @@ const Form = () =>
             accessibilityLabel='tipo-de-local'
             option={type}
             selectedOption={(v) => {setType(v)}}
+            extractOption={o => ({...o})}
             options={grades}
             openHandlers={[dropdownOpen, setDropdownOpen]}
         />

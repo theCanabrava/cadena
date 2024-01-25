@@ -43,6 +43,7 @@ const NewClimb = () =>
                     option={{id: '1', value: 'Rokaz - Savassi'}}
                     selectedOption={(v) => {console.log('Selected ', v)}}
                     options={[{id: '1', value: 'Rokaz - Savassi'}]}
+                    extractOption={o => ({...o})}
                     accessibilityLabel='local'
                     obrigatory
                 />
