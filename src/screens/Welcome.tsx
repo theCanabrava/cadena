@@ -1,7 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import State from '../business-logic/intex';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../design-system';
+import { LoginNavigationProps } from '../navigator/LoginStack';
 
 const Welcome = () =>
 {
@@ -10,6 +12,7 @@ const Welcome = () =>
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const [ showCameraButton, setShowCameraButton ] = useState(true)
   const { gradingSystemOptions } = State.stateHooks.useProfileStore();
+  const navigation = useNavigation<LoginNavigationProps>();
 
   useEffect(() =>
   {
@@ -65,7 +68,10 @@ const Welcome = () =>
       <View style={styles.dashboard}>
         <TextButton
           label='REGISTRAR'
-          onPress={() =>  State.dispatch.profileActions.registerUser(username, grade)}
+          onPress={async () => {
+            await State.dispatch.profileActions.registerUser(username, grade);
+            navigation.navigate('login/add-gym');
+          }}
           accessibilityLabel='registrar'
           status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
         />

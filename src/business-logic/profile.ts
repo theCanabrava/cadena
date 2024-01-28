@@ -5,11 +5,14 @@ type ProfileState = {
     username?: string;
     gradingSystem?: GradeSystem;
     gradingSystemOptions: GradeSystem[];
+
+    loggedIn: boolean,
 }
 
 export const useProfileStore = create<ProfileState>(() => ({
     username: undefined,
-    gradingSystemOptions: []
+    gradingSystemOptions: [],
+    loggedIn: false,
 }))
 
 export const profileActions = {
