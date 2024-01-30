@@ -4,7 +4,8 @@ const mockApi = {
         getGradingSystemOptions: async () => {
             const options: GradeSystem[] = [];
             return options;
-        }
+        },
+        registerGyms: async (gyms: ClimbingGym[]) => {},
     }
 }
 
@@ -23,4 +24,11 @@ export const setApi = (apiImplementation: Api) => {
 export type GradeSystem = {
     id: string,
     name: string
+}
+
+export type ClimbingGym = {
+    id: string,
+    name: string,
+    address: string,
+    type: 'gym' | 'craig'
 }

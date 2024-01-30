@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import State from '../../business-logic/intex';
 import { IconButton, Palette, TextButton } from '../../design-system';
 import Icon from '../../design-system/icons';
 import Form from './Form';
 
+let counter = 1;
 const AddGym = () =>
 {
+  const { climbingGyms } = State.stateHooks.useProfileStore();
+
+  console.log('Climbing gyms', climbingGyms);
+
+  useEffect(() => {
+    if(climbingGyms.length === 0) {
+      State.dispatch.profileActions.editGym({
+        id: String(counter++),
+        name: '',
+        address: '',
+        type: 'gym'
+      })
+    }
+  }, [climbingGyms]);
+
   return (
     <>
       <View style={styles.container}>
@@ -17,11 +34,7 @@ const AddGym = () =>
         </Text>
 
         <FlatList
-          data={[
-            {id: '1'},
-            {id: '2'},
-            {id: '3'},
-          ]}
+          data={climbingGyms}
           renderItem={
             () =>
             (
@@ -39,14 +52,24 @@ const AddGym = () =>
             <View style={styles.moreContainer}>
               <TextButton
                 label='CADASTRAR MAIS'
-                onPress={() => {}}
+                onPress={() => {
+                  State.dispatch.profileActions.editGym({
+                    id: String(counter++),
+                    name: '',
+                    address: '',
+                    type: 'gym'
+                  })
+                }}
                 accessibilityLabel='cadastrar-mais'
               />
             </View>
             <IconButton 
               source='trash'
-              onPress={() => {}}
+              onPress={() => {
+                State.dispatch.profileActions.removeGym(climbingGyms[climbingGyms.length-1])
+              }}
               accessibilityLabel='excluir-academia'
+              status={climbingGyms.length <= 1 ? 'disabled' : 'active'}
             />
           </View>
           <TextButton

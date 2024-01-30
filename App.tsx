@@ -15,6 +15,8 @@ State.configure({
       console.log('Selected grade', g);
     },
 
+    registerGyms: async () => {},
+
     getGradingSystemOptions: async () =>  [
       {
         id: '1',
