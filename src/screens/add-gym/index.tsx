@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import State from '../../business-logic/intex';
 import { IconButton, Palette, TextButton } from '../../design-system';
 import Icon from '../../design-system/icons';
 import Form from './Form';
 import uuid from 'react-native-uuid';
+import wait from '../../design-system/wait';
 
 const AddGym = () =>
 {
   const { climbingGyms } = State.stateHooks.useProfileStore();
+  const [page, setPage] = useState(climbingGyms.length);
+  const scrollRef = createRef<FlatList>();
+
+  const scrollTo = (p: number) => scrollRef.current?.scrollToIndex({index: p, animated: true});
 
   useEffect(() => {
     if(climbingGyms.length === 0) {
@@ -32,6 +37,7 @@ const AddGym = () =>
         </Text>
 
         <FlatList
+          ref={scrollRef}
           data={climbingGyms}
           renderItem={
             ({item}) =>
@@ -44,6 +50,17 @@ const AddGym = () =>
           horizontal
           pagingEnabled={true}
           keyExtractor={(item) => item.id}
+          onScroll={(e) => {
+              const x = e.nativeEvent.contentOffset.x;
+              const page = Math.round(x/Dimensions.get('window').width);
+              setPage(page)
+          }}
+          getItemLayout={(_, index) => ({
+            length: Dimensions.get('window').width, //  WIDTH + (MARGIN_HORIZONTAL * 2)
+            offset: Dimensions.get('window').width * (index),  //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
+            index,
+          })}
+          showsHorizontalScrollIndicator={false}
         />
 
         <View style={styles.dashboard}>
@@ -51,21 +68,27 @@ const AddGym = () =>
             <View style={styles.moreContainer}>
               <TextButton
                 label='CADASTRAR MAIS'
-                onPress={() => {
+                onPress={async () => {
                   State.dispatch.profileActions.editGym({
                     id: String(uuid.v4()),
                     name: '',
                     address: '',
                     type: 'gym'
                   })
+
+                  scrollTo(climbingGyms.length-1);
                 }}
                 accessibilityLabel='cadastrar-mais'
               />
             </View>
             <IconButton 
               source='trash'
-              onPress={() => {
-                State.dispatch.profileActions.removeGym(climbingGyms[climbingGyms.length-1])
+              onPress={async () => {
+                if(page === climbingGyms.length -1 ) {
+                  scrollTo(page-1);
+                  await wait(200);
+                }
+                State.dispatch.profileActions.removeGym(climbingGyms[page])
               }}
               accessibilityLabel='excluir-academia'
               status={climbingGyms.length <= 1 ? 'disabled' : 'active'}
@@ -78,23 +101,35 @@ const AddGym = () =>
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.previousGym}>
-        <Icon 
-          source='previous'
-          height={36}
-          width={36}
-          primary={Palette.deepPurple.t600}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.nextGym}>
-        <Icon 
-          source='previous'
-          height={36}
-          width={36}
-          rotation={180}
-          primary={Palette.deepPurple.t600}
-        />
-      </TouchableOpacity>
+      {
+        page > 0 &&
+        <TouchableOpacity 
+          style={styles.previousGym}
+          onPress={() => scrollTo(page-1)}
+        >
+          <Icon 
+            source='previous'
+            height={36}
+            width={36}
+            primary={Palette.deepPurple.t600}
+          />
+        </TouchableOpacity>
+      }
+      {
+        page < (climbingGyms.length-1) &&
+        <TouchableOpacity 
+          style={styles.nextGym}
+          onPress={() => scrollTo(page+1)}
+        >
+          <Icon 
+            source='previous'
+            height={36}
+            width={36}
+            rotation={180}
+            primary={Palette.deepPurple.t600}
+          />
+        </TouchableOpacity>
+      }
     </>
   )
   
