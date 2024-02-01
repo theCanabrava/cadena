@@ -29,10 +29,10 @@ export const profileActions = {
     editGym: async (gym: ClimbingGym) => {
 
         const { climbingGyms } = useProfileStore.getState();
-        let editedGym = climbingGyms.find(g => g.id === gym.id);
+        let editedGymIndex = climbingGyms.findIndex(g => g.id === gym.id);
 
-        if(editedGym) {
-            editedGym = { ...gym };
+        if(editedGymIndex !== -1) {
+            climbingGyms[editedGymIndex] = { ...gym };
         } else {
             climbingGyms.push(gym);
         }

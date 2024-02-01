@@ -4,18 +4,16 @@ import State from '../../business-logic/intex';
 import { IconButton, Palette, TextButton } from '../../design-system';
 import Icon from '../../design-system/icons';
 import Form from './Form';
+import uuid from 'react-native-uuid';
 
-let counter = 1;
 const AddGym = () =>
 {
   const { climbingGyms } = State.stateHooks.useProfileStore();
 
-  console.log('Climbing gyms', climbingGyms);
-
   useEffect(() => {
     if(climbingGyms.length === 0) {
       State.dispatch.profileActions.editGym({
-        id: String(counter++),
+        id: String(uuid.v4()),
         name: '',
         address: '',
         type: 'gym'
@@ -36,15 +34,16 @@ const AddGym = () =>
         <FlatList
           data={climbingGyms}
           renderItem={
-            () =>
+            ({item}) =>
             (
               <View style={styles.gymItem}>
-                <Form/>
+                <Form id={item.id}/>
               </View>
             )
           }
           horizontal
           pagingEnabled={true}
+          keyExtractor={(item) => item.id}
         />
 
         <View style={styles.dashboard}>
@@ -54,7 +53,7 @@ const AddGym = () =>
                 label='CADASTRAR MAIS'
                 onPress={() => {
                   State.dispatch.profileActions.editGym({
-                    id: String(counter++),
+                    id: String(uuid.v4()),
                     name: '',
                     address: '',
                     type: 'gym'

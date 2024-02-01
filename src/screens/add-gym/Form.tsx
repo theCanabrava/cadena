@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Keyboard } from 'react-native';
+import State from '../../business-logic/intex';
 import { CircleButton, Dropdown, Input } from '../../design-system';
 
-const Form = () =>
+const Form = ({id}: {id: string}) =>
 {
-  const [ placeName, setPlaceName ] = useState('');
-  const [ type, setType ] = useState({id: '-1', value: ''});
+
+  const { climbingGyms } = State.stateHooks.useProfileStore();
+
+  const gym = climbingGyms.find(g => g.id === id)!;
+  const gymTypes: {id: 'gym' | 'craig', value: string}[] = [
+    { id: 'gym', value: 'Ginásio'},
+    { id: 'craig', value: 'Rochedo'}
+  ]
+
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const [ showLocationButton, setShowLocationButton ] = useState(true)
-  const grades = [
-    { id: '0', value: 'Ginásio'},
-    { id: '1', value: 'Rochedo'}
-  ]
 
   useEffect(() =>
   {
@@ -25,8 +29,10 @@ const Form = () =>
             label='Academia:'
             placeholder='Nome da academia'
             accessibilityLabel='nome-da-academia'
-            value={placeName}
-            setValue={setPlaceName}
+            value={gym.name}
+            setValue={(v) => {
+              State.dispatch.profileActions.editGym({...gym, name: v});
+            }}
             onStart={() =>
             {
               setShowLocationButton(false);
@@ -34,7 +40,7 @@ const Form = () =>
             onDone={() =>
             {
               setShowLocationButton(true);
-              if(type.id === '-1') setDropdownOpen(true);
+              setDropdownOpen(true);
             }}
         />
         <View style={styles.spacer}/>
@@ -42,10 +48,12 @@ const Form = () =>
             label='Local:'
             placeholder='Tipo de local'
             accessibilityLabel='tipo-de-local'
-            option={type}
-            selectedOption={(v) => {setType(v)}}
+            option={gymTypes.find(t => t.id === gym.type)!}
+            selectedOption={(v) => {
+              State.dispatch.profileActions.editGym({...gym, type: v.id});
+            }}
             extractOption={o => ({...o})}
-            options={grades}
+            options={gymTypes}
             openHandlers={[dropdownOpen, setDropdownOpen]}
         />
       </View>
