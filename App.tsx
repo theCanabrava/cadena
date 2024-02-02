@@ -18,7 +18,7 @@ State.configure({
     getGradingSystemOptions: async () =>  [
       {
         id: '1',
-        name: 'Escala Font'
+        name: 'Graduação Francesa'
       },
       {
         id: '2',
