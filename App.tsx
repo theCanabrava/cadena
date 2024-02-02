@@ -11,8 +11,6 @@ if (Platform.OS === 'android') {
 State.configure({
   Profile: {
     registerUser: async (u, g) => {
-      console.log('Mock register of', u);
-      console.log('Selected grade', g);
     },
 
     registerGyms: async () => {},

@@ -6,6 +6,7 @@ import Icon from '../../design-system/icons';
 import Form from './Form';
 import uuid from 'react-native-uuid';
 import wait from '../../design-system/wait';
+import { ClimbingGym } from '../../business-logic/api';
 
 const AddGym = () =>
 {
@@ -91,13 +92,17 @@ const AddGym = () =>
                 State.dispatch.profileActions.removeGym(climbingGyms[page])
               }}
               accessibilityLabel='excluir-academia'
-              status={climbingGyms.length <= 1 ? 'disabled' : 'active'}
+              status={climbingGyms.length > 1 ? 'active' : 'disabled'}
             />
           </View>
           <TextButton
             label='CONTINUAR'
-            onPress={() => {console.log('TODO - Home')}}
+            onPress={async() => {
+              await State.dispatch.profileActions.submitGyms();
+              await State.dispatch.profileActions.logIn();
+            }}
             accessibilityLabel='continuar'
+            status={getRegisterStatus(climbingGyms)}
           />
         </View>
       </View>
@@ -136,6 +141,14 @@ const AddGym = () =>
 }
 
 export default AddGym;
+
+const getRegisterStatus = (gyms: ClimbingGym[]): "active" | "disabled" => {
+  for(let gym of gyms) {
+    if(gym.name === '') return 'disabled';
+    else if(gym.type !== "gym" && gym.type !== "craig") return "disabled";
+  }
+  return 'active';
+}
 
 const styles = StyleSheet.create(
   {

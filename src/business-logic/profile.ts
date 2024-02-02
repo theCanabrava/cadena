@@ -22,7 +22,7 @@ export const profileActions = {
     registerUser: async (username: string, gradingSystem: GradeSystem) => {
     
         await api!.Profile.registerUser(username, gradingSystem);
-        useProfileStore.setState(() => ({username}));
+        useProfileStore.setState(() => ({username, gradingSystem}));
 
     },
 
@@ -51,6 +51,26 @@ export const profileActions = {
         
         useProfileStore.setState(() => ({climbingGyms}));
 
+    },
+
+    submitGyms: async () => {
+        const { climbingGyms } = useProfileStore.getState();
+        await api.Profile.registerGyms(climbingGyms);
+    },
+
+    logIn: () => {
+        
+        const { username, gradingSystem, climbingGyms } = useProfileStore.getState();
+        if(username === undefined) return false;
+        if(gradingSystem === undefined) return false;
+        for(let gym of climbingGyms) {
+            if(gym.name === '') return false;
+            else if(gym.type !== "gym" && gym.type !== "craig") return false;
+        }
+
+        useProfileStore.setState(() => ({loggedIn: true}));
+        return true;
+        
     },
 
     loadState: async () => {
