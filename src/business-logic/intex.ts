@@ -1,9 +1,11 @@
 import { Api, setApi } from "./api";
+import { useClimbingStore } from "./climbing";
 import { useProfileStore, profileActions } from "./profile";
 
 const State = {
     stateHooks: {
-        useProfileStore
+        useProfileStore,
+        useClimbingStore
     },
 
     dispatch: {

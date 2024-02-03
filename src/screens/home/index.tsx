@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useClimbingStore } from '../../business-logic/climbing';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
 import { HomeNavigationProps } from '../../navigator/HomeStack';
@@ -9,9 +10,10 @@ import Latest from './Latest';
 import LetsStart from './LetsStart';
 import Progress from './Progress';
 
-let newUser:boolean = false;
 const Home = () => {
 
+    const { sessions } = useClimbingStore();
+    const newUser = sessions.length === 0;
 
     return (
         <View style={styles.container}>
