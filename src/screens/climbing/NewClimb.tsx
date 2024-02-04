@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Dimensions, LayoutAnimation } from 'react-native';
+import State from '../../business-logic/intex';
 import { Checkbox, DatePicker, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
 import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
@@ -10,10 +11,16 @@ const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const BOTTOM_PADDING = 16
 const NewClimb = () =>
 {
+    const { climbingGyms } = State.stateHooks.useProfileStore();
+    const { currentSession } = State.stateHooks.useClimbingStore();
     const navigation = useNavigation<HomeNavigationProps>();
     const [ routes, setRoutes ] = useState('');
     const [ top, setTop ] = useState(0);
     const [ formStyle, setFormStyle ] = useState({...styles.form})
+
+    useEffect(() => {
+        State.dispatch.climbingActions.startSession(climbingGyms[0]);
+    }, [climbingGyms])
 
     useEffect(() =>
     {
@@ -40,10 +47,10 @@ const NewClimb = () =>
                 <Dropdown
                     label='Local:'
                     placeholder='Aonde você vai escalar?'
-                    option={{id: '1', value: 'Rokaz - Savassi'}}
+                    option={climbingGyms[0]}
                     selectedOption={(v) => {console.log('Selected ', v)}}
-                    options={[{id: '1', value: 'Rokaz - Savassi'}]}
-                    extractOption={o => ({...o})}
+                    options={climbingGyms}
+                    extractOption={o => ({id: o.id, value: o.name})}
                     accessibilityLabel='local'
                     obrigatory
                 />
@@ -87,7 +94,7 @@ const NewClimb = () =>
                     label='Objetivo de vias'
                     accessibilityLabel='objetivo'
                     placeholder='00'
-                    value={routes}
+                    value={currentSession.routeObjective === 0 ? '' : String(currentSession.routeObjective)}
                     setValue={setRoutes}
                     keyboardType='numeric'
                 />

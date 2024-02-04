@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useClimbingStore } from '../../business-logic/climbing';
+import State from '../../business-logic/intex';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
 import { HomeNavigationProps } from '../../navigator/HomeStack';

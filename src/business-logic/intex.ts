@@ -1,5 +1,5 @@
 import { Api, setApi } from "./api";
-import { useClimbingStore } from "./climbing";
+import { climbingActions, useClimbingStore } from "./climbing";
 import { useProfileStore, profileActions } from "./profile";
 
 const State = {
@@ -9,7 +9,8 @@ const State = {
     },
 
     dispatch: {
-        profileActions
+        profileActions,
+        climbingActions
     },
 
     configure: (apiImplementation: Api) => {
