@@ -8,23 +8,22 @@ type DatePickerProps = {
     label: string, 
     accessibilityLabel: string,
     obrigatory?: boolean,
-    starting?: Date,
+    date: Date | undefined,
     onSelected: (d: Date) => void,
-    mode?: 'date' | 'time'
+    mode?: 'date' | 'time',
 }
 const DatePicker = ({
     label, 
     accessibilityLabel, 
     onSelected,
     obrigatory = false,
-    starting,
-    mode = 'date'
+    mode = 'date',
+    date
 }: DatePickerProps) =>
 {
 
     const selectedStyle = {...styles.selected}
     const [open, setOpen] = useState(false)
-    const [date, setDate] = useState<Date | undefined>(starting)
     if(!date) selectedStyle.color = Palette.grey.t600
     
     return (
@@ -59,10 +58,9 @@ const DatePicker = ({
                 modal
                 open={open}
                 date={date ?? new Date()}
-                onConfirm={(date) => {
+                onConfirm={(d) => {
                     setOpen(false)
-                    setDate(date)
-                    onSelected(date)
+                    onSelected(d)
                 }}
                 onCancel={() => {setOpen(false)}}
                 mode={mode}

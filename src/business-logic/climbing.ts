@@ -30,13 +30,25 @@ export const climbingActions = {
         
         const currentSession: Session = {
             place: gym,
-            startTime: new Date(),
-            endTime: new Date(),
+            startTime: getStartingHour(),
+            endTime: getStartingHour(),
             playsAlarm: false,
             routeObjective: 0
         }
 
         useClimbingStore.setState(() => ({ currentSession }))
 
+    },
+
+    editCurrentSession: async (currentSession: Session) => {
+        useClimbingStore.setState(() => ({ currentSession }))
     }
+}
+
+const getStartingHour = () =>
+{
+    const date = new Date();
+    const quarter = Math.floor(date.getMinutes() / 15)
+    date.setMinutes(quarter*15)
+    return date;
 }

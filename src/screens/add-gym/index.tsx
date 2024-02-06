@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createRef } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
-import State from '../../business-logic/intex';
+import State from '../../business-logic';
 import { IconButton, Palette, TextButton } from '../../design-system';
 import Icon from '../../design-system/icons';
 import Form from './Form';

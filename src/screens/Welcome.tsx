@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
-import State from '../business-logic/intex';
+import State from '../business-logic';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../design-system';
 import { LoginNavigationProps } from '../navigator/LoginStack';
 

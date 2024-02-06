@@ -1,5 +1,5 @@
 import { Platform, UIManager } from 'react-native';
-import State from './src/business-logic/intex';
+import State from './src/business-logic';
 import Navigator from './src/navigator';
 
 if (Platform.OS === 'android') {

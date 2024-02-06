@@ -12,6 +12,7 @@
 8. Desabilitar checkbox quando data final não for preenchida
 9. Criar uma tela separada para seleção da via escalada
 10. Passar onClose dos modais para gerenciamento de estados
+12. Desabilitar botão de alarme quando tempo de fim não for selecionado
 
 ## Concluidos
 1. Criar backlog - 15/08/23

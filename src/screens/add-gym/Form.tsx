@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Keyboard } from 'react-native';
-import State from '../../business-logic/intex';
+import State from '../../business-logic';
 import { CircleButton, Dropdown, Input } from '../../design-system';
 
 const Form = ({id}: {id: string}) =>

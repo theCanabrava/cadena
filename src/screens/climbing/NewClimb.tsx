@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Dimensions, LayoutAnimation } from 'react-native';
-import State from '../../business-logic/intex';
+import State from '../../business-logic';
 import { Checkbox, DatePicker, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
 import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
@@ -14,7 +14,6 @@ const NewClimb = () =>
     const { climbingGyms } = State.stateHooks.useProfileStore();
     const { currentSession } = State.stateHooks.useClimbingStore();
     const navigation = useNavigation<HomeNavigationProps>();
-    const [ routes, setRoutes ] = useState('');
     const [ top, setTop ] = useState(0);
     const [ formStyle, setFormStyle ] = useState({...styles.form})
 
@@ -47,8 +46,10 @@ const NewClimb = () =>
                 <Dropdown
                     label='Local:'
                     placeholder='Aonde você vai escalar?'
-                    option={climbingGyms[0]}
-                    selectedOption={(v) => {console.log('Selected ', v)}}
+                    option={currentSession.place}
+                    selectedOption={(place) => {
+                        State.dispatch.climbingActions.editCurrentSession({...currentSession, place})
+                    }}
                     options={climbingGyms}
                     extractOption={o => ({id: o.id, value: o.name})}
                     accessibilityLabel='local'
@@ -58,17 +59,28 @@ const NewClimb = () =>
                 <DatePicker
                     label='Data:'
                     accessibilityLabel='data'
-                    starting={new Date()}
-                    onSelected={d => console.log('Selected', d)}
+                    date={currentSession.startTime}
+                    onSelected={startTime => {
+                        const startHour = getStartingHour();
+                        startTime.setHours(startHour.getHours());
+                        startTime.setMinutes(startHour.getMinutes());
+                        State.dispatch.climbingActions.editCurrentSession(
+                            {...currentSession, startTime, expectedEndTime: undefined}
+                        )
+                    }}
                     obrigatory
                 />
                 <View style={styles.timeContainer}>
                     <View style={styles.timePicker}>
                         <DatePicker
+                            date={currentSession.startTime}
                             label='Inicio:'
                             accessibilityLabel='inicio'
-                            starting={getStartingHour()}
-                            onSelected={d => console.log('Selected', d)}
+                            onSelected={startTime => {
+                                State.dispatch.climbingActions.editCurrentSession(
+                                    {...currentSession, startTime, expectedEndTime: undefined}
+                                )
+                            }}
                             obrigatory
                             mode='time'
                         />
@@ -76,9 +88,24 @@ const NewClimb = () =>
                     <View style={styles.widthSpacer}/>
                     <View style={styles.timePicker}>
                         <DatePicker
+                            date={currentSession.expectedEndTime}
                             label='Fim:'
                             accessibilityLabel='fim'
-                            onSelected={d => console.log('Selected', d)}
+                            onSelected={expectedEndTime => {
+                                expectedEndTime.setDate(currentSession.startTime.getDate());
+                                expectedEndTime.setMonth(currentSession.startTime.getMonth());
+                                expectedEndTime.setFullYear(currentSession.startTime.getFullYear());
+
+                                if(expectedEndTime.getTime() < currentSession.startTime.getTime()) {
+                                    State.dispatch.climbingActions.editCurrentSession(
+                                        {...currentSession, expectedEndTime: undefined}
+                                    )
+                                } else {
+                                    State.dispatch.climbingActions.editCurrentSession(
+                                        {...currentSession, expectedEndTime }
+                                    )
+                                }
+                            }}
                             mode='time'
                         />
                     </View>
@@ -86,7 +113,9 @@ const NewClimb = () =>
                 <View style={{height: 4}}/>
                 <Checkbox
                     label='Tocar alarme quando seção terminar'
-                    onChecked={(c) => console.log('Checked', c)}
+                    onChecked={(playsAlarm) => {
+                        State.dispatch.climbingActions.editCurrentSession({...currentSession, playsAlarm})
+                    }}
                     accessibilityLabel='alarme'
                 />
                 <View style={{height: 8}}/>
@@ -95,7 +124,9 @@ const NewClimb = () =>
                     accessibilityLabel='objetivo'
                     placeholder='00'
                     value={currentSession.routeObjective === 0 ? '' : String(currentSession.routeObjective)}
-                    setValue={setRoutes}
+                    setValue={(v) => {
+                        State.dispatch.climbingActions.editCurrentSession({...currentSession, routeObjective: Number(v)})
+                    }}
                     keyboardType='numeric'
                 />
             </View>
