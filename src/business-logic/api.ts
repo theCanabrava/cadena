@@ -6,6 +6,13 @@ const mockApi = {
             return options;
         },
         registerGyms: async (gyms: ClimbingGym[]) => {},
+    },
+
+    Climbing: {
+        getGrades: async(system: GradeSystem) => {
+            const options: Grade[] = [];
+            return options;
+        }
     }
 }
 

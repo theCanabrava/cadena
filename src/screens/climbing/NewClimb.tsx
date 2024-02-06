@@ -117,6 +117,7 @@ const NewClimb = () =>
                         State.dispatch.climbingActions.editCurrentSession({...currentSession, playsAlarm})
                     }}
                     accessibilityLabel='alarme'
+                    disabled={currentSession.expectedEndTime === undefined}
                 />
                 <View style={{height: 8}}/>
                 <Input

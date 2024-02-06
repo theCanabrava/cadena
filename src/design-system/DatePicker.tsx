@@ -64,6 +64,10 @@ const DatePicker = ({
                 }}
                 onCancel={() => {setOpen(false)}}
                 mode={mode}
+                title={mode === 'date' ? 'Selecionar data' : 'Selecionar hora'}
+                cancelText="Cancelar"
+                confirmText="Confirmar"
+                locale='pt-BR'
             />
         </>
       

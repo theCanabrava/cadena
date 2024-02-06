@@ -7,11 +7,13 @@ type CheckboxProps =
 {
     label: string,
     onChecked: (c: boolean) => void,
-    accessibilityLabel: string
+    accessibilityLabel: string,
+    disabled?: boolean
 }
-const Checkbox = ({label, onChecked, accessibilityLabel}: CheckboxProps) =>
+const Checkbox = ({label, onChecked, accessibilityLabel, disabled = false}: CheckboxProps) =>
 {
     const [ checked, setChecked ] = useState(false);
+    const color = disabled ? Palette.grey.t600 : Palette.deepPurple.t900;
 
     return (
         <TouchableOpacity
@@ -20,15 +22,16 @@ const Checkbox = ({label, onChecked, accessibilityLabel}: CheckboxProps) =>
                 onChecked(!checked)
             }}
             accessibilityLabel={accessibilityLabel}
+            disabled={disabled}
         >
             <View style={styles.container}>
                 <Icon
                     source={checked ? 'check-filled' : 'check-empty'}
                     height={16}
                     width={16}
-                    primary={Palette.deepPurple.t900}
+                    primary={color}
                 />
-                <Text style={styles.text}>
+                <Text style={[styles.text, { color }]}>
                     {label}
                 </Text>
             </View>

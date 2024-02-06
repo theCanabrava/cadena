@@ -1,14 +1,17 @@
 import { create } from "zustand";
-import { ClimbingGym, Session } from "./api";
+import { api, ClimbingGym, Grade, Session } from "./api";
+import { useProfileStore } from "./profile";
 
 type ClimbingState = {
     routes: any[],
+    grades: Grade[],
     sessions: Session[],
     currentSession: Session,
 }
 
 export const useClimbingStore = create<ClimbingState>(() => ({
     routes: [],
+    grades: [],
     sessions: [],
     currentSession: {
         place: {
@@ -25,6 +28,15 @@ export const useClimbingStore = create<ClimbingState>(() => ({
 }))
 
 export const climbingActions = {
+
+    loadGrades: async () => {
+        const { gradingSystem } = useProfileStore.getState();
+        
+        if(gradingSystem) {
+            const grades = await api.Climbing.getGrades(gradingSystem);
+            useClimbingStore.setState(() => ({ grades }))
+        }
+    },
 
     startSession: async (gym: ClimbingGym) => {
         

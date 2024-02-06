@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import State from '../../business-logic';
+import { Grade } from '../../business-logic/api';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
 import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
@@ -11,6 +13,12 @@ const NewRoute = () =>
     const [ showCamera, setShowCamera ] = useState(true);
     const [ formStyle ] = useState({...styles.form});
     const navigation = useNavigation<HomeNavigationProps>();
+    const { grades } = State.stateHooks.useClimbingStore();
+    const [ selectedGrade, setSelectedGrade ] = useState<Grade>({name: '', hardness: 0, pallete: Palette.mono, systemId: '-1'});
+
+    useEffect(() => {
+        State.dispatch.climbingActions.loadGrades();
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -27,11 +35,11 @@ const NewRoute = () =>
                     <View style={styles.gradeDropdown}>
                         <Dropdown
                             label='Graduação:'
-                            placeholder='4+'
-                            option={{id: '1', value: ''}}
-                            selectedOption={(v) => {console.log('Selected ', v)}}
-                            extractOption={o => ({...o})}
-                            options={[{id: '1', value: '4+'}]}
+                            placeholder={grades[0]?.name ?? '4+'}
+                            option={selectedGrade}
+                            selectedOption={setSelectedGrade}
+                            extractOption={o => ({id: o.name, value: o.name})}
+                            options={grades}
                             accessibilityLabel='graduação'
                             obrigatory
                         />
@@ -74,6 +82,7 @@ const NewRoute = () =>
                     label='CADASTRAR'
                     accessibilityLabel='cadastrar'
                     onPress={() => navigation.goBack()}
+                    status={selectedGrade.name !== '' ? 'disabled' : 'active'}
                 />
             </View>
         </View>
