@@ -6,19 +6,48 @@ import { Grade } from '../../business-logic/api';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
 import { HomeNavigationProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
+import uuid from 'react-native-uuid';
+
+type Modality = {id: 'top-rope' | 'lead', value: string}
+const modalities: Modality[] = [
+    {
+        id: 'top-rope',
+        value: 'Top Rope',
+    },
+    {
+        id: 'lead',
+        value: 'Guiada'
+    }
+];
 
 const NewRoute = () =>
 {
     const [ name, setName ] = useState('');
+    const [ selectedGrade, setSelectedGrade ] = useState<Grade>({name: '', hardness: 0, pallete: Palette.mono, systemId: '-1'});
+    const [ modality, setModality ] = useState<Modality>({id: 'top-rope', value: ''});
     const [ showCamera, setShowCamera ] = useState(true);
     const [ formStyle ] = useState({...styles.form});
     const navigation = useNavigation<HomeNavigationProps>();
-    const { grades } = State.stateHooks.useClimbingStore();
-    const [ selectedGrade, setSelectedGrade ] = useState<Grade>({name: '', hardness: 0, pallete: Palette.mono, systemId: '-1'});
+    const { grades, currentSession } = State.stateHooks.useClimbingStore();
 
     useEffect(() => {
         State.dispatch.climbingActions.loadGrades();
-    }, [])
+    }, []);
+
+    const saveRoute = async () => {
+        await State.dispatch.climbingActions.saveRoute(
+            {
+                gymId: currentSession.place.id,
+                grade: selectedGrade,
+                name,
+                id: String(uuid.v4()),
+                mode: modality.id,
+                retired: false
+            }
+        )
+
+        navigation.goBack();
+    }
 
     return (
         <View style={styles.container}>
@@ -58,10 +87,10 @@ const NewRoute = () =>
                 <Dropdown
                     label='Modalidade:'
                     placeholder='Top rope'
-                    option={{id: '1', value: ''}}
-                    selectedOption={(v) => {console.log('Selected ', v)}}
+                    option={modality}
+                    selectedOption={(v) => {setModality(v)}}
                     extractOption={o => ({...o})}
-                    options={[{id: '1', value: 'Top rope'}]}
+                    options={modalities}
                     accessibilityLabel='graduação'
                     obrigatory
                 />
@@ -81,8 +110,8 @@ const NewRoute = () =>
                 <TextButton
                     label='CADASTRAR'
                     accessibilityLabel='cadastrar'
-                    onPress={() => navigation.goBack()}
-                    status={selectedGrade.name !== '' ? 'disabled' : 'active'}
+                    onPress={saveRoute}
+                    status={selectedGrade.name !== '' && name !== '' && modality.value !== '' ? 'active' : 'disabled'}
                 />
             </View>
         </View>

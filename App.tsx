@@ -74,7 +74,10 @@ State.configure({
           pallete: Palette.green
         },
       ]
-    }
+    },
+
+    getRoutes: async () => [],
+    saveRoutes: async () => {},
   }
 })
 

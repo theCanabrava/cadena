@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
+import State from '../../../business-logic';
 import { Palette, TextButton } from '../../../design-system';
 import Header from '../../shared/Header';
 import AddClimbModal from './AddClimbModal';
@@ -10,6 +11,11 @@ const Session = () =>
 {
 
     const [modals, setModals] = useState({add: false, finish: false});
+    const { currentSession, routes } = State.stateHooks.useClimbingStore();
+
+    useEffect(() => {
+        State.dispatch.climbingActions.loadRoutes(currentSession.place);
+    }, []);
 
     return (
         <>

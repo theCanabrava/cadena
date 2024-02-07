@@ -10,9 +10,16 @@ const mockApi = {
 
     Climbing: {
         getGrades: async(system: GradeSystem) => {
-            const options: Grade[] = [];
-            return options;
-        }
+            const grades: Grade[] = [];
+            return grades;
+        },
+
+        getRoutes: async(gym: ClimbingGym) => {
+            const routes: Route[] = [];
+            return routes;
+        },
+
+        saveRoutes: async (routes: Route[]) => {}
     }
 }
 
@@ -56,7 +63,7 @@ export type Grade = {
     systemId: GradeSystem["id"],
     hardness: number,
     name: string,
-    pallete: Pallete
+    readonly pallete: Pallete
 }
 
 export type Session = {
@@ -66,4 +73,13 @@ export type Session = {
     endTime: Date,
     playsAlarm: boolean,
     routeObjective: number,
+}
+
+export type Route = {
+    gymId: ClimbingGym["id"],
+    grade: Grade,
+    name: string,
+    id: string,
+    mode: 'boulder' | 'top-rope' | 'lead',
+    retired: boolean
 }
