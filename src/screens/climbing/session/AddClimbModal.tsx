@@ -2,45 +2,23 @@ import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
+import { Attempt, Route } from '../../../business-logic/api';
 import { Checkbox, Dropdown, IconButton, Pagination, Palette, Slider, TextButton } from '../../../design-system';
 import { HomeNavigationProps } from '../../../navigator/HomeStack';
+import uuid from 'react-native-uuid';
+import State from '../../../business-logic';
 
-type Route = {id: string, name: string, value: number, status: 'unfinished' | 'worked' | 'redpoint' | 'onsight'};
 const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
 const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     if(!display) return null;
-    const [routes, setRoutes] = useState<Route[]>([
+    const [routes, setRoutes] = useState<Attempt[]>([
         {
-            id: '1',
-            name: '',
-            value: 3,
+            id: String(uuid.v4()),
+            route: undefined,
+            dificulty: 3,
             status: 'unfinished'
-        },
-        {
-            id: '2',
-            name: '',
-            value: 3,
-            status: 'unfinished'
-        },
-        {
-            id: '3',
-            name: '',
-            value: 3,
-            status: 'unfinished'
-        },
-        {
-            id: '4',
-            name: '',
-            value: 3,
-            status: 'unfinished'
-        },
-        {
-            id: '5',
-            name: '',
-            value: 3,
-            status: 'unfinished'
-        },
+        }
 
     ]);
 
@@ -63,9 +41,9 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                             keyExtractor={(r) => r.id}
                             renderItem={({item}) => 
                                 <RoutePage
-                                    value={item.value}
+                                    value={item.dificulty}
                                     setValue={(v) => {
-                                        item.value = v;
+                                        item.dificulty = v;
                                         setRoutes( [...routes]);
                                     }} 
                                     last={item.id === routes[routes.length-1].id}         
@@ -108,8 +86,22 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
     )
 }
 
-const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (v: number) => void, last: boolean, onClose: () => void}) => {
+const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (v: 1 | 2 | 3 | 4 | 5) => void, last: boolean, onClose: () => void}) => {
 
+    const { routes } = State.stateHooks.useClimbingStore();
+    const [option, setOption] = useState<Route>({
+        id: '-1', 
+        gymId: '-1', 
+        grade: {
+            systemId: '-1', 
+            hardness: 0, 
+            name: '',
+            pallete: Palette.deepPurple
+        },
+        name: '',
+        mode: 'boulder',
+        retired: false
+    })
     const navigation = useNavigation<HomeNavigationProps>();
     const pageStyle = {
         ...styles.routePage,
@@ -122,12 +114,12 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
             <Dropdown
                 label='Via:'
                 placeholder='Via escalada'
-                option={{id: "-1", value: ""}}
-                options={[]}
-                selectedOption={(o) => {}}
-                extractOption={o => ({...o})}
+                option={option}
+                options={routes}
+                selectedOption={setOption}
+                extractOption={o => ({id: o.id, value: o.id !== '-1' ? `${o.grade.name} - ${o.name}` : ''})}
                 accessibilityLabel='via-escalada'
-                description='Você pode pesquisar pela graguação ou nome da via'
+                description='Você pode pesquisar pela graguação ou nome da via (Na verdade, não, foi mal...)'
                 action={{
                     title: '+ ADICIONAR VIA',
                     onPress: () => {
@@ -139,7 +131,10 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
             />
             <Slider
                 value={value}
-                setValue={setValue}
+                setValue={(v) => {
+                    if(v < 1 || v > 5) setValue(1);
+                    else setValue(v as (1 | 2 | 3 | 4 | 5));
+                }}
                 label='Esforço'
                 accessibilityLabel='esforço'
             />

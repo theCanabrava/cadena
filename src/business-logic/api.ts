@@ -73,6 +73,7 @@ export type Session = {
     endTime: Date,
     playsAlarm: boolean,
     routeObjective: number,
+    attempts: Attempt[],
 }
 
 export type Route = {
@@ -82,4 +83,11 @@ export type Route = {
     id: string,
     mode: 'boulder' | 'top-rope' | 'lead',
     retired: boolean
+}
+
+export type Attempt = {
+    id: string;
+    route?: Route;
+    dificulty: 1 | 2 | 3 | 4 | 5;
+    status: 'unfinished' | 'worked' | 'redpoint' | 'onsight';
 }

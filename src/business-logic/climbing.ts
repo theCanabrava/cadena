@@ -23,7 +23,8 @@ export const useClimbingStore = create<ClimbingState>(() => ({
         startTime: new Date(),
         endTime: new Date(),
         playsAlarm: false,
-        routeObjective: 0
+        routeObjective: 0,
+        attempts: [],
     }
 }))
 
@@ -52,7 +53,8 @@ export const climbingActions = {
             startTime: getStartingHour(),
             endTime: getStartingHour(),
             playsAlarm: false,
-            routeObjective: 0
+            routeObjective: 0,
+            attempts: []
         }
 
         useClimbingStore.setState(() => ({ currentSession }))
