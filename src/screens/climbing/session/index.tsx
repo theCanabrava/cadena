@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, Modal } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Modal, Alert } from 'react-native';
 import State from '../../../business-logic';
 import { Palette, TextButton } from '../../../design-system';
 import Header from '../../shared/Header';
 import AddClimbModal from './AddClimbModal';
 import FinishClimbModal from './FinishClimbModal';
+import FormatDate from './FormatDate';
 import RouteCell from './RouteCell';
 
 const Session = () =>
@@ -53,34 +54,71 @@ const Session = () =>
 
 const SessionDetails = () =>
 {
+
+    const { currentSession } = State.stateHooks.useClimbingStore();
+    const [ remainingTime, setRemainintTime ] = useState('00:00');
+    const [ expired, setExpired ] = useState(false);
+
+    useEffect(() => {
+
+        if(currentSession.expectedEndTime !== undefined) {
+            let interval = setInterval(() => {
+                const now = new Date();
+                const remainingMs = currentSession.expectedEndTime!.getTime() - now.getTime();
+                const remainingMinutes = (Math.floor(remainingMs / ( 1000 * 60 )) % 60) + 1;
+                const remainingHours = Math.floor(remainingMs / ( 1000 * 60 * 60 ));
+
+                setRemainintTime(`${remainingHours}:${String(remainingMinutes).padStart(2, '0')}`);
+                if(remainingMs < 0) {
+                    setExpired(true);
+                    setRemainintTime('00:00');
+                    clearInterval(interval);
+                    if(currentSession.playsAlarm) Alert.alert("Tempo expirado", "Hora de mandar sua via e se mandar.");
+                }
+
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+
+    }, [])
+
     return (
         <View style={styles.details}>
             <Text style={styles.detailTitle}>
-                Data: <Text style={styles.detailValue}>24/03/2023</Text>
+                Data: <Text style={styles.detailValue}>{FormatDate.toDay(currentSession.startTime)}</Text>
             </Text>
             <View style={styles.timeRow}>
                 <Text style={styles.detailTitle}>
-                    Início: <Text style={styles.detailValue}>08:00</Text>
+                    Início: <Text style={styles.detailValue}>{FormatDate.toHour(currentSession.startTime)}</Text>
                 </Text>
-                <Text style={[styles.detailTitle, styles.end]}>
-                    Fim: <Text style={styles.detailValue}>09:00</Text>
-                </Text>
-                <Text style={[styles.detailTitle, styles.detailPurple, styles.remaining]}>
-                    Restante: <Text style={styles.detailValue}>00:47</Text>
-                </Text>
+                {
+                    currentSession.expectedEndTime !== undefined &&
+                    <>
+                        <Text style={[styles.detailTitle, styles.end]}>
+                            Fim: <Text style={styles.detailValue}>{FormatDate.toHour(currentSession.expectedEndTime)}</Text>
+                        </Text>
+                        <Text style={[styles.detailTitle, styles.detailPurple, styles.remaining]}>
+                            Restante: <Text style={styles.detailValue}>{remainingTime}</Text>
+                        </Text>
+                    </>
+                }
             </View>
             <Text style={styles.detailTitle}>
-                Vias escaladas: <Text style={styles.detailValue}>3</Text>
+                Vias escaladas: <Text style={styles.detailValue}>{currentSession.attempts.length}</Text>
             </Text>
-            <View style={styles.progressContainer}>
-                <View style={styles.progressBar}>
-                    <View style={styles.filled}/>
-                    <View style={styles.unfilled}/>
+            {
+                currentSession.routeObjective > 0 &&
+                <View style={styles.progressContainer}>
+                    <View style={styles.progressBar}>
+                        <View style={styles.filled}/>
+                        <View style={styles.unfilled}/>
+                    </View>
+                    <Text style={styles.ammount}>
+                        {currentSession.routeObjective}
+                    </Text>
                 </View>
-                <Text style={styles.ammount}>
-                    10
-                </Text>
-            </View>
+            }
         </View>
     );
 }
