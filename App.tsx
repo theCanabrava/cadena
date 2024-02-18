@@ -35,43 +35,43 @@ State.configure({
           systemId: '2',
           name: '4',
           hardness: 1,
-          pallete: Palette.deepPurple
+          palette: Palette.deepPurple
         },
         {
           systemId: '2',
           name: '4+',
           hardness: 2,
-          pallete: Palette.deepPurple
+          palette: Palette.deepPurple
         },
         {
           systemId: '2',
           name: '5',
           hardness: 3,
-          pallete: Palette.orange
+          palette: Palette.orange
         },
         {
           systemId: '2',
           name: '5+',
           hardness: 4,
-          pallete: Palette.orange
+          palette: Palette.orange
         },
         {
           systemId: '2',
           name: '6a',
           hardness: 5,
-          pallete: Palette.green
+          palette: Palette.green
         },
         {
           systemId: '2',
           name: '6b',
           hardness: 6,
-          pallete: Palette.green
+          palette: Palette.green
         },
         {
           systemId: '2',
           name: '6c',
           hardness: 7,
-          pallete: Palette.green
+          palette: Palette.green
         },
       ]
     },

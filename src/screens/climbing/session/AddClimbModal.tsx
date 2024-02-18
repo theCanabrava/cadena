@@ -96,7 +96,7 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
             systemId: '-1', 
             hardness: 0, 
             name: '',
-            pallete: Palette.deepPurple
+            palette: Palette.deepPurple
         },
         name: '',
         mode: 'boulder',

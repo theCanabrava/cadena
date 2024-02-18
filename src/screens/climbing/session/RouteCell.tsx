@@ -1,23 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import State from '../../../business-logic';
 import { Icon, Palette } from '../../../design-system';
 
-const routes = [
-    { id: '1', name: 'Arestless', grade: '4', efort: 1, status: 'Encadenado', palette: Palette.deepPurple },
-    { id: '2', name: 'Arestida', grade: '5+', efort: 2, status: 'Encadenado', palette: Palette.orange },
-    { id: '3', name: 'Arestuda', grade: '6B', efort: 3, status: 'Trabalhado', palette: Palette.green },
-    { id: '4', name: 'Twister', grade: '7A', efort: 5, status: '', palette: {...Palette.grey, t300: Palette.grey.t400}  },
-]
-type RouteCellProps = {
-    palette: {
-        t50: string,
-        t300: string,
-        t600: string,
-        t900: string
-    }
-}
 const RouteCell = ({id}: {id: string}) => {
 
-    const { name, grade, palette, efort, status } = routes.find(r => r.id === id) ?? routes[0];
+    const { attempts } = State.stateHooks.useClimbingStore(s => s.currentSession);
+    const index = attempts.findIndex(a => a.id === id);
+
+    if(index === -1) return null;
+
+    const { route, dificulty, status } = attempts[index];
+    const { palette } = route!.grade;
 
     const cellStyle = { ...styles.cell, backgroundColor: palette.t50, borderColor: palette.t600 };
     const routePictureStyle = { ...styles.routePicture, backgroundColor: palette.t600 };
@@ -38,7 +31,7 @@ const RouteCell = ({id}: {id: string}) => {
             <View style={styles.cellContent}>
                 <View style={cellHeaderStyle}>
                     <Text style={cellTitleStyle}>
-                        {grade} - {name}
+                        {route!.grade!.name} - {route?.name}
                     </Text>
                     <TouchableOpacity style={styles.editCell} onPress={() => {}}>
                         <Icon
@@ -50,7 +43,7 @@ const RouteCell = ({id}: {id: string}) => {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.section}>
-                    Esforço: <Text style={styles.sectionValue}>{efort}</Text>
+                    Esforço: <Text style={styles.sectionValue}>{dificulty}</Text>
                 </Text>
                 <Text style={styles.section}>
                     {status}

@@ -18,6 +18,8 @@ const Session = () =>
         State.dispatch.climbingActions.loadRoutes(currentSession.place);
     }, []);
 
+    const attemptCells = currentSession.attempts.map(a => <RouteCell key={a.id} id={a.id}/>);
+
     return (
         <>
             <View style={styles.container}>
@@ -32,10 +34,7 @@ const Session = () =>
                             status='outlined'
                         />
                     </View>
-                    <RouteCell id='1'/>
-                    <RouteCell id='2'/>
-                    <RouteCell id='3'/>
-                    <RouteCell id='4'/>
+                    { attemptCells.length === 0 ? <LetsStart/> : attemptCells }
                 </ScrollView>
                     <View style={styles.endContainer}>
                         <TextButton
@@ -58,6 +57,16 @@ const SessionDetails = () =>
     const { currentSession } = State.stateHooks.useClimbingStore();
     const [ remainingTime, setRemainintTime ] = useState('00:00');
     const [ expired, setExpired ] = useState(false);
+
+    const filledStyle = { ...styles.filled };
+    const unfilledStyle = { ...styles.unfilled };
+
+    if(currentSession.routeObjective > 0) {
+        unfilledStyle.flex = currentSession.routeObjective - currentSession.attempts.length;
+        filledStyle.flex = currentSession.attempts.length;
+
+        if(unfilledStyle.flex < 0) unfilledStyle.flex = 0;
+    }
 
     useEffect(() => {
 
@@ -111,8 +120,8 @@ const SessionDetails = () =>
                 currentSession.routeObjective > 0 &&
                 <View style={styles.progressContainer}>
                     <View style={styles.progressBar}>
-                        <View style={styles.filled}/>
-                        <View style={styles.unfilled}/>
+                        <View style={filledStyle}/>
+                        <View style={unfilledStyle}/>
                     </View>
                     <Text style={styles.ammount}>
                         {currentSession.routeObjective}
