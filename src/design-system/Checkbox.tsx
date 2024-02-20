@@ -6,27 +6,30 @@ import Palette from './Palette';
 type CheckboxProps =
 {
     label: string,
+    isChecked?: boolean
     onChecked: (c: boolean) => void,
     accessibilityLabel: string,
     disabled?: boolean
 }
-const Checkbox = ({label, onChecked, accessibilityLabel, disabled = false}: CheckboxProps) =>
+const Checkbox = ({label, isChecked, onChecked, accessibilityLabel, disabled = false}: CheckboxProps) =>
 {
     const [ checked, setChecked ] = useState(false);
     const color = disabled ? Palette.grey.t600 : Palette.deepPurple.t900;
 
+    let validCheck = isChecked !== undefined ? isChecked : checked;
+
     return (
         <TouchableOpacity
             onPress={() => {
-                setChecked(!checked)
-                onChecked(!checked)
+                setChecked(!validCheck)
+                onChecked(!validCheck)
             }}
             accessibilityLabel={accessibilityLabel}
             disabled={disabled}
         >
             <View style={styles.container}>
                 <Icon
-                    source={checked ? 'check-filled' : 'check-empty'}
+                    source={validCheck ? 'check-filled' : 'check-empty'}
                     height={16}
                     width={16}
                     primary={color}

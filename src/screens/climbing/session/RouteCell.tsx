@@ -50,7 +50,7 @@ const RouteCell = ({id}: {id: string}) => {
                 </Text>
             </View>
             <Text style={routeNumberStyle}>
-                #{id}
+                #{index+1}
             </Text>
         </View>
     )

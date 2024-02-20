@@ -23,7 +23,7 @@ const modalities: Modality[] = [
 const NewRoute = () =>
 {
     const [ name, setName ] = useState('');
-    const [ selectedGrade, setSelectedGrade ] = useState<Grade>({name: '', hardness: 0, pallete: Palette.mono, systemId: '-1'});
+    const [ selectedGrade, setSelectedGrade ] = useState<Grade>({name: '', hardness: 0, palette: Palette.mono, systemId: '-1'});
     const [ modality, setModality ] = useState<Modality>({id: 'top-rope', value: ''});
     const [ showCamera, setShowCamera ] = useState(true);
     const [ formStyle ] = useState({...styles.form});

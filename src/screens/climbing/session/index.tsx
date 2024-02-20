@@ -12,7 +12,7 @@ const Session = () =>
 {
 
     const [modals, setModals] = useState({add: false, finish: false});
-    const { currentSession, routes } = State.stateHooks.useClimbingStore();
+    const { currentSession } = State.stateHooks.useClimbingStore();
 
     useEffect(() => {
         State.dispatch.climbingActions.loadRoutes(currentSession.place);

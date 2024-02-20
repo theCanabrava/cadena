@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { api, ClimbingGym, Grade, Route, Session } from "./api";
+import { api, Attempt, ClimbingGym, Grade, Route, Session } from "./api";
 import { useProfileStore } from "./profile";
 
 type ClimbingState = {
@@ -83,6 +83,12 @@ export const climbingActions = {
         await api.Climbing.saveRoutes([...routes]);
         useClimbingStore.setState(() => ({routes: [...routes]}));
 
+    },
+
+    addAttemptsToSession: async(attempts: Attempt[]) => {
+        const { currentSession } = useClimbingStore.getState();
+        currentSession.attempts = [ ...currentSession.attempts, ...attempts ];
+        useClimbingStore.setState(() => ({ currentSession: {...currentSession}}));
     }
 }
 

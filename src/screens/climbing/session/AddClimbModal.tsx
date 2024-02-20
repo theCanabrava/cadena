@@ -12,15 +12,15 @@ const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
 const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     if(!display) return null;
-    const [routes, setRoutes] = useState<Attempt[]>([
+    const [attempts, setAttempts] = useState<Attempt[]>([
         {
             id: String(uuid.v4()),
             route: undefined,
             dificulty: 3,
             status: 'unfinished'
         }
-
     ]);
+    const [page, setPage] = useState(0);
 
     return (
         <>
@@ -37,26 +37,36 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                 <View style={styles.modalContainer}>
                     <View style={styles.modalCard}>
                         <FlatList
-                            data={routes}
+                            data={attempts}
                             keyExtractor={(r) => r.id}
-                            renderItem={({item}) => 
+                            renderItem={({item, index}) => 
                                 <RoutePage
-                                    value={item.dificulty}
-                                    setValue={(v) => {
-                                        item.dificulty = v;
-                                        setRoutes( [...routes]);
+                                    attempt={item}
+                                    setAttempt={(v) => {
+                                        attempts[index] = v;
+                                        setAttempts( [...attempts]);
                                     }} 
-                                    last={item.id === routes[routes.length-1].id}         
+                                    last={item.id === attempts[attempts.length-1].id}         
                                     onClose={onClose}                  
                                 />
                             }
                             horizontal
                             snapToInterval={PAGE_WIDTH}
                             showsHorizontalScrollIndicator={false}
+                            onScroll={(e) => {
+                                const x = e.nativeEvent.contentOffset.x;
+                                const page = Math.round(x/PAGE_WIDTH);
+                                setPage(page)
+                            }}
+                            getItemLayout={(_, index) => ({
+                                length: PAGE_WIDTH,
+                                offset: PAGE_WIDTH * (index), 
+                                index,
+                            })}
                         />
                         <Pagination
-                            page={0}
-                            length={3}
+                            page={page}
+                            length={attempts.length}
                         />
                         <View style={styles.routeRow}>
                             <View style={styles.dashboardButton}>
@@ -75,7 +85,10 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                         </View>
                         <TextButton
                             label='CONFIRMAR'
-                            onPress={() => onClose()}
+                            onPress={() => {
+                                State.dispatch.climbingActions.addAttemptsToSession(attempts);
+                                onClose();
+                            }}
                             accessibilityLabel='incluir-mais-via'
                             status='outlined'
                         />
@@ -86,7 +99,13 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
     )
 }
 
-const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (v: 1 | 2 | 3 | 4 | 5) => void, last: boolean, onClose: () => void}) => {
+type RoutePageProps = {
+    attempt: Attempt,
+    setAttempt: (a: Attempt) => void,
+    last: boolean,
+    onClose: () => void,
+}
+const RoutePage = ({attempt, setAttempt, last, onClose}: RoutePageProps) => {
 
     const { routes } = State.stateHooks.useClimbingStore();
     const [option, setOption] = useState<Route>({
@@ -116,7 +135,10 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
                 placeholder='Via escalada'
                 option={option}
                 options={routes}
-                selectedOption={setOption}
+                selectedOption={(o) => {
+                    setOption(o);
+                    setAttempt({...attempt, route: o});
+                }}
                 extractOption={o => ({id: o.id, value: o.id !== '-1' ? `${o.grade.name} - ${o.name}` : ''})}
                 accessibilityLabel='via-escalada'
                 description='Você pode pesquisar pela graguação ou nome da via (Na verdade, não, foi mal...)'
@@ -130,10 +152,11 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
                 shift={{x: -2, y: -2}}
             />
             <Slider
-                value={value}
+                value={attempt.dificulty}
                 setValue={(v) => {
-                    if(v < 1 || v > 5) setValue(1);
-                    else setValue(v as (1 | 2 | 3 | 4 | 5));
+                    const dificulty = v as (1 | 2 | 3 | 4 | 5)
+                    if(v < 1 || v > 5) setAttempt({...attempt, dificulty: 1});
+                    else setAttempt({...attempt, dificulty});
                 }}
                 label='Esforço'
                 accessibilityLabel='esforço'
@@ -141,13 +164,21 @@ const RoutePage = ({value, setValue, last, onClose}: {value: number, setValue: (
             <View style={styles.checkboxRow}>
                 <Checkbox
                     label='Cadena'
-                    onChecked={() => {}}
+                    isChecked={attempt.status === 'redpoint' || attempt.status === 'onsight'}
+                    onChecked={(c) => {
+                        if(c) setAttempt({...attempt, status: 'redpoint'});
+                        else setAttempt({...attempt, status: 'worked'});
+                    }}
                     accessibilityLabel='cadena'
                 />
                 <Checkbox
-                    label='Trabalhado'
-                    onChecked={() => {}}
-                    accessibilityLabel='trabalhado'
+                    label='Finalizado'
+                    isChecked={attempt.status === 'redpoint' || attempt.status === 'onsight' || attempt.status === 'worked'}
+                    onChecked={(c) => {
+                        if(c) setAttempt({...attempt, status: 'worked'});
+                        else setAttempt({...attempt, status: 'unfinished'});
+                    }}
+                    accessibilityLabel='finalizado'
                 />
             </View>
         </View>

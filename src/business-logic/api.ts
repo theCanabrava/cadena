@@ -47,7 +47,7 @@ export type GradeSystem = {
     name: string
 }
 
-type Pallete = {
+type Palette = {
     t50: string,
     t100: string,
     t200: string,
@@ -63,7 +63,7 @@ export type Grade = {
     systemId: GradeSystem["id"],
     hardness: number,
     name: string,
-    readonly pallete: Pallete
+    readonly palette: Palette
 }
 
 export type Session = {
