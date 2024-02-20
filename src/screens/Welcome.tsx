@@ -2,13 +2,14 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import State from '../business-logic';
+import { GradeSystem } from '../business-logic/api';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../design-system';
 import { LoginNavigationProps } from '../navigator/LoginStack';
 
 const Welcome = () =>
 {
   const [ username, setUsername ] = useState('');
-  const [ grade, setGrade ] = useState({id: '-1', name: ''});
+  const [ grade, setGrade ] = useState<GradeSystem | undefined>();
   const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const [ showCameraButton, setShowCameraButton ] = useState(true)
   const { gradingSystemOptions } = State.stateHooks.useProfileStore();
@@ -41,7 +42,7 @@ const Welcome = () =>
             value={username}
             setValue={setUsername}
             onStart={() => { setShowCameraButton(false) }}
-            onDone={() => { if(grade.id === '-1') setDropdownOpen(true); }}
+            onDone={() => { if(grade !== undefined) setDropdownOpen(true); }}
         />
         <View style={styles.spacer}/>
         <Dropdown
@@ -69,11 +70,11 @@ const Welcome = () =>
         <TextButton
           label='REGISTRAR'
           onPress={async () => {
-            await State.dispatch.profileActions.registerUser(username, grade);
+            await State.dispatch.profileActions.registerUser(username, grade!);
             navigation.navigate('login/add-gym');
           }}
           accessibilityLabel='registrar'
-          status={username.length > 0 && grade.id !== '-1' ? 'active' : 'disabled'}
+          status={username.length > 0 && grade !== undefined ? 'active' : 'disabled'}
         />
       </View>
     </View>

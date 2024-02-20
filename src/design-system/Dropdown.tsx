@@ -1,100 +1,51 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { Dispatch, SetStateAction, ReactElement, useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import Icon from "./icons";
 import Palette from "./Palette";
 
-type InputProps<T> = { 
-    label: string, 
-    placeholder: string, 
-    option: T, 
-    selectedOption: (v: T) => void, 
-    accessibilityLabel: string,
+type DropdownProps<T> = { 
+    option?: T, 
     options: T[],
     extractOption: (d: T) => {id: string, value: string},
-    openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
+    selectedOption: (v: T) => void, 
+    label: string, 
+    placeholder: string, 
+    accessibilityLabel: string,
     obrigatory?: boolean,
     description?: string,
-    action?: {
-        title: string,
-        onPress: () => void
-    },
-    shift?: {
-        x: number,
-        y: number
-    }
+    header?: ReactElement,
+    renderCell?: (o: T, onPress: () => void) => ReactElement,
+    openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
 }
-function Input<T> ({
-    label, 
-    placeholder, 
-    option, 
-    selectedOption, 
-    accessibilityLabel, 
-    options, 
+function Dropdown<T> ({
+    option,
+    options,
     extractOption,
-    openHandlers = useState(false),
-    obrigatory = false,
+    selectedOption,
+    label,
+    placeholder,
+    accessibilityLabel,
+    obrigatory,
     description,
-    action,
-    shift = {x: 0, y: 0}
-}: InputProps<T>)
+    renderCell,
+    openHandlers = useState(false),
+}: DropdownProps<T>)
 {
-    const [ open, setOpen ] = openHandlers
-    const [ position, setPosition ] = useState({left: 0, top: 0, width: 0})
 
-    const selectedStyle = {...styles.selected}
-    const extractedOption = extractOption(option);
-    if(extractedOption.value === '') selectedStyle.color = Palette.grey.t600
-
-    const elements = action ? options.length + 1 : options.length;
-    const optionsStyle = { 
-        ...styles.optionsContainer, 
-        ...position, 
-        maxHeight: options.length >= 5 ? 150 : (32.8 * elements)
-    }
-
-    const optionElements = options.map(o =>
-        {
-            const eO = extractOption(o);
-            return (
-                <TouchableOpacity
-                    onPress={() => 
-                    {
-                        selectedOption(o);
-                        setOpen(false);
-                    }}
-                    key={eO.id}
-                >
-                    <Text 
-                        style={styles.option}
-                    >
-                        {eO.value}
-                    </Text>
-                </TouchableOpacity>
-            )
-        })
+    const [ open, setOpen ] = openHandlers;
+    const selectedStyle = {...styles.selected};
+    if(option === undefined) selectedStyle.color = Palette.grey.t600;
 
     return (
         <>
-            <View 
-                style={styles.container}
-                onLayout={ev =>
-                {
-                    setPosition(
-                        {
-                            left: ev.nativeEvent.layout.x + shift.x,
-                            top: ev.nativeEvent.layout.y+53 + shift.y,
-                            width: ev.nativeEvent.layout.width
-                        }
-                    )
-                }}
-            >
+            <View  style={styles.container}>
                 <Text style={styles.label}>
                     {label}
                 </Text>
-                <TouchableOpacity onPress={() => setOpen(!open)} accessibilityLabel={accessibilityLabel}>
+                <TouchableOpacity onPress={() => {setOpen(true)}} accessibilityLabel={accessibilityLabel}>
                     <View style={styles.dropdown}>
                         <Text style={selectedStyle}>
-                            { extractedOption.value != "" ? extractedOption.value : placeholder }
+                            { option === undefined ? placeholder : extractOption(option).value }
                         </Text>
                         <Icon
                             source='chevron-down'
@@ -118,120 +69,150 @@ function Input<T> ({
                     </Text>
                 }
             </View>
-            {
-                open && 
-                <View style={styles.optionsCover}>
-                    <ScrollView
-                        style={optionsStyle}
-                        nestedScrollEnabled
-                    >
-                        {
-                            action &&
-                            <TouchableOpacity onPress={action.onPress}>
-                                <Text style={styles.action}>
-                                    {action.title}
-                                </Text>
-                            </TouchableOpacity>
-                        }
-                        {optionElements}
-                    </ScrollView>
-                </View>
-            }
+            <Modal
+                transparent={true}
+                visible={open}
+                animationType='slide'
+            >
+                <TouchableWithoutFeedback onPress={() => setOpen(false)}>
+                    <View style={styles.modalCover}>
+                        <View style={styles.modal}>
+                            <FlatList 
+                                data={options}
+                                renderItem={({item}) => {
+
+                                    const onPress = () => {
+                                        setOpen(false);
+                                        selectedOption(item);
+                                    };
+
+                                    if(renderCell === undefined) {
+                                        const extractedOption = extractOption(item); 
+                                        return (
+                                            <DefaultCell 
+                                                key={extractedOption.id}
+                                                onPress={onPress}
+                                                label={extractedOption.value}
+                                            />
+                                        )
+                                    } else {
+                                        return renderCell(item, onPress);
+                                    }
+                                }}
+                            />
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
         </>
+        
     )
 }
 
-export default Input;
+/*
 
-const styles = StyleSheet.create(
+                            {options.map(o => {
+                                const extracted = extractOption(o);
+                                return (
+                                    <DefaultCell 
+                                        key={extracted.id}
+                                        onPress={() => {
+                                            setOpen(false);
+                                            selectedOption(o);
+                                        }}
+                                        label={extracted.value}
+                                    />
+                                )
+                            })}
+*/
+
+export default Dropdown;
+
+const DefaultCell = ({label, onPress}: {label: string, onPress: () => void}) => {
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <Text style={styles.option}>
+                {label}
+            </Text>
+        </TouchableOpacity>
+    )
+}
+
+const styles = StyleSheet.create({
+    container:
     {
-        container:
-        {
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'stretch'
-        },
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch'
+    },
 
-        label:
-        {
-            fontFamily: 'Roboto-Medium',
-            fontSize: 14,
-            lineHeight: 16,
-            color: Palette.deepPurple.t900
-        },
+    label:
+    {
+        fontFamily: 'Roboto-Medium',
+        fontSize: 14,
+        lineHeight: 16,
+        color: Palette.deepPurple.t900
+    },
 
-        obrigatory: 
-        {
-            fontFamily: 'Roboto-Regular',
-            fontSize: 10,
-            color: Palette.red.t600
-        },
+    obrigatory: 
+    {
+        fontFamily: 'Roboto-Regular',
+        fontSize: 10,
+        color: Palette.red.t600
+    },
 
-        description: 
-        {
-            fontFamily: 'Roboto-Regular',
-            fontSize: 10,
-            marginHorizontal: 2,
-            color: Palette.grey.t900
-        },
+    description: 
+    {
+        fontFamily: 'Roboto-Regular',
+        fontSize: 10,
+        marginHorizontal: 2,
+        color: Palette.grey.t900
+    },
 
-        dropdown:
-        {
-            paddingHorizontal: 8,
-            paddingVertical: 4,
-            borderTopRightRadius: 8,
-            borderTopLeftRadius: 8,
-            borderBottomWidth: 2,
-            borderColor: Palette.deepPurple.t800,
-            backgroundColor: Palette.mono.t50,
-            color: Palette.grey.t900,
+    dropdown:
+    {
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
+        borderBottomWidth: 2,
+        borderColor: Palette.deepPurple.t800,
+        backgroundColor: Palette.mono.t50,
+        color: Palette.grey.t900,
 
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: 37.7
-        },
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 37.7
+    },
 
-        selected: 
-        {
-            fontFamily: 'Roboto-Regular',
-            fontSize: 18,
-            color: Palette.grey.t900,
-        },
+    selected: 
+    {
+        fontFamily: 'Roboto-Regular',
+        fontSize: 18,
+        color: Palette.grey.t900,
+    },
 
-        option: 
-        {
-            fontFamily: 'Roboto-Regular',
-            fontSize: 18,
-            color: Palette.grey.t900,
-            paddingHorizontal: 8,
-            paddingVertical: 4
-        },
+    modalCover: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'stretch'
+    },
 
-        action: 
-        {
-            fontFamily: 'Roboto-Regular',
-            fontSize: 18,
-            color: Palette.deepPurple.t900,
-            paddingHorizontal: 8,
-            paddingVertical: 4
-        },
+    modal: {
+        height: Dimensions.get('window').height * 0.4,
+        backgroundColor: Palette.mono.t50,
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        paddingTop: 8
+    },
 
-        optionsCover: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0
-        },
-
-        optionsContainer: {
-            backgroundColor: Palette.mono.t50,
-            maxHeight: 150,
-            borderBottomLeftRadius: 8,
-            borderBottomRightRadius: 8,
-            zIndex: 1
-        }
-
-    }
-)
+    option: 
+    {
+        fontFamily: 'Roboto-Regular',
+        fontSize: 18,
+        color: Palette.grey.t900,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+    },
+})
