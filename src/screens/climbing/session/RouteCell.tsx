@@ -46,7 +46,7 @@ const RouteCell = ({id}: {id: string}) => {
                     Esforço: <Text style={styles.sectionValue}>{dificulty}</Text>
                 </Text>
                 <Text style={styles.section}>
-                    {status}
+                    {STATUS_MAP[status]}
                 </Text>
             </View>
             <Text style={routeNumberStyle}>
@@ -58,6 +58,13 @@ const RouteCell = ({id}: {id: string}) => {
 }
 
 export default RouteCell;
+
+const STATUS_MAP = {
+    unfinished: 'Não finalizado',
+    worked: 'Trabalhado',
+    redpoint: 'Cadena',
+    onsight: 'Onsight'
+}
 
 const styles = StyleSheet.create(
     {

@@ -23,8 +23,8 @@ const modalities: Modality[] = [
 const NewRoute = () =>
 {
     const [ name, setName ] = useState('');
-    const [ selectedGrade, setSelectedGrade ] = useState<Grade>({name: '', hardness: 0, palette: Palette.mono, systemId: '-1'});
-    const [ modality, setModality ] = useState<Modality>({id: 'top-rope', value: ''});
+    const [ selectedGrade, setSelectedGrade ] = useState<Grade | undefined>();
+    const [ modality, setModality ] = useState<Modality | undefined>();
     const [ showCamera, setShowCamera ] = useState(true);
     const [ formStyle ] = useState({...styles.form});
     const navigation = useNavigation<HomeNavigationProps>();
@@ -38,10 +38,10 @@ const NewRoute = () =>
         await State.dispatch.climbingActions.saveRoute(
             {
                 gymId: currentSession.place.id,
-                grade: selectedGrade,
+                grade: selectedGrade!,
                 name,
                 id: String(uuid.v4()),
-                mode: modality.id,
+                mode: modality!.id,
                 retired: false
             }
         )
@@ -111,7 +111,7 @@ const NewRoute = () =>
                     label='CADASTRAR'
                     accessibilityLabel='cadastrar'
                     onPress={saveRoute}
-                    status={selectedGrade.name !== '' && name !== '' && modality.value !== '' ? 'active' : 'disabled'}
+                    status={selectedGrade !== undefined && name !== '' && modality !== undefined ? 'active' : 'disabled'}
                 />
             </View>
         </View>

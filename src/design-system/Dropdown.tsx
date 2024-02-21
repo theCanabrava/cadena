@@ -13,7 +13,7 @@ type DropdownProps<T> = {
     accessibilityLabel: string,
     obrigatory?: boolean,
     description?: string,
-    header?: ReactElement,
+    Header?: ReactElement,
     renderCell?: (o: T, onPress: () => void) => ReactElement,
     openHandlers?: [boolean, Dispatch<SetStateAction<boolean>>],
 }
@@ -27,6 +27,7 @@ function Dropdown<T> ({
     accessibilityLabel,
     obrigatory,
     description,
+    Header,
     renderCell,
     openHandlers = useState(false),
 }: DropdownProps<T>)
@@ -78,6 +79,7 @@ function Dropdown<T> ({
                     <View style={styles.modalCover}>
                         <View style={styles.modal}>
                             <FlatList 
+                                ListHeaderComponent={Header}
                                 data={options}
                                 renderItem={({item}) => {
 
@@ -108,23 +110,6 @@ function Dropdown<T> ({
         
     )
 }
-
-/*
-
-                            {options.map(o => {
-                                const extracted = extractOption(o);
-                                return (
-                                    <DefaultCell 
-                                        key={extracted.id}
-                                        onPress={() => {
-                                            setOpen(false);
-                                            selectedOption(o);
-                                        }}
-                                        label={extracted.value}
-                                    />
-                                )
-                            })}
-*/
 
 export default Dropdown;
 

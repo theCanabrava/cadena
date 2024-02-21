@@ -1,7 +1,7 @@
 import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { View, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
+import { View, StyleSheet, Modal, FlatList, Dimensions, TouchableOpacity, Text } from 'react-native';
 import { Attempt, Route } from '../../../business-logic/api';
 import { Checkbox, Dropdown, IconButton, Pagination, Palette, Slider, TextButton } from '../../../design-system';
 import { HomeNavigationProps } from '../../../navigator/HomeStack';
@@ -108,19 +108,7 @@ type RoutePageProps = {
 const RoutePage = ({attempt, setAttempt, last, onClose}: RoutePageProps) => {
 
     const { routes } = State.stateHooks.useClimbingStore();
-    const [option, setOption] = useState<Route>({
-        id: '-1', 
-        gymId: '-1', 
-        grade: {
-            systemId: '-1', 
-            hardness: 0, 
-            name: '',
-            palette: Palette.deepPurple
-        },
-        name: '',
-        mode: 'boulder',
-        retired: false
-    })
+    const [option, setOption] = useState<Route | undefined>(undefined)
     const navigation = useNavigation<HomeNavigationProps>();
     const pageStyle = {
         ...styles.routePage,
@@ -142,14 +130,16 @@ const RoutePage = ({attempt, setAttempt, last, onClose}: RoutePageProps) => {
                 extractOption={o => ({id: o.id, value: o.id !== '-1' ? `${o.grade.name} - ${o.name}` : ''})}
                 accessibilityLabel='via-escalada'
                 description='Você pode pesquisar pela graguação ou nome da via (Na verdade, não, foi mal...)'
-                action={{
-                    title: '+ ADICIONAR VIA',
-                    onPress: () => {
+                Header={
+                    <TouchableOpacity onPress={() => {
                         onClose();
                         setTimeout(() => navigation.navigate('home/new-route'), 250)
-                    }
-                }}
-                shift={{x: -2, y: -2}}
+                    }}>
+                        <Text style={styles.addRouteLabel}>
+                            + ADICIONAR VIA
+                        </Text>
+                    </TouchableOpacity>
+                }
             />
             <Slider
                 value={attempt.dificulty}
@@ -233,6 +223,14 @@ const styles = StyleSheet.create({
 
     dashboardButton: {
         flex: 1
+    },
+
+    addRouteLabel: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 18,
+        color: Palette.deepPurple.t900,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
     }
 })
 
