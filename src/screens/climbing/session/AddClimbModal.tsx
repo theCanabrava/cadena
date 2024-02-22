@@ -1,26 +1,30 @@
 import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { createRef, useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, Modal, FlatList, Dimensions, TouchableOpacity, Text } from 'react-native';
 import { Attempt, Route } from '../../../business-logic/api';
 import { Checkbox, Dropdown, IconButton, Pagination, Palette, Slider, TextButton } from '../../../design-system';
 import { HomeNavigationProps } from '../../../navigator/HomeStack';
 import uuid from 'react-native-uuid';
 import State from '../../../business-logic';
+import wait from '../../../design-system/wait';
 
 const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
 const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     if(!display) return null;
-    const [attempts, setAttempts] = useState<Attempt[]>([
-        {
-            id: String(uuid.v4()),
-            route: undefined,
-            dificulty: 3,
-            status: 'unfinished'
-        }
-    ]);
+    const [attempts, setAttempts] = useState<Attempt[]>([generateAttempt()]);
+    const [shouldScrollTo, setShouldScrollTo] = useState(0);
     const [page, setPage] = useState(0);
+    const scrollRef = createRef<FlatList>();
+
+    const scrollTo = (i: number) => scrollRef.current?.scrollToIndex({index: i, animated: true});
+
+    useEffect(() => {
+        if(shouldScrollTo > 0) {
+            scrollRef.current?.scrollToIndex({index: shouldScrollTo, animated: true});
+        }
+    }, [shouldScrollTo])
 
     return (
         <>
@@ -37,8 +41,8 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                 <View style={styles.modalContainer}>
                     <View style={styles.modalCard}>
                         <FlatList
+                            ref={scrollRef}
                             data={attempts}
-                            keyExtractor={(r) => r.id}
                             renderItem={({item, index}) => 
                                 <RoutePage
                                     attempt={item}
@@ -52,7 +56,8 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                             }
                             horizontal
                             snapToInterval={PAGE_WIDTH}
-                            showsHorizontalScrollIndicator={false}
+                            pagingEnabled={true}
+                            keyExtractor={(r) => r.id}
                             onScroll={(e) => {
                                 const x = e.nativeEvent.contentOffset.x;
                                 const page = Math.round(x/PAGE_WIDTH);
@@ -63,6 +68,7 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                                 offset: PAGE_WIDTH * (index), 
                                 index,
                             })}
+                            showsHorizontalScrollIndicator={false}
                         />
                         <Pagination
                             page={page}
@@ -72,15 +78,30 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                             <View style={styles.dashboardButton}>
                                 <TextButton
                                     label='INCLUIR MAIS VIAS'
-                                    onPress={() => {}}
+                                    onPress={() => {
+                                        setAttempts([...attempts, generateAttempt()]);
+                                        setShouldScrollTo(attempts.length);
+                                    }}
                                     accessibilityLabel='incluir-mais-via'
                                     status='outlined'
                                 />
                             </View>
                             <IconButton 
                                 source='trash'
-                                onPress={() => {}}
+                                onPress={async () => {
+
+                                    if( page === attempts.length -1 ) {
+                                        scrollTo(page-1);
+                                        await wait(200);
+                                    } 
+
+                                    const preservedAttempts = attempts.filter((_, i) => i !== page);
+                                    setAttempts(preservedAttempts);
+                                    setShouldScrollTo(0);
+
+                                }}
                                 accessibilityLabel='excluir-rota'
+                                status={attempts.length > 1 ? 'active' : 'disabled'}
                             />
                         </View>
                         <TextButton
@@ -98,6 +119,13 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
         </>
     )
 }
+
+const generateAttempt: () => Attempt = () => ({
+    id: String(uuid.v4()),
+    route: undefined,
+    dificulty: 3,
+    status: 'unfinished'
+})
 
 type RoutePageProps = {
     attempt: Attempt,
