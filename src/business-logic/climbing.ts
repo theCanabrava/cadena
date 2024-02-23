@@ -65,6 +65,29 @@ export const climbingActions = {
         useClimbingStore.setState(() => ({ currentSession }))
     },
 
+    editAttempt: (id: string) => {
+
+        const { currentSession } = useClimbingStore.getState();
+        const attempt = currentSession.attempts.find(a => a.id === id);
+
+        if(attempt === undefined) return;
+
+        useClimbingStore.setState(() => ({ currentSession: {...currentSession, edittingAttempt: { ...attempt }} }));
+
+    },
+
+    commitAttempt: () => {
+
+        const { currentSession } = useClimbingStore.getState();
+        const index = currentSession.attempts.findIndex(a => a.id === currentSession.edittingAttempt?.id);
+
+        if(index === -1) return;
+
+        currentSession.attempts[index] = currentSession.edittingAttempt!;
+        useClimbingStore.setState(() => ({ currentSession: {...currentSession, edittingAttempt: undefined} }));
+
+    },
+
     saveRoute: async(route: Route) => {
 
         const { routes } = useClimbingStore.getState();

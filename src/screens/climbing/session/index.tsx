@@ -4,6 +4,7 @@ import State from '../../../business-logic';
 import { Palette, TextButton } from '../../../design-system';
 import Header from '../../shared/Header';
 import AddClimbModal from './AddClimbModal';
+import EditClimbModal from './EditClimbModal';
 import FinishClimbModal from './FinishClimbModal';
 import FormatDate from './FormatDate';
 import RouteCell from './RouteCell';
@@ -11,7 +12,7 @@ import RouteCell from './RouteCell';
 const Session = () =>
 {
 
-    const [modals, setModals] = useState({add: false, finish: false});
+    const [ modals, setModals ] = useState({add: false, finish: false});
     const { currentSession } = State.stateHooks.useClimbingStore();
 
     useEffect(() => {
@@ -46,6 +47,7 @@ const Session = () =>
                     </View>
             </View>
             <AddClimbModal display={modals.add} onClose={() => setModals({add: false, finish: false})}/>
+            <EditClimbModal />
             <FinishClimbModal display={modals.finish} onClose={() => setModals({add: false, finish: false})}/>
         </>
     )

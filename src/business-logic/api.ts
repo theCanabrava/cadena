@@ -74,6 +74,7 @@ export type Session = {
     playsAlarm: boolean,
     routeObjective: number,
     attempts: Attempt[],
+    edittingAttempt?: Attempt
 }
 
 export type Route = {

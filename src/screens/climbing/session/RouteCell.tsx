@@ -4,7 +4,8 @@ import { Icon, Palette } from '../../../design-system';
 
 const RouteCell = ({id}: {id: string}) => {
 
-    const { attempts } = State.stateHooks.useClimbingStore(s => s.currentSession);
+    const { currentSession } = State.stateHooks.useClimbingStore(s => s);
+    const attempts = currentSession.attempts;
     const index = attempts.findIndex(a => a.id === id);
 
     if(index === -1) return null;
@@ -33,7 +34,10 @@ const RouteCell = ({id}: {id: string}) => {
                     <Text style={cellTitleStyle}>
                         {route!.grade!.name} - {route?.name}
                     </Text>
-                    <TouchableOpacity style={styles.editCell} onPress={() => {}}>
+                    <TouchableOpacity 
+                        style={styles.editCell} 
+                        onPress={() => State.dispatch.climbingActions.editAttempt(attempts[index].id)}
+                    >
                         <Icon
                             source='edit'
                             height={16}
