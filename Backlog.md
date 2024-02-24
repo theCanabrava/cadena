@@ -13,6 +13,7 @@
 9. Criar uma tela separada para seleção da via escalada
 10. Passar onClose dos modais para gerenciamento de estados
 13. Animar transição de cards de escalada
+14. Layout de botão desativado outline
 
 ## Concluidos
 1. Criar backlog - 15/08/23

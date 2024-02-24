@@ -8,8 +8,8 @@ export type HomeParamList =
 {
     'home/index': undefined,
     'home/new-climb': undefined,
-    'home/session': undefined,
-    'home/new-route': undefined,
+    'home/session': { command: 'start' | 'add-route' },
+    'home/new-route': { attemptId?: string } ,
 }
 
 const Stack = createNativeStackNavigator<HomeParamList>();
@@ -29,3 +29,5 @@ const HomeStack = () => {
 export default HomeStack;
 
 export type HomeNavigationProps = NativeStackScreenProps<HomeParamList, keyof HomeParamList>['navigation'];
+export type SessionRouteProps = NativeStackScreenProps<HomeParamList, 'home/session'>['route'];
+export type NewRouteRouteProps = NativeStackScreenProps<HomeParamList, 'home/new-route'>['route'];

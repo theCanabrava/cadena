@@ -2,7 +2,6 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeStack from './HomeStack';
 import State from '../business-logic';
-import Welcome from '../screens/Welcome';
 import LoginStack from './LoginStack';
 
 const Navigator = () => {

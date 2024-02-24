@@ -7,6 +7,7 @@ type ClimbingState = {
     grades: Grade[],
     sessions: Session[],
     currentSession: Session,
+    workingAttempts: Attempt[];
 }
 
 export const useClimbingStore = create<ClimbingState>(() => ({
@@ -25,7 +26,8 @@ export const useClimbingStore = create<ClimbingState>(() => ({
         playsAlarm: false,
         routeObjective: 0,
         attempts: [],
-    }
+    },
+    workingAttempts: [],
 }))
 
 export const climbingActions = {
@@ -63,6 +65,10 @@ export const climbingActions = {
 
     editCurrentSession: async (currentSession: Session) => {
         useClimbingStore.setState(() => ({ currentSession }))
+    },
+
+    setWorkingAttempts: async (attempts: Attempt[]) => {
+        useClimbingStore.setState(() => ({workingAttempts: [...attempts]}));
     },
 
     editAttempt: (id: string) => {
@@ -111,7 +117,7 @@ export const climbingActions = {
     addAttemptsToSession: async(attempts: Attempt[]) => {
         const { currentSession } = useClimbingStore.getState();
         currentSession.attempts = [ ...currentSession.attempts, ...attempts ];
-        useClimbingStore.setState(() => ({ currentSession: {...currentSession}}));
+        useClimbingStore.setState(() => ({ currentSession: {...currentSession}, workingAttempts: []}));
     }
 }
 

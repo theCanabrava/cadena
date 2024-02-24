@@ -1,12 +1,15 @@
+import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Modal, Alert } from 'react-native';
 import State from '../../../business-logic';
 import { Palette, TextButton } from '../../../design-system';
+import { SessionRouteProps } from '../../../navigator/HomeStack';
 import Header from '../../shared/Header';
 import AddClimbModal from './AddClimbModal';
 import EditClimbModal from './EditClimbModal';
 import FinishClimbModal from './FinishClimbModal';
 import FormatDate from './FormatDate';
+import generateAttempt from './generateAttempt';
 import RouteCell from './RouteCell';
 
 const Session = () =>
@@ -14,10 +17,19 @@ const Session = () =>
 
     const [ modals, setModals ] = useState({add: false, finish: false});
     const { currentSession } = State.stateHooks.useClimbingStore();
+    const { params } = useRoute<SessionRouteProps>();
 
     useEffect(() => {
         State.dispatch.climbingActions.loadRoutes(currentSession.place);
     }, []);
+
+    useEffect(() => {
+        if(params.command === 'add-route') {
+            setModals({add: true, finish: false});
+        } else {
+            setModals({add: false, finish: false});
+        }
+    }, [params])
 
     const attemptCells = currentSession.attempts.map(a => <RouteCell key={a.id} id={a.id}/>);
 
@@ -30,7 +42,10 @@ const Session = () =>
                     <View style={styles.addContainer}>
                         <TextButton
                             label='ADICIONAR VIA'
-                            onPress={() => setModals({add: true, finish: false})}
+                            onPress={() => {
+                                State.dispatch.climbingActions.setWorkingAttempts([generateAttempt()]);
+                                setModals({add: true, finish: false})
+                            }}
                             accessibilityLabel='adicionar-via'
                             status='outlined'
                         />

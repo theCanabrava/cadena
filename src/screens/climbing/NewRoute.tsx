@@ -1,10 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import State from '../../business-logic';
 import { Grade } from '../../business-logic/api';
 import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
-import { HomeNavigationProps } from '../../navigator/HomeStack';
+import { HomeNavigationProps, NewRouteRouteProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
 import uuid from 'react-native-uuid';
 
@@ -28,25 +28,37 @@ const NewRoute = () =>
     const [ showCamera, setShowCamera ] = useState(true);
     const [ formStyle ] = useState({...styles.form});
     const navigation = useNavigation<HomeNavigationProps>();
-    const { grades, currentSession } = State.stateHooks.useClimbingStore();
+    const { grades, currentSession, workingAttempts } = State.stateHooks.useClimbingStore();
+    const { params } = useRoute<NewRouteRouteProps>();
 
     useEffect(() => {
         State.dispatch.climbingActions.loadGrades();
     }, []);
 
     const saveRoute = async () => {
-        await State.dispatch.climbingActions.saveRoute(
-            {
-                gymId: currentSession.place.id,
-                grade: selectedGrade!,
-                name,
-                id: String(uuid.v4()),
-                mode: modality!.id,
-                retired: false
-            }
-        )
+        const route = {
+            gymId: currentSession.place.id,
+            grade: selectedGrade!,
+            name,
+            id: String(uuid.v4()),
+            mode: modality!.id,
+            retired: false
+        }
+        await State.dispatch.climbingActions.saveRoute( route );
 
-        navigation.goBack();
+        if(workingAttempts.length > 0 && params.attemptId) {
+            const index = workingAttempts.findIndex(a => a.id === params.attemptId);
+
+            if(index !== -1) {
+                workingAttempts[index].route = route;
+                State.dispatch.climbingActions.setWorkingAttempts(workingAttempts);
+            }
+
+            navigation.navigate('home/session', { command: 'add-route'});
+        } else {
+            navigation.navigate('home/session', { command: 'start' });
+        }
+
     }
 
     return (

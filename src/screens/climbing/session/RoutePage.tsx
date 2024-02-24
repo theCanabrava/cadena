@@ -42,7 +42,7 @@ const RoutePage = ({attempt, setAttempt, last, onClose}: RoutePageProps) => {
                 Header={
                     <TouchableOpacity onPress={() => {
                         onClose();
-                        setTimeout(() => navigation.navigate('home/new-route'), 250)
+                        setTimeout(() => navigation.navigate('home/new-route', { attemptId: attempt.id }), 250)
                     }}>
                         <Text style={styles.addRouteLabel}>
                             + ADICIONAR VIA

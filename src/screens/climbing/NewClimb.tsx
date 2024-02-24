@@ -136,7 +136,7 @@ const NewClimb = () =>
                 <TextButton
                     label='INICIAR'
                     accessibilityLabel='iniciar'
-                    onPress={() => navigation.navigate('home/session')}
+                    onPress={() => navigation.navigate('home/session', { command: 'start' })}
                 />
             </View>
         </View>

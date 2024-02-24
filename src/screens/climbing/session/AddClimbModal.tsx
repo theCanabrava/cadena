@@ -1,21 +1,23 @@
 import { BlurView } from '@react-native-community/blur';
 import { createRef, useEffect, useState } from 'react';
 import { View, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
-import { Attempt } from '../../../business-logic/api';
 import { IconButton, Pagination, Palette, TextButton } from '../../../design-system';
-import uuid from 'react-native-uuid';
 import State from '../../../business-logic';
 import wait from '../../../design-system/wait';
 import RoutePage from './RoutePage';
+import generateAttempt from './generateAttempt';
+import { useRoute } from '@react-navigation/native';
+import { SessionRouteProps } from '../../../navigator/HomeStack';
 
 const PAGE_WIDTH = Dimensions.get('window').width - 48 - 32 - 4 + 16;
 const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     if(!display) return null;
-    const [attempts, setAttempts] = useState<Attempt[]>([generateAttempt()]);
+    const { workingAttempts } = State.stateHooks.useClimbingStore();
     const [shouldScrollTo, setShouldScrollTo] = useState(0);
     const [page, setPage] = useState(0);
     const scrollRef = createRef<FlatList>();
+    const { params } = useRoute<SessionRouteProps>();
 
     const scrollTo = (i: number) => scrollRef.current?.scrollToIndex({index: i, animated: true});
 
@@ -24,6 +26,12 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
             scrollRef.current?.scrollToIndex({index: shouldScrollTo, animated: true});
         }
     }, [shouldScrollTo])
+
+    useEffect(() => {
+        if(params.command === 'add-route') {
+            scrollTo(workingAttempts.length-1);
+        }
+    }, [params])
 
     return (
         <>
@@ -41,15 +49,15 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                     <View style={styles.modalCard}>
                         <FlatList
                             ref={scrollRef}
-                            data={attempts}
+                            data={workingAttempts}
                             renderItem={({item, index}) => 
                                 <RoutePage
                                     attempt={item}
                                     setAttempt={(v) => {
-                                        attempts[index] = v;
-                                        setAttempts( [...attempts]);
+                                        workingAttempts[index] = v;
+                                        State.dispatch.climbingActions.setWorkingAttempts([...workingAttempts]);
                                     }} 
-                                    last={item.id === attempts[attempts.length-1].id}         
+                                    last={item.id === workingAttempts[workingAttempts.length-1].id}         
                                     onClose={onClose}                  
                                 />
                             }
@@ -71,15 +79,15 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                         />
                         <Pagination
                             page={page}
-                            length={attempts.length}
+                            length={workingAttempts.length}
                         />
                         <View style={styles.routeRow}>
                             <View style={styles.dashboardButton}>
                                 <TextButton
                                     label='INCLUIR MAIS VIAS'
                                     onPress={() => {
-                                        setAttempts([...attempts, generateAttempt()]);
-                                        setShouldScrollTo(attempts.length);
+                                        State.dispatch.climbingActions.setWorkingAttempts([...workingAttempts, generateAttempt()]);
+                                        setShouldScrollTo(workingAttempts.length);
                                     }}
                                     accessibilityLabel='incluir-mais-via'
                                     status='outlined'
@@ -89,28 +97,28 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                                 source='trash'
                                 onPress={async () => {
 
-                                    if( page === attempts.length -1 ) {
+                                    if( page === workingAttempts.length -1 ) {
                                         scrollTo(page-1);
                                         await wait(200);
                                     } 
 
-                                    const preservedAttempts = attempts.filter((_, i) => i !== page);
-                                    setAttempts(preservedAttempts);
+                                    const preservedAttempts = workingAttempts.filter((_, i) => i !== page);
+                                    State.dispatch.climbingActions.setWorkingAttempts(preservedAttempts);
                                     setShouldScrollTo(0);
 
                                 }}
                                 accessibilityLabel='excluir-rota'
-                                status={attempts.length > 1 ? 'active' : 'disabled'}
+                                status={workingAttempts.length > 1 ? 'active' : 'disabled'}
                             />
                         </View>
                         <TextButton
                             label='CONFIRMAR'
                             onPress={() => {
-                                State.dispatch.climbingActions.addAttemptsToSession(attempts);
+                                State.dispatch.climbingActions.addAttemptsToSession(workingAttempts);
                                 onClose();
                             }}
                             accessibilityLabel='incluir-mais-via'
-                            status='outlined'
+                            status={workingAttempts.find(a => a.route === undefined) ? 'disabled' : 'outlined'}
                         />
                     </View>
                 </View>
@@ -118,13 +126,6 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
         </>
     )
 }
-
-const generateAttempt: () => Attempt = () => ({
-    id: String(uuid.v4()),
-    route: undefined,
-    dificulty: 3,
-    status: 'unfinished'
-})
 
 export default AddClimbModal;
 
