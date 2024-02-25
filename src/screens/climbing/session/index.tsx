@@ -55,7 +55,10 @@ const Session = () =>
                     <View style={styles.endContainer}>
                         <TextButton
                             label='FINALIZAR SEÇÃO'
-                            onPress={() => setModals({add: false, finish: true})}
+                            onPress={() => {
+                                State.dispatch.climbingActions.editCurrentSession({...currentSession, endTime: new Date()});
+                                setModals({add: false, finish: true})
+                            }}
                             accessibilityLabel='finalizar'
                             status='carefull'
                         />

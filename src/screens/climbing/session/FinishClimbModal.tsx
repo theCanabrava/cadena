@@ -2,13 +2,18 @@ import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View, StyleSheet, Modal, TouchableOpacity, Text } from 'react-native';
+import State from '../../../business-logic';
 import { Icon, Input, Palette, TextButton } from '../../../design-system';
+import { displaySelected } from '../../../design-system/DatePicker';
 import { HomeNavigationProps } from '../../../navigator/HomeStack';
 
 const FinishClimbModal = ({display, onClose}: {display: boolean, onClose: () => void}) =>
 {
     const [observations, setObservations] = useState('');
     const navigation = useNavigation<HomeNavigationProps>();
+
+    const { currentSession } = State.stateHooks.useClimbingStore();
+
     if(!display) return null;
 
     return (
@@ -43,19 +48,25 @@ const FinishClimbModal = ({display, onClose}: {display: boolean, onClose: () => 
                         </Text>
                         <View style={styles.infoRow}>
                             <Text style={styles.info}>
-                                Vias escaladas: <Text style={styles.infoValue}>3</Text>
+                                Vias escaladas: <Text style={styles.infoValue}>{currentSession.attempts.length}</Text>
                             </Text>
-                            <Text style={styles.info}>
-                                Meta atingida!
-                            </Text>
+                            {
+                                (currentSession.routeObjective > 0 && currentSession.attempts.length >= currentSession.routeObjective) &&
+                                <Text style={styles.info}>
+                                    Meta atingida!
+                                </Text>
+                            }
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.info}>
-                                Duração: <Text style={styles.infoValue}>08:00 - 09:00</Text>
+                                Duração: <Text style={styles.infoValue}>{displaySelected.time(currentSession.startTime)} - {displaySelected.time(currentSession.endTime)}</Text>
                             </Text>
-                            <Text style={styles.info}>
-                                Tempo esperado!
-                            </Text>
+                            {
+                                (currentSession.expectedEndTime !== undefined && currentSession.endTime.getTime() < currentSession.expectedEndTime.getTime()) &&
+                                <Text style={styles.info}>
+                                    Tempo esperado!
+                                </Text>
+                            }
                         </View>
                         <Input
                             label='Observações:'
@@ -68,7 +79,10 @@ const FinishClimbModal = ({display, onClose}: {display: boolean, onClose: () => 
                         <View style={styles.spacer}/>
                         <TextButton
                             label='FINALIZAR'
-                            onPress={() => {navigation.navigate('home/index')}}
+                            onPress={async () => {
+                                await State.dispatch.climbingActions.saveSession(observations);
+                                navigation.navigate('home/index')
+                            }}
                             accessibilityLabel='finalizar'
                         />
                     </View>

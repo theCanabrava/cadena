@@ -14,6 +14,7 @@
 10. Passar onClose dos modais para gerenciamento de estados
 13. Animar transição de cards de escalada
 14. Layout de botão desativado outline
+15. Permitir usuário salvar seção de dias anterióres
 
 ## Concluidos
 1. Criar backlog - 15/08/23

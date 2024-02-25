@@ -78,6 +78,7 @@ State.configure({
 
     getRoutes: async () => [],
     saveRoutes: async () => {},
+    saveSession: async () => {},
   }
 })
 

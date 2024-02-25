@@ -10,23 +10,26 @@ type ClimbingState = {
     workingAttempts: Attempt[];
 }
 
+const getBlankSession: () => Session = () => ({
+    place: {
+        id: '-1',
+        name: '',
+        address: '',
+        type: 'gym'
+    },
+    startTime: new Date(),
+    endTime: new Date(),
+    playsAlarm: false,
+    routeObjective: 0,
+    attempts: [],
+    observation: ''
+})
+
 export const useClimbingStore = create<ClimbingState>(() => ({
     routes: [],
     grades: [],
     sessions: [],
-    currentSession: {
-        place: {
-            id: '-1',
-            name: '',
-            address: '',
-            type: 'gym'
-        },
-        startTime: new Date(),
-        endTime: new Date(),
-        playsAlarm: false,
-        routeObjective: 0,
-        attempts: [],
-    },
+    currentSession: getBlankSession(),
     workingAttempts: [],
 }))
 
@@ -56,7 +59,8 @@ export const climbingActions = {
             endTime: getStartingHour(),
             playsAlarm: false,
             routeObjective: 0,
-            attempts: []
+            attempts: [],
+            observation: ''
         }
 
         useClimbingStore.setState(() => ({ currentSession }))
@@ -91,6 +95,22 @@ export const climbingActions = {
 
         currentSession.attempts[index] = currentSession.edittingAttempt!;
         useClimbingStore.setState(() => ({ currentSession: {...currentSession, edittingAttempt: undefined} }));
+
+    },
+
+    saveSession: async (observation: String) => {
+        const session = useClimbingStore.getState().currentSession;
+        session.observation = observation;
+
+        await api.Climbing.saveSession(session);
+
+        // await api.Climbing.getSessions();
+
+        useClimbingStore.setState((s) => ({
+            currentSession: getBlankSession(),
+            sessions: [...s.sessions, session],
+        }))
+
 
     },
 

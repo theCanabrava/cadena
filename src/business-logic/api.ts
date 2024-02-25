@@ -1,3 +1,5 @@
+import Session from "../screens/climbing/session";
+
 const mockApi = {
     Profile: {
         registerUser: async (username: string, system: GradeSystem) => {},
@@ -19,7 +21,9 @@ const mockApi = {
             return routes;
         },
 
-        saveRoutes: async (routes: Route[]) => {}
+        saveRoutes: async (routes: Route[]) => {},
+
+        saveSession: async (session: Session) => {},
     }
 }
 
@@ -74,7 +78,8 @@ export type Session = {
     playsAlarm: boolean,
     routeObjective: number,
     attempts: Attempt[],
-    edittingAttempt?: Attempt
+    edittingAttempt?: Attempt,
+    observation: String,
 }
 
 export type Route = {

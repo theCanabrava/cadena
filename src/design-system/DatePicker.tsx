@@ -127,7 +127,7 @@ const styles = StyleSheet.create(
     }
 )
 
-const displaySelected =
+export const displaySelected =
 {
     date: (d: Date | null | undefined) =>
     {
