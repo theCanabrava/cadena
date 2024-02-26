@@ -10,6 +10,7 @@ import AboutYou from './AboutYou';
 import Latest from './Latest';
 import LetsStart from './LetsStart';
 import Progress from './Progress';
+import { useProfileStore } from '../../business-logic/profile';
 
 const Home = () => {
 
@@ -43,10 +44,11 @@ export default Home;
 const Header = () => {
 
     const navigation = useNavigation<HomeNavigationProps>();
+    const { selectedGym } = useProfileStore();
 
     return (
         <View style={styles.header}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => { }}>
                 <Icon
                     source='drawer'
                     width={36}
@@ -58,14 +60,16 @@ const Header = () => {
                 <Text style={styles.headerTitle}>
                     Cadena
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    State.dispatch.profileActions.toggleGymModal(true);
+                }}>
                     <View style={styles.drawer}>
                         <View style={styles.gymContainer}>
                             <Text style={styles.gymName}>
-                                Rokaz - Savassi
+                                {selectedGym.name}
                             </Text>
                             <Text style={styles.gymLocation}>
-                                Belo Horizonte - MG, Brasil
+                                { selectedGym.address === '' ? 'Endereço não informado' : selectedGym.address } 
                             </Text>
                         </View>
                         <Icon

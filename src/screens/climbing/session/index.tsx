@@ -36,7 +36,7 @@ const Session = () =>
     return (
         <>
             <View style={styles.container}>
-                <Header title='Rokaz - Savassi'/>
+                <Header title={currentSession.place.name}/>
                 <ScrollView style={styles.formContainer}>
                     <SessionDetails/>
                     <View style={styles.addContainer}>

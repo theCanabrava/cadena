@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeStack from './HomeStack';
 import State from '../business-logic';
 import LoginStack from './LoginStack';
+import ModalManager from '../modal-manager';
 
 const Navigator = () => {
   const { loggedIn } = State.stateHooks.useProfileStore();
@@ -18,6 +19,7 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <HomeStack/>
+      <ModalManager/>
     </NavigationContainer>
   );
 }

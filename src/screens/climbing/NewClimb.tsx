@@ -11,15 +11,15 @@ const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const BOTTOM_PADDING = 16
 const NewClimb = () =>
 {
-    const { climbingGyms } = State.stateHooks.useProfileStore();
+    const { selectedGym, climbingGyms } = State.stateHooks.useProfileStore();
     const { currentSession } = State.stateHooks.useClimbingStore();
     const navigation = useNavigation<HomeNavigationProps>();
     const [ top, setTop ] = useState(0);
     const [ formStyle, setFormStyle ] = useState({...styles.form})
 
     useEffect(() => {
-        State.dispatch.climbingActions.startSession(climbingGyms[0]);
-    }, [climbingGyms])
+        State.dispatch.climbingActions.startSession(selectedGym);
+    }, [selectedGym])
 
     useEffect(() =>
     {

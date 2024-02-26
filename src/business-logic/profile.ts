@@ -6,15 +6,24 @@ type ProfileState = {
     gradingSystem?: GradeSystem;
     gradingSystemOptions: GradeSystem[];
     climbingGyms: ClimbingGym[],
+    selectedGym: ClimbingGym,
 
     loggedIn: boolean,
+    displayGymSelector: boolean,
 }
 
 export const useProfileStore = create<ProfileState>(() => ({
     username: undefined,
     gradingSystemOptions: [],
     loggedIn: false,
-    climbingGyms: []
+    displayGymSelector: false,
+    climbingGyms: [],
+    selectedGym: {
+        id: '-1',
+        name: '',
+        address: '',
+        type: 'gym' 
+    }
 }))
 
 export const profileActions = {
@@ -56,6 +65,7 @@ export const profileActions = {
     submitGyms: async () => {
         const { climbingGyms } = useProfileStore.getState();
         await api.Profile.registerGyms(climbingGyms);
+        useProfileStore.setState(() => ({selectedGym: climbingGyms[0]}));
     },
 
     logIn: () => {
@@ -75,7 +85,15 @@ export const profileActions = {
 
     loadState: async () => {
         const gradingSystemOptions = await api.Profile.getGradingSystemOptions();
-        useProfileStore.setState(() => ({gradingSystemOptions}))
+        useProfileStore.setState(() => ({gradingSystemOptions}));
+    },
+
+    toggleGymModal: (display: boolean) => {
+        useProfileStore.setState(() => ({displayGymSelector: display}));
+    },
+
+    selectGym: (gym: ClimbingGym) => {
+        useProfileStore.setState(() => ({selectedGym: gym}));
     }
     
 }
