@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useClimbingStore } from '../../business-logic/climbing';
 import State from '../../business-logic';
 import { Palette } from '../../design-system';
 import Icon from '../../design-system/icons';
@@ -10,11 +9,10 @@ import AboutYou from './AboutYou';
 import Latest from './Latest';
 import LetsStart from './LetsStart';
 import Progress from './Progress';
-import { useProfileStore } from '../../business-logic/profile';
 
 const Home = () => {
 
-    const { sessions } = useClimbingStore();
+    const { sessions } = State.stateHooks.useClimbingStore();
     const newUser = sessions.length === 0;
 
     return (
@@ -44,7 +42,7 @@ export default Home;
 const Header = () => {
 
     const navigation = useNavigation<HomeNavigationProps>();
-    const { selectedGym } = useProfileStore();
+    const { selectedGym } = State.stateHooks.useProfileStore();
 
     return (
         <View style={styles.header}>

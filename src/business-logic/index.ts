@@ -13,9 +13,12 @@ const State = {
         climbingActions
     },
 
-    configure: (apiImplementation: Api) => {
+    configure: async (apiImplementation: Api) => {
         setApi(apiImplementation);
-        profileActions.loadState();
+        const result = await profileActions.loadState();
+        if(result.success) {
+            await climbingActions.loadSessions(result.climbingGyms[0]);
+        }
     }
 }
 

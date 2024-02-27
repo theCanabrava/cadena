@@ -98,6 +98,11 @@ export const climbingActions = {
 
     },
 
+    loadSessions: async (gym: ClimbingGym) => {
+        const sessions = await api.Climbing.getSessions(gym);
+        useClimbingStore.setState(() => ({sessions}));
+    },
+
     saveSession: async (observation: String) => {
         const session = useClimbingStore.getState().currentSession;
         session.observation = observation;

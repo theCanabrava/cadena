@@ -8,6 +8,16 @@ const mockApi = {
             return options;
         },
         registerGyms: async (gyms: ClimbingGym[]) => {},
+
+        getUser: async () => {
+            const user: string | undefined = '';
+            return user
+        },
+
+        getGyms: async () => {
+            const gyms: ClimbingGym[] = [];
+            return gyms;
+        }
     },
 
     Climbing: {
@@ -24,6 +34,11 @@ const mockApi = {
         saveRoutes: async (routes: Route[]) => {},
 
         saveSession: async (session: Session) => {},
+
+        getSessions: async(gym: ClimbingGym) => {
+            const sessions: Session[] = [];
+            return sessions;
+        }
     }
 }
 
