@@ -85,12 +85,11 @@ export const profileActions = {
 
     loadState: async () => {
         const gradingSystemOptions = await api.Profile.getGradingSystemOptions();
-        const username = await api.Profile.getUser();
-        const climbingGyms = await api.Profile.getGyms();
+        const { username, climbingGyms, gradingSystem} = await api.Profile.getUser();
 
         useProfileStore.setState(() => ({gradingSystemOptions}));
-        if(username && climbingGyms.length > 0) {
-            useProfileStore.setState(() => ({loggedIn: true, username, climbingGyms, selectedGym: climbingGyms[0] }));
+        if(username && climbingGyms.length > 0 && gradingSystem) {
+            useProfileStore.setState(() => ({loggedIn: true, username, climbingGyms, selectedGym: climbingGyms[0], gradingSystem }));
             return { success: true, climbingGyms }
         } else {
             return { success: false, climbingGyms: []}

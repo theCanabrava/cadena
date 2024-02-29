@@ -10,13 +10,12 @@ const mockApi = {
         registerGyms: async (gyms: ClimbingGym[]) => {},
 
         getUser: async () => {
-            const user: string | undefined = '';
+            const user: {
+                username?: string,
+                climbingGyms: ClimbingGym[],
+                gradingSystem?: GradeSystem
+            } = { climbingGyms: [] }
             return user
-        },
-
-        getGyms: async () => {
-            const gyms: ClimbingGym[] = [];
-            return gyms;
         }
     },
 

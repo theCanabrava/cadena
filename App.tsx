@@ -29,16 +29,20 @@ State.configure({
       }
     ],
 
-    getUser: async () => 'Victor Canabrava',
-
-    getGyms: async () => [
-      {
+    getUser: async () => ({
+      username: 'Victor Canabrava',
+      climbingGyms: [{
         id: '1',
         name: 'Rokaz - Savassi',
         address: 'Rua Antônio de Albuquerque, 189',
         type: 'gym'
+      }],
+      gradingSystem: {
+        id: '2',
+        name: 'Graduação Brasileira'
       }
-    ]
+    }),
+
 
   },
 
