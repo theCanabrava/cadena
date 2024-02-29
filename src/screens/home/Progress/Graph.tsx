@@ -1,33 +1,33 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Palette } from '../../../design-system';
 import State from '../../../business-logic';
-import { Attempt } from '../../../business-logic/api';
+import { Attempt, Session } from '../../../business-logic/api';
 import { useMemo } from 'react';
 
-const Graph = () => {
+const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
     const sessions = State.stateHooks.useClimbingStore(s => s.sessions.filter((_, i) => i<8));
 
     const barElements = useMemo(() => {
-        const max = Math.max(...sessions.map(s => s.attempts.length));
+        const max = extractGraphData[mode].max(sessions);
         const bE = sessions.map(s => (
     
             <Bar
                 key={s.id}
-                value={s.attempts.length/max}
-                label={s.attempts.length}
-                color={getBarColor(s.attempts)}
+                value={extractGraphData[mode].value(s, max)}
+                label={extractGraphData[mode].label(s)}
+                color={extractGraphData[mode].barColor(s.attempts)}
                 date={s.startTime}
             />
     
         ))
         
         while (bE.length < 8) {
-            bE.push(<Bar key={String(bE.length)} value={0} label={0} color={Palette.deepPurple.t100}/>);
+            bE.push(<Bar key={String(bE.length)} value={0} label={'0'} color={Palette.deepPurple.t100}/>);
         }
 
         return bE;
-    }, [sessions]);
+    }, [sessions, mode]);
 
     return (
         <View style={styles.container}>
@@ -38,10 +38,10 @@ const Graph = () => {
 
 }
 
-const Bar = ({value, label, color, date}: {value: number, label: number, color: string, date?: Date}) => {
+const Bar = ({value, label, color, date}: {value: number, label: string, color: string, date?: Date}) => {
 
     const labelStyle = { ...styles.barLabel };
-    if(label === 0) labelStyle.color === Palette.grey.t500;
+    if(label === '0') labelStyle.color === Palette.grey.t500;
 
     const barStyle = { 
         ...styles.bar, 
@@ -55,7 +55,7 @@ const Bar = ({value, label, color, date}: {value: number, label: number, color: 
     return (
         <View>
             <Text style={styles.barLabel}>
-                {label === 0 ? '-' : label}
+                {label === '0' ? '-' : label}
             </Text>
             <View style={barStyle}/>
             <Text style={styles.dateLabel}>
@@ -80,6 +80,37 @@ const getBarColor = (attempts: Attempt[]) => {
     }
 
     return color;
+
+}
+
+const extractGraphData = {
+
+    ammount: {
+        max: (sessions: Session[]) =>  Math.max(...sessions.map(s => s.attempts.length)),
+        value: (session: Session, max: number ) => session.attempts.length/max,
+        label: (session: Session) => String(session.attempts.length),
+        barColor: getBarColor
+    },
+
+    duration: {
+        max: (sessions: Session[]) =>  Math.max(...sessions.map(s => s.endTime.getTime() - s.startTime.getTime())),
+        value: (session: Session, max: number ) => (session.endTime.getTime() - session.startTime.getTime())/max,
+        label: (session: Session) => {
+            const duration = session.endTime.getTime() - session.startTime.getTime();
+            const hours = Math.floor(duration / (1000 * 60 * 60)); 
+            const minutes = Math.floor(duration/ (1000 * 600)) % 6;
+
+            return `${hours},${minutes}`;
+        },
+        barColor: getBarColor
+    },
+
+    effort: {
+        max: (sessions: Session[]) =>  Math.max(...sessions.map(s => s.attempts.length)),
+        value: (session: Session, max: number ) => session.attempts.length/max,
+        label: (session: Session) => String(session.attempts.length),
+        barColor: getBarColor
+    }
 
 }
 

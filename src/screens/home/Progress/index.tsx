@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Palette, TextButton, UnderlineButton } from '../../../design-system';
 import { HomeNavigationProps } from '../../../navigator/HomeStack';
 import Graph from './Graph';
+import { useState } from 'react';
 
 const Progress = () =>
 {
     const navigation = useNavigation<HomeNavigationProps>();
+    const [ mode, setMode ] = useState<'ammount' | 'duration' | 'effort'>('ammount');
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -19,23 +22,23 @@ const Progress = () =>
                 <UnderlineButton
                     label='Vias'
                     accessibilityLabel='vias'
-                    onPress={() => {}}
-                    status='selected'
+                    onPress={() => setMode('ammount')}
+                    status={mode === 'ammount' ? 'selected' : 'unselected'}
                 />
                 <UnderlineButton
-                    label='Pontos'
-                    accessibilityLabel='pontos'
-                    onPress={() => {}}
-                    status='unselected'
+                    label='Duração'
+                    accessibilityLabel='duration'
+                    onPress={() => setMode('duration')}
+                    status={mode === 'duration' ? 'selected' : 'unselected'}
                 />
                 <UnderlineButton
                     label='Esforço'
                     accessibilityLabel='esforço'
-                    onPress={() => {}}
-                    status='unselected'
+                    onPress={() => setMode('effort')}
+                    status={mode === 'duration' ? 'selected' : 'unselected'}
                 />
             </View>
-            <Graph/>
+            <Graph mode={mode}/>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="NOVA SEÇÃO"

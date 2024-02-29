@@ -38,7 +38,7 @@ export default UnderlineButton;
 const styles = StyleSheet.create(
     {
         container: {
-            width: 56,
+            width: 66,
             height: 16,
             borderBottomWidth: 1,
             borderBottomColor: Palette.deepPurple.t900,
