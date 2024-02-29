@@ -86,6 +86,7 @@ export type Grade = {
 }
 
 export type Session = {
+    id: string,
     place: ClimbingGym,
     startTime: Date,
     expectedEndTime?: Date,

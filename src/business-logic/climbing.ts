@@ -1,16 +1,17 @@
 import { create } from "zustand";
 import { api, Attempt, ClimbingGym, Grade, Route, Session } from "./api";
 import { useProfileStore } from "./profile";
-
+import uuid from 'react-native-uuid';
 type ClimbingState = {
     routes: Route[],
     grades: Grade[],
     sessions: Session[],
     currentSession: Session,
-    workingAttempts: Attempt[];
+    workingAttempts: Attempt[],
 }
 
 const getBlankSession: () => Session = () => ({
+    id: String(uuid.v4()),
     place: {
         id: '-1',
         name: '',
@@ -54,6 +55,7 @@ export const climbingActions = {
     startSession: async (gym: ClimbingGym) => {
         
         const currentSession: Session = {
+            id: String(uuid.v4()),
             place: gym,
             startTime: getStartingHour(),
             endTime: getStartingHour(),

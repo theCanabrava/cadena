@@ -16,6 +16,7 @@
 14. Layout de botão desativado outline
 15. Permitir usuário salvar seção de dias anterióres
 16. Melhorar animações para seleção de mais de um contrato
+17. Animar gráfico de tentativas
 
 ## Concluidos
 1. Criar backlog - 15/08/23

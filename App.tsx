@@ -96,6 +96,7 @@ State.configure({
 
     getSessions: async (gym) => [
       {
+        id: String(uuid.v4()),
         place: gym,
         startTime: new Date('2024-01-23T12:00:00'),
         endTime: new Date('2024-01-23T13:10:00'),
@@ -105,6 +106,7 @@ State.configure({
         attempts: [makeAttempt(gym, 1, 'redpoint'), makeAttempt(gym, 2, 'redpoint'), makeAttempt(gym, 3, 'worked'), makeAttempt(gym, 4, 'worked'), makeAttempt(gym, 5, 'unfinished')]
       },
       {
+        id: String(uuid.v4()),
         place: gym,
         startTime: new Date('2024-01-24T12:00:00'),
         endTime: new Date('2024-01-24T13:30:00'),
@@ -114,6 +116,7 @@ State.configure({
         attempts: [makeAttempt(gym, 1, 'redpoint'), makeAttempt(gym, 2, 'redpoint'), makeAttempt(gym, 3, 'worked'), makeAttempt(gym, 4, 'worked'), makeAttempt(gym, 5, 'unfinished'), makeAttempt(gym, 5, 'unfinished')]
       },
       {
+        id: String(uuid.v4()),
         place: gym,
         startTime: new Date('2024-01-25T12:00:00'),
         endTime: new Date('2024-01-25T13:20:00'),
@@ -123,6 +126,7 @@ State.configure({
         attempts: [makeAttempt(gym, 1, 'redpoint'), makeAttempt(gym, 2, 'redpoint'), makeAttempt(gym, 3, 'worked'), makeAttempt(gym, 4, 'worked'), makeAttempt(gym, 5, 'worked')]
       },
       {
+        id: String(uuid.v4()),
         place: gym,
         startTime: new Date('2024-01-26T12:00:00'),
         endTime: new Date('2024-01-26T13:00:00'),
@@ -132,6 +136,7 @@ State.configure({
         attempts: [makeAttempt(gym, 1, 'redpoint'), makeAttempt(gym, 2, 'redpoint'), makeAttempt(gym, 2, 'redpoint'), makeAttempt(gym, 3, 'worked')]
       },
       {
+        id: String(uuid.v4()),
         place: gym,
         startTime: new Date('2024-01-27T12:00:00'),
         endTime: new Date('2024-01-27T13:26:00'),

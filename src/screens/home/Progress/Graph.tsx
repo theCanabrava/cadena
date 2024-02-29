@@ -1,18 +1,37 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Palette } from '../../../design-system';
+import State from '../../../business-logic';
+import { Attempt } from '../../../business-logic/api';
+import { useMemo } from 'react';
 
 const Graph = () => {
 
+    const sessions = State.stateHooks.useClimbingStore(s => s.sessions.filter((_, i) => i<8));
+
+    const barElements = useMemo(() => {
+        const max = Math.max(...sessions.map(s => s.attempts.length));
+        const bE = sessions.map(s => (
+    
+            <Bar
+                key={s.id}
+                value={s.attempts.length/max}
+                label={s.attempts.length}
+                color={getBarColor(s.attempts)}
+                date={s.startTime}
+            />
+    
+        ))
+        
+        while (bE.length < 8) {
+            bE.push(<Bar key={String(bE.length)} value={0} label={0} color={Palette.deepPurple.t100}/>);
+        }
+
+        return bE;
+    }, [sessions]);
+
     return (
         <View style={styles.container}>
-            <Bar value={4/7} label={4} color={Palette.deepPurple.t600} date={new Date()}/>
-            <Bar value={6/7} label={6} color={Palette.orange.t600} date={new Date()}/>
-            <Bar value={2/7} label={2} color={Palette.green.t600} date={new Date()}/>
-            <Bar value={7/7} label={7} color={Palette.deepPurple.t600} date={new Date()}/>
-            <Bar value={0} label={0} color={Palette.deepPurple.t100}/>
-            <Bar value={0} label={0} color={Palette.deepPurple.t100}/>
-            <Bar value={0} label={0} color={Palette.deepPurple.t100}/>
-            <Bar value={0} label={0} color={Palette.deepPurple.t100}/>
+            {barElements}
             <View style={styles.underline}/>
         </View>
     )
@@ -47,6 +66,22 @@ const Bar = ({value, label, color, date}: {value: number, label: number, color: 
 }
 
 export default Graph;
+
+const getBarColor = (attempts: Attempt[]) => {
+
+    let color = Palette.grey.t600;
+    let hardness = -1;
+
+    for(let attempt of attempts) {
+        if(attempt.route?.grade.hardness ?? -1 > hardness) {
+            hardness = attempt.route!.grade.hardness;
+            color = attempt.route!.grade.palette.t600;
+        }
+    }
+
+    return color;
+
+}
 
 const styles = StyleSheet.create(
     {
