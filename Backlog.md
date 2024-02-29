@@ -4,7 +4,6 @@
 
 ## Ativos
 2. Interface de registro com botão pequeno quando teclado estiver visível.
-3. Observações ao concluir uma seção de escalada.
 4. Readme md
 5. Testes unitários
 6. Centralizar verticalmente botão de camera e localização
@@ -18,8 +17,11 @@
 16. Melhorar animações para seleção de mais de um contrato
 17. Animar gráfico de tentativas
 18. Corrigir alinhamento de gráficos
+19. Organizar calculos para gráficos em regras de negócio
+20. Intervalo para transição entre teclado e dropdown
 
 ## Concluidos
 1. Criar backlog - 15/08/23
+3. Observações ao concluir uma seção de escalada. - 29/02/24
 11. Generalizar dropdown para aceitar qualquer tipo com um extrator de valor - 24/01/24
 12. Desabilitar botão de alarme quando tempo de fim não for selecionado - 06/02/24

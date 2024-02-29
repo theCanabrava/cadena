@@ -35,7 +35,7 @@ const Progress = () =>
                     label='Esforço'
                     accessibilityLabel='esforço'
                     onPress={() => setMode('effort')}
-                    status={mode === 'duration' ? 'selected' : 'unselected'}
+                    status={mode === 'effort' ? 'selected' : 'unselected'}
                 />
             </View>
             <Graph mode={mode}/>

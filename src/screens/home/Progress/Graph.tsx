@@ -83,6 +83,17 @@ const getBarColor = (attempts: Attempt[]) => {
 
 }
 
+const getAverageEffort = (attempts: Attempt[]) => {
+
+    let average = 0;
+
+    for(let attempt of attempts) average += attempt.dificulty;
+    if(attempts.length > 0) average /= attempts.length;
+
+    return average;
+
+}
+
 const extractGraphData = {
 
     ammount: {
@@ -98,17 +109,17 @@ const extractGraphData = {
         label: (session: Session) => {
             const duration = session.endTime.getTime() - session.startTime.getTime();
             const hours = Math.floor(duration / (1000 * 60 * 60)); 
-            const minutes = Math.floor(duration/ (1000 * 600)) % 6;
+            const hourDecimal = Math.floor(duration/ (1000 * 60 * 6)) % 10;
 
-            return `${hours},${minutes}`;
+            return `${hours}.${hourDecimal}`;
         },
         barColor: getBarColor
     },
 
     effort: {
-        max: (sessions: Session[]) =>  Math.max(...sessions.map(s => s.attempts.length)),
-        value: (session: Session, max: number ) => session.attempts.length/max,
-        label: (session: Session) => String(session.attempts.length),
+        max: (sessions: Session[]) =>  Math.max(...sessions.map(s => getAverageEffort(s.attempts))),
+        value: (session: Session, max: number ) => getAverageEffort(session.attempts)/max,
+        label: (session: Session) => String(Math.floor(getAverageEffort(session.attempts)*10)/10),
         barColor: getBarColor
     }
 
