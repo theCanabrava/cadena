@@ -19,6 +19,7 @@
 18. Corrigir alinhamento de gráficos
 19. Organizar calculos para gráficos em regras de negócio
 20. Intervalo para transição entre teclado e dropdown
+21. Remover onsight de status possível
 
 ## Concluidos
 1. Criar backlog - 15/08/23

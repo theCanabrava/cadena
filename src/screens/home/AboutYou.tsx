@@ -1,9 +1,25 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon, Palette, TextButton } from '../../design-system';
 import Label from './shared/Label';
+import State from '../../business-logic';
+import { useMemo } from 'react';
+import { Grade, Session } from '../../business-logic/api';
 
 const AboutYou = () =>
 {
+    const { sessions } = State.stateHooks.useClimbingStore();
+
+    const summary = useMemo(() => {
+        
+        return {
+            averageLength: getAverageLength(sessions),
+            favorite: getFavoriteMode(sessions),
+            averageGrade: getAverageDificulty(sessions),
+            maxGrade: getMaxGrade(sessions)
+        }
+
+    }, [sessions]);
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -14,12 +30,12 @@ const AboutYou = () =>
             </Text>
             <View style={styles.content}>
                 <ProfileBadge />
-                <Label title='Já foi escalar' value='3 vezes'/>
-                <Label title='Escala' value='5 vias por seção'/>
-                <Label title='Modalidade favorita' value='Top Rope'/>
-                <Label title='Graduação média' value='5' color={Palette.orange.t900}/>
+                <Label title='Já foi escalar' value={`${sessions.length} vezes`}/>
+                <Label title='Escala' value={`${summary.averageLength} vias por seção`}/>
+                <Label title='Modalidade favorita' value={`${summary.favorite}`}/>
+                <Label title='Graduação média' value={summary.averageGrade.name} color={summary.averageGrade.palette.t900}/>
             </View>
-            <ClimbUpTo grade='6B' palette={Palette.green}/>
+            <ClimbUpTo grade={summary.maxGrade.name} palette={summary.maxGrade.palette}/>
             <View style={styles.buttonContainer}>
                 <TextButton
                     label="VER PERFIL"
@@ -27,7 +43,7 @@ const AboutYou = () =>
                     accessibilityLabel='ver-perfil'
                     size='small'
                     sourceLeft='profile'
-                    status='secondary'
+                    status='disabled'
                 />
             </View>
         </View>
@@ -37,6 +53,21 @@ const AboutYou = () =>
 export default AboutYou;
 
 const ProfileBadge = () => {
+
+    const { username } = State.stateHooks.useProfileStore();
+    const { sessions } = State.stateHooks.useClimbingStore();
+
+    const timeString = useMemo(() => {
+        if(sessions.length === 0) return 'Ainda não escalou';
+
+        const today = new Date();
+        const years = today.getFullYear() - sessions[0].startTime.getFullYear();
+        const months = today.getMonth() - sessions[0].startTime.getMonth();
+
+        if(years > 0) return `Escala há ${years} ano${years>1 ? 's' : ''}.`;
+        else if(months > 0) return `Escala há ${months} ${months>1 ? 'meses' : 'mês'}.`
+    }, [sessions])
+
     return (
         <View style={profileStyles.container}>
             <View style={profileStyles.picture}>
@@ -49,15 +80,16 @@ const ProfileBadge = () => {
             </View>
             <View>
                 <Text style={profileStyles.username}>
-                    Nome de Usuário
+                    {username}
                 </Text>
                 <Text style={profileStyles.climbs}>
-                    Escala há menos de 1 mês
+                    {timeString}
                 </Text>
             </View>
         </View>
     )
 }
+
 
 const ClimbUpTo = ({grade, palette}: {grade: string, palette: { t50: string, t900: string}}) => {
 
@@ -82,6 +114,80 @@ const ClimbUpTo = ({grade, palette}: {grade: string, palette: { t50: string, t90
             </Text>
         </View>
     )
+}
+
+const getAverageLength = (sessions: Session[]) => {
+
+    let totalAttempts = 0;
+    for(let session of sessions) totalAttempts += session.attempts.length;
+    return Math.floor(totalAttempts / sessions.length);
+
+}
+
+const getFavoriteMode = (sessions: Session[]) => {
+
+    const account = {
+        mode: 'top-rope',
+        diference: 0
+    }
+
+    for(let session of sessions) {
+        for(let attempt of session.attempts) {
+            if(account.mode === attempt.route!.mode) account.diference += 1;
+            else account.diference -= 1;
+
+            if(account.diference <= 0) {
+                account.diference = 0;
+                account.mode = attempt.route!.mode;
+            }
+        }
+    }
+
+    const dictionary = {
+        'top-rope': 'Top Rope',
+        'lead': 'Guiada',
+        'boulder': 'Boulder'
+    }
+
+    return dictionary[account.mode as 'top-rope' | 'lead' | 'boulder']
+
+}
+
+const getAverageDificulty = (sessions: Session[]) => {
+
+    const account = {
+        grade: sessions[0].attempts[0].route!.grade,
+        diference: 0
+    }
+
+    for(let session of sessions) {
+        for(let attempt of session.attempts) {
+            if(account.grade.hardness === attempt.route!.grade.hardness) account.diference += 1;
+            else account.diference -= 1;
+
+            if(account.diference <= 0) {
+                account.diference = 0;
+                account.grade = attempt.route!.grade;
+            }
+        }
+    }
+
+    return account.grade;
+
+}
+
+const getMaxGrade = (sessions: Session[]) => {
+
+    let grade = { ...sessions[0].attempts[0].route!.grade, hardness: -1 };
+
+    for(let session of sessions) for(let attempt of session.attempts) {
+        if(attempt.status === 'redpoint' && attempt.route!.grade.hardness > grade.hardness) {
+            grade = attempt.route!.grade;
+        }
+    }
+
+    return grade;
+
 }
 
 const styles = StyleSheet.create(

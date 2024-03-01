@@ -75,14 +75,14 @@ const getAverageEffort = (attempts: Attempt[]) => {
 
 const getMaxGrade = (attempts: Attempt[]) => {
 
-    let color = Palette.grey.t600;
+    let color = Palette.grey.t900;
     let grade = '';
     let hardness = -1;
 
     for(let attempt of attempts) {
         if(attempt.route?.grade.hardness ?? -1 > hardness) {
             hardness = attempt.route!.grade.hardness;
-            color = attempt.route!.grade.palette.t600;
+            color = attempt.route!.grade.palette.t900;
             grade = attempt.route!.grade.name;
         }
     }
