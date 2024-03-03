@@ -3,7 +3,7 @@ import { Icon, Palette, TextButton } from '../../design-system';
 import Label from './shared/Label';
 import State from '../../business-logic';
 import { useMemo } from 'react';
-import { Grade, Session } from '../../business-logic/api';
+import { Session } from '../../business-logic/api';
 
 const AboutYou = () =>
 {

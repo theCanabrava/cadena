@@ -20,6 +20,7 @@
 19. Organizar calculos para gráficos em regras de negócio
 20. Intervalo para transição entre teclado e dropdown
 21. Remover onsight de status possível
+22. Implementação de splash screen
 
 ## Concluidos
 1. Criar backlog - 15/08/23

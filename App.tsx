@@ -4,6 +4,8 @@ import { Palette } from './src/design-system';
 import Navigator from './src/navigator';
 import { Attempt, ClimbingGym, Route } from './src/business-logic/api';
 import uuid from 'react-native-uuid';
+import './src/storage-api';
+import Profile from './src/storage-api/profile';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -12,39 +14,7 @@ if (Platform.OS === 'android') {
 }
 
 State.configure({
-  Profile: {
-    registerUser: async (u, g) => {
-    },
-
-    registerGyms: async () => {},
-
-    getGradingSystemOptions: async () =>  [
-      {
-        id: '1',
-        name: 'Graduação Francesa'
-      },
-      {
-        id: '2',
-        name: 'Graduação Brasileira'
-      }
-    ],
-
-    getUser: async () => ({
-      username: 'Victor Canabrava',
-      climbingGyms: [{
-        id: '1',
-        name: 'Rokaz - Savassi',
-        address: 'Rua Antônio de Albuquerque, 189',
-        type: 'gym'
-      }],
-      gradingSystem: {
-        id: '2',
-        name: 'Graduação Brasileira'
-      }
-    }),
-
-
-  },
+  Profile: Profile,
 
   Climbing: {
     getGrades: async () => {

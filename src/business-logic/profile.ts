@@ -30,7 +30,7 @@ export const profileActions = {
 
     registerUser: async (username: string, gradingSystem: GradeSystem) => {
     
-        await api!.Profile.registerUser(username, gradingSystem);
+        await api!.Profile.registerUser(username, gradingSystem); // TESTE: remover await 
         useProfileStore.setState(() => ({username, gradingSystem}));
 
     },
