@@ -24,6 +24,7 @@
 23. Transformar em genérica a interface para acessar o storage
 24. Implementar interface de loading pra home
 25. Corrigir graduação média
+27. Incluir imagens auxiliares
 
 ## Concluidos
 1. Criar backlog - 15/08/23

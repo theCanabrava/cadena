@@ -49,9 +49,8 @@ const Bar = ({value, label, color, date}: {value: number, label: string, color: 
         height: value > 0 ? value * 140 : 9
     };
 
-    const dateString = date ? `${date.getDate()}/${date.getMonth()+1}` : '';
+    const dateString = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth()+1).padStart(2, '0')}` : '';
     
-
     return (
         <View>
             <Text style={styles.barLabel}>
@@ -119,7 +118,7 @@ const extractGraphData = {
     effort: {
         max: (sessions: Session[]) =>  Math.max(...sessions.map(s => getAverageEffort(s.attempts))),
         value: (session: Session, max: number ) => getAverageEffort(session.attempts)/max,
-        label: (session: Session) => String(Math.floor(getAverageEffort(session.attempts)*10)/10),
+        label: (session: Session) => String(Math.round(getAverageEffort(session.attempts)*10)/10),
         barColor: getBarColor
     }
 
