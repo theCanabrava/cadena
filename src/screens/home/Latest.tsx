@@ -69,7 +69,7 @@ const getAverageEffort = (attempts: Attempt[]) => {
     for(let attempt of attempts) average += attempt.dificulty;
     if(attempts.length > 0) average /= attempts.length;
 
-    return String(average);
+    return String(Math.round(average*10)/10);
 
 }
 

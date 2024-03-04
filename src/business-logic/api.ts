@@ -94,7 +94,7 @@ export type Session = {
     routeObjective: number,
     attempts: Attempt[],
     edittingAttempt?: Attempt,
-    observation: String,
+    observation: string,
 }
 
 export type Route = {

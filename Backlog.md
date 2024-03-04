@@ -21,9 +21,13 @@
 20. Intervalo para transição entre teclado e dropdown
 21. Remover onsight de status possível
 22. Implementação de splash screen
+23. Transformar em genérica a interface para acessar o storage
+24. Implementar interface de loading pra home
+25. Corrigir graduação média
 
 ## Concluidos
 1. Criar backlog - 15/08/23
 3. Observações ao concluir uma seção de escalada. - 29/02/24
 11. Generalizar dropdown para aceitar qualquer tipo com um extrator de valor - 24/01/24
 12. Desabilitar botão de alarme quando tempo de fim não for selecionado - 06/02/24
+26. Corrigir esforço médio - 04/03/24
