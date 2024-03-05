@@ -7,7 +7,7 @@ echo -e "\033[1;33mPREPARAÇÃO:\033[0m Configurando variáveis de ambiente"
 echo -e "Sem ambiente para carregar"
 
 echo -e "\033[1;34mTESTES:\033[0m Realizando testes unitários"
-echo -e "Sem testes para executar"
+npm test
 
 cd android
 echo -e "\033[1;34mBUILD:\033[0m Gerando APK"
