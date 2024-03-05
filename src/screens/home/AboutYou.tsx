@@ -65,7 +65,7 @@ const ProfileBadge = () => {
         const months = today.getMonth() - sessions[0].startTime.getMonth();
 
         if(years > 0) return `Escala há ${years} ano${years>1 ? 's' : ''}.`;
-        else if(months > 0) return `Escala há ${months} ${months>1 ? 'meses' : 'mês'}.`
+        else if(months > 0) return `Escala há ${months} ${months>1 ? 'meses' : 'mês'}.`;
     }, [sessions])
 
     return (
