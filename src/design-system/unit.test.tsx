@@ -190,6 +190,31 @@ describe('Dropdown', () => {
 
         expect(selected!.id).toBe(options[0].id);
     })
+
+    it('closes when cover is pressed', () => {
+        const options = [
+            {id: 'option-a', value: 'OPTION A'},
+            {id: 'option-b', value: 'OPTION B'},
+        ]
+
+        let open = true
+
+        render(
+            <Dropdown
+                options={options}
+                extractOption={(i) => ({...i})}
+                selectedOption={o => {}}
+                label='Test'
+                placeholder='PLACEHOLDER'
+                accessibilityLabel='test'
+                openHandlers={[open, (o) => { open = o as boolean }]}
+            />
+        )
+
+        fireEvent.press(screen.getByLabelText('modal-cover'));
+
+        expect(open).toBe(false);
+    })
 })
 
 describe('IconButton', () => {

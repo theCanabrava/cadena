@@ -75,7 +75,10 @@ function Dropdown<T> ({
                 visible={open}
                 animationType='slide'
             >
-                <TouchableWithoutFeedback onPress={() => setOpen(false)}>
+                <TouchableWithoutFeedback 
+                    onPress={() => setOpen(false)} 
+                    accessibilityLabel='modal-cover'
+                >
                     <View style={styles.modalCover}>
                         <View style={styles.modal}>
                             <FlatList 
