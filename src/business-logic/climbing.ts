@@ -105,19 +105,16 @@ export const climbingActions = {
         useClimbingStore.setState(() => ({sessions}));
     },
 
-    saveSession: async (observation: String) => {
+    saveSession: async (observation: string) => {
         const session = useClimbingStore.getState().currentSession;
         session.observation = observation;
 
         await api.Climbing.saveSession(session);
 
-        // await api.Climbing.getSessions();
-
         useClimbingStore.setState((s) => ({
             currentSession: getBlankSession(),
             sessions: [...s.sessions, session],
         }))
-
 
     },
 
