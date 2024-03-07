@@ -290,6 +290,7 @@ describe('Climbing store', () => {
         const { currentSession } = State.stateHooks.useClimbingStore.getState();
 
         expect(currentSession.attempts[0].id).toBe('1');
+        
     })
 })
 
