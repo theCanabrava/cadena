@@ -20,7 +20,7 @@ describe('Profile state', () => {
         }))
     })
 
-    it('Registers a new user', async () => {
+    it('registers a new user', async () => {
         const storage = {username: '', system: {id: '', name: ''}};
         await State.configure(generateIntegrationApi(storage));
         await State.dispatch.profileActions.registerUser('user', {id: '1', name: 'Grade'});
@@ -30,7 +30,7 @@ describe('Profile state', () => {
         
     })
 
-    it('Adds a gym if none exists', async () => {
+    it('adds a gym if none exists', async () => {
         await State.configure(generateIntegrationApi({}));
         await State.dispatch.profileActions.editGym({name: 'gym', id: '1', address: '', type: 'gym'});
 
@@ -39,7 +39,7 @@ describe('Profile state', () => {
 
     })
 
-    it('Edits a gym if one with same id exists', async () => {
+    it('edits a gym if one with same id exists', async () => {
 
         await State.configure(generateIntegrationApi({}));
         await State.dispatch.profileActions.editGym({name: 'gym', id: '2', address: '', type: 'gym'});
@@ -50,7 +50,7 @@ describe('Profile state', () => {
         expect(climbingGyms[0].name).toBe('updated-gym');
     })
 
-    it('Removes a gym from registered list', async () => {
+    it('removes a gym from registered list', async () => {
 
         await State.configure(generateIntegrationApi({}));
         await State.dispatch.profileActions.editGym({name: 'gym', id: '2', address: '', type: 'gym'});
@@ -61,7 +61,7 @@ describe('Profile state', () => {
             
     })
 
-    it('Submit registered gyms to the API', async () => {
+    it('submit registered gyms to the API', async () => {
         const storage: { climbingGyms: ClimbingGym[] } = { climbingGyms: [] }
         await State.configure(generateIntegrationApi(storage));
         await State.dispatch.profileActions.editGym({name: 'gym', id: '1', address: '', type: 'gym'});
@@ -71,7 +71,7 @@ describe('Profile state', () => {
 
     })
 
-    it('Logs in', async () => {
+    it('logs in', async () => {
 
         await State.configure(generateIntegrationApi({}));
         await State.dispatch.profileActions.registerUser('user', {id: '1', name: 'Grade'});
@@ -83,7 +83,7 @@ describe('Profile state', () => {
         expect(loggedIn).toBe(true);
     })
 
-    it('Logs in automatically', async () => {
+    it('logs in automatically', async () => {
 
         const api = generateIntegrationApi({})
         await State.configure({...api, Profile: {...api.Profile, 
@@ -99,7 +99,7 @@ describe('Profile state', () => {
         expect(loggedIn).toBe(true);
     })
 
-    it('Toggles the gym modal flag', async () => {
+    it('toggles the gym modal flag', async () => {
 
         await State.configure(generateIntegrationApi({}));
         await State.dispatch.profileActions.toggleGymModal(true);
@@ -109,7 +109,7 @@ describe('Profile state', () => {
         expect(displayGymSelector).toBe(true);
     })
 
-    it('Selects a gym', async () => {
+    it('selects a gym', async () => {
 
         await State.configure(generateIntegrationApi({}));
         await State.dispatch.profileActions.selectGym({name: 'gym', id: '1', address: '', type: 'gym'});
