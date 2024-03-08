@@ -12,6 +12,7 @@ const AddGym = () =>
 {
   const { climbingGyms } = State.stateHooks.useProfileStore();
   const [page, setPage] = useState(climbingGyms.length);
+  const [ shouldScrollTo, setShouldScrollTo ] = useState(0);
   const scrollRef = createRef<FlatList>();
 
   const scrollTo = (p: number) => scrollRef.current?.scrollToIndex({index: p, animated: true});
@@ -26,6 +27,10 @@ const AddGym = () =>
       })
     }
   }, [climbingGyms]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollToIndex({index: shouldScrollTo, animated: true});
+  }, [shouldScrollTo])
 
   return (
     <>
@@ -76,8 +81,8 @@ const AddGym = () =>
                     address: '',
                     type: 'gym'
                   })
-
-                  scrollTo(climbingGyms.length-1);
+                  await wait(100);
+                  setShouldScrollTo(climbingGyms.length-1);
                 }}
                 accessibilityLabel='cadastrar-mais'
               />
@@ -86,8 +91,8 @@ const AddGym = () =>
               source='trash'
               onPress={async () => {
                 if(page === climbingGyms.length -1 ) {
-                  scrollTo(page-1);
-                  await wait(200);
+                  setShouldScrollTo(page-1);
+                  await wait(300);
                 }
                 State.dispatch.profileActions.removeGym(climbingGyms[page])
               }}

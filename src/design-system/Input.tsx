@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform } from 'react-native';
 import Palette from "./Palette";
 
 type InputProps = { 
@@ -78,6 +78,7 @@ const styles = StyleSheet.create(
             backgroundColor: Palette.mono.t50,
             fontFamily: 'Roboto-Regular',
             fontSize: 18,
+            height: Platform.OS === 'ios' ? 38 : undefined,
             color: Palette.grey.t900
         },
 
