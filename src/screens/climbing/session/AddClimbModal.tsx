@@ -63,7 +63,6 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                             }
                             horizontal
                             snapToInterval={PAGE_WIDTH}
-                            pagingEnabled={true}
                             keyExtractor={(r) => r.id}
                             onScroll={(e) => {
                                 const x = e.nativeEvent.contentOffset.x;
@@ -85,8 +84,9 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                             <View style={styles.dashboardButton}>
                                 <TextButton
                                     label='INCLUIR MAIS VIAS'
-                                    onPress={() => {
+                                    onPress={async () => {
                                         State.dispatch.climbingActions.setWorkingAttempts([...workingAttempts, generateAttempt()]);
+                                        await wait(100);
                                         setShouldScrollTo(workingAttempts.length);
                                     }}
                                     accessibilityLabel='incluir-mais-via'

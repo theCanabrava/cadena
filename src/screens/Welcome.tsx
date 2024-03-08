@@ -24,7 +24,7 @@ const Welcome = () =>
     <View style={styles.container}>
       <KeyboardListener
         onHide={() => {
-          Keyboard.dismiss();
+          //Keyboard.dismiss();
           setShowCameraButton(true);
         }}
       />

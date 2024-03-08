@@ -15,7 +15,7 @@ const RouteCell = ({id}: {id: string}) => {
 
     const cellStyle = { ...styles.cell, backgroundColor: palette.t50, borderColor: palette.t600 };
     const routePictureStyle = { ...styles.routePicture, backgroundColor: palette.t600 };
-    const cellHeaderStyle = { ...styles.cellHeader, borderColor: palette.t300 };
+    const cellHeaderStyle = { ...styles.cellHeader, borderBottomColor: palette.t300 };
     const cellTitleStyle = { ...styles.cellTitle, color: palette.t900 };
     const routeNumberStyle = { ...styles.routeNumber, color: palette.t300 };
     
@@ -105,7 +105,7 @@ const styles = StyleSheet.create(
             justifyContent: 'space-between',
             alignItems: 'flex-start',
             borderBottomWidth: 1,
-            borderBottomColor: Palette.deepPurple.t300
+            borderBottomColor: 'red'
         },
 
         cellTitle: {
