@@ -8,6 +8,7 @@ import { Session } from '../../business-logic/api';
 const AboutYou = () =>
 {
     const { sessions } = State.stateHooks.useClimbingStore();
+    const { selectedGym } = State.stateHooks.useProfileStore();
 
     const summary = useMemo(() => {
         
@@ -30,6 +31,7 @@ const AboutYou = () =>
             </Text>
             <View style={styles.content}>
                 <ProfileBadge />
+                <Label title={`Na ${selectedGym.name} você`} value=''/>
                 <Label title='Já foi escalar' value={`${sessions.length} vezes`}/>
                 <Label title='Escala' value={`${summary.averageLength} vias por seção`}/>
                 <Label title='Modalidade favorita' value={`${summary.favorite}`}/>

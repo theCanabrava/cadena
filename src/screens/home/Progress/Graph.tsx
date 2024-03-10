@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 
 const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
-    const sessions = State.stateHooks.useClimbingStore(s => s.sessions.filter((_, i) => i<8));
+    const sessions = State.stateHooks.useClimbingStore(s => s.sessions.filter((_, i) => i > s.sessions.length - 9));
 
     const barElements = useMemo(() => {
         const max = extractGraphData[mode].max(sessions);

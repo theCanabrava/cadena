@@ -50,9 +50,11 @@ type GymCellProps =
 }
 const GymCell = ({gym}: GymCellProps) =>
 {
-    const selectInstalation = () =>
+    const selectInstalation = async () =>
     {
-        State.dispatch.profileActions.selectGym(gym);
+        State.dispatch.profileActions.selectGym(gym)
+         
+        await State.dispatch.climbingActions.loadSessions(gym);
         State.dispatch.profileActions.toggleGymModal(false);
     }
 
