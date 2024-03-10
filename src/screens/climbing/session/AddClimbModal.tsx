@@ -18,6 +18,7 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
     const [page, setPage] = useState(0);
     const scrollRef = createRef<FlatList>();
     const { params } = useRoute<SessionRouteProps>();
+    const [allowScroll, setAllowScroll] = useState(true);
 
     const scrollTo = (i: number) => scrollRef.current?.scrollToIndex({index: i, animated: true});
 
@@ -29,7 +30,7 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
 
     useEffect(() => {
         if(params.command === 'add-route') {
-            scrollTo(workingAttempts.length-1);
+            setTimeout(() => {setShouldScrollTo(workingAttempts.length - 1)}, 200);
         }
     }, [params])
 
@@ -58,10 +59,12 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                                         State.dispatch.climbingActions.setWorkingAttempts([...workingAttempts]);
                                     }} 
                                     last={item.id === workingAttempts[workingAttempts.length-1].id}         
-                                    onClose={onClose}                  
+                                    onClose={onClose}      
+                                    setAllowScroll={setAllowScroll}            
                                 />
                             }
                             horizontal
+                            scrollEnabled={allowScroll}
                             snapToInterval={PAGE_WIDTH}
                             keyExtractor={(r) => r.id}
                             onScroll={(e) => {

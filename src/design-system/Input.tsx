@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet, Platform } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform, Keyboard } from 'react-native';
 import Palette from "./Palette";
 
 type InputProps = { 
@@ -39,10 +39,14 @@ const Input = ({
                 onChangeText={setValue}
                 accessibilityLabel={accessibilityLabel}
                 onFocus={onStart}
-                onBlur={onDone}
+                onBlur={() => {
+                    onDone();
+                    Keyboard.dismiss();
+                }}
                 keyboardType={keyboardType}
                 multiline={multiline}
                 textAlignVertical={multiline ? 'top' : undefined}
+                returnKeyType='done'
             />
         </View>
     )

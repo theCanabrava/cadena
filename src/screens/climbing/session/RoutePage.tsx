@@ -13,8 +13,9 @@ type RoutePageProps = {
     setAttempt: (a: Attempt) => void,
     last: boolean,
     onClose: () => void,
+    setAllowScroll: (a: boolean) => void
 }
-const RoutePage = ({attempt, setAttempt, last, onClose}: RoutePageProps) => {
+const RoutePage = ({attempt, setAttempt, last, onClose, setAllowScroll}: RoutePageProps) => {
 
     const { routes } = State.stateHooks.useClimbingStore();
     const [option, setOption] = useState<Route | undefined>(attempt.route)
@@ -59,6 +60,8 @@ const RoutePage = ({attempt, setAttempt, last, onClose}: RoutePageProps) => {
                 }}
                 label='Esforço'
                 accessibilityLabel='esforço'
+                onTouchStart={() => setAllowScroll(false)}
+                onTouchDone={() => setAllowScroll(true)}
             />
             <View style={styles.checkboxRow}>
                 <Checkbox

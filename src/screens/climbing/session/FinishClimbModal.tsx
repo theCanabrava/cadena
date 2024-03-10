@@ -1,7 +1,7 @@
 import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { View, StyleSheet, Modal, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Modal, TouchableOpacity, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import State from '../../../business-logic';
 import { Icon, Input, Palette, TextButton } from '../../../design-system';
 import { displaySelected } from '../../../design-system/DatePicker';
@@ -28,6 +28,7 @@ const FinishClimbModal = ({display, onClose}: {display: boolean, onClose: () => 
                 transparent={true}
                 visible={display}
             >
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalCard}>
                         <View style={styles.titleRow}>
@@ -87,6 +88,7 @@ const FinishClimbModal = ({display, onClose}: {display: boolean, onClose: () => 
                         />
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
         </>
     )

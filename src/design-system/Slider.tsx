@@ -8,16 +8,23 @@ type ProgressProps = {
     label: string,
     accessibilityLabel: string,
     minimun?: number,
-    maximun?: number
+    maximun?: number,
+    onTouchStart?: () => void,
+    onTouchDone?: () => void,
 }
-const Slider = ({value, setValue, label, accessibilityLabel, minimun = 1, maximun = 5}: ProgressProps) => {
+const Slider = ({value, setValue, label, accessibilityLabel, minimun = 1, maximun = 5, onTouchStart = () => {}, onTouchDone = () => {}}: ProgressProps) => {
 
     return (
-        <View style={styles.progress} accessibilityLabel={accessibilityLabel}>
+        <View 
+            style={styles.progress} 
+            accessibilityLabel={accessibilityLabel} 
+        >
             <Text style={styles.label}>
                 {label}: <Text style={styles.value}>{value}</Text>
             </Text>
             <RNSlider
+                onSlidingStart={onTouchStart}
+                onSlidingComplete={onTouchDone}
                 value={[value]}
                 minimumValue={minimun}
                 maximumValue={maximun}

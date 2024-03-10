@@ -55,6 +55,7 @@ const EditClimbModal = () =>
                             onClose={() => {
                                 State.dispatch.climbingActions.editCurrentSession({...currentSession, edittingAttempt: undefined});
                             }}
+                            setAllowScroll={() => {}}
                         />
                         <View style={styles.spacer}/>
                         <TextButton
