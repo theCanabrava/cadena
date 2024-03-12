@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, LayoutAnimation } from 'react-native';
 import { Palette } from '../../../design-system';
 import State from '../../../business-logic';
 import { Attempt, Session } from '../../../business-logic/api';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
@@ -10,7 +10,7 @@ const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
     const barElements = useMemo(() => {
         const max = extractGraphData[mode].max(sessions);
-        const bE = sessions.map(s => (
+        const bE = sessions.map((s, i) => (
     
             <Bar
                 key={s.id}
@@ -18,12 +18,13 @@ const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
                 label={extractGraphData[mode].label(s)}
                 color={extractGraphData[mode].barColor(s.attempts)}
                 date={s.startTime}
+                delay={100*i}
             />
     
         ))
         
         while (bE.length < 8) {
-            bE.push(<Bar key={String(bE.length)} value={0} label={'0'} color={Palette.deepPurple.t100}/>);
+            bE.push(<Bar key={String(bE.length)} value={0} label={'0'} color={Palette.deepPurple.t100} delay={0}/>);
         }
 
         return bE;
@@ -38,21 +39,31 @@ const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
 }
 
-const Bar = ({value, label, color, date}: {value: number, label: string, color: string, date?: Date}) => {
+const Bar = ({value, label, color, date, delay}: {value: number, label: string, color: string, date?: Date, delay: number}) => {
 
+    const [height, setHeight] = useState(9);
     const labelStyle = { ...styles.barLabel };
     if(label === '0') labelStyle.color === Palette.grey.t500;
+
+    useEffect(() =>
+    {
+        setTimeout(() =>
+        {
+            setHeight(value > 0 ? value * 140 : 9);
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        }, delay)
+    }, [value]);
 
     const barStyle = { 
         ...styles.bar, 
         backgroundColor: color,
-        height: value > 0 ? value * 140 : 9
+        height
     };
 
     const dateString = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth()+1).padStart(2, '0')}` : '';
-    
+
     return (
-        <View>
+        <View style={{overflow: 'visible'}}>
             <Text style={styles.barLabel}>
                 {label === '0' ? '-' : label}
             </Text>
@@ -130,7 +141,8 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: 'space-around',
             alignItems: 'flex-end',
-            marginBottom: 24
+            marginBottom: 24,
+            height:181
         },
 
         barLabel: {
