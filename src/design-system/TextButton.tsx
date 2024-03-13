@@ -8,7 +8,7 @@ type TextButtonProps =
     label: string,
     onPress: () => void,
     accessibilityLabel: string,
-    status?: 'active' | 'disabled' | 'outlined' | 'carefull' | 'secondary',
+    status?: 'active' | 'disabled' | 'outlined' | 'carefull' | 'secondary' | 'outline-disabled',
     size?: 'small' | 'large',
     sourceLeft?: IconSource
 }
@@ -30,7 +30,8 @@ const TextButton = ({
         ({
             ...b,
             backgroundColor: STYLE_MAP.buttonColor[status],
-            borderWidth: STYLE_MAP.borderWidth[status]
+            borderWidth: STYLE_MAP.borderWidth[status],
+            borderColor: STYLE_MAP.fontColor[status]
         }))
 
         setLabelStyle(l =>
@@ -59,7 +60,7 @@ const TextButton = ({
         <TouchableOpacity
             onPress={onPress}
             accessibilityLabel={accessibilityLabel}
-            disabled={status === 'disabled'}
+            disabled={status === 'disabled' || status === 'outline-disabled'}
         >
             <View style={buttonStyle}>
                 {
@@ -119,6 +120,7 @@ const STYLE_MAP =
         active: Palette.green.t600,
         secondary: Palette.deepPurple.t600,
         disabled: Palette.grey.t600,
+        'outline-disabled': Palette.mono.t50,
         outlined: Palette.mono.t50,
         carefull: Palette.red.t600
     },
@@ -137,6 +139,7 @@ const STYLE_MAP =
         active: Palette.mono.t50,
         secondary: Palette.mono.t50,
         disabled: Palette.mono.t50,
+        'outline-disabled': Palette.grey.t600,
         outlined: Palette.deepPurple.t900,
         carefull: Palette.mono.t50
     },
@@ -145,6 +148,7 @@ const STYLE_MAP =
         active: 0,
         secondary: 0,
         disabled: 0,
+        'outline-disabled': 1,
         outlined: 1,
         carefull: 0
     }

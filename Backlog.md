@@ -10,7 +10,6 @@
 9. Criar uma tela separada para seleção da via escalada
 10. Passar onClose dos modais para gerenciamento de estados
 13. Animar transição de cards de escalada
-14. Layout de botão desativado outline
 15. Permitir usuário salvar seção de dias anterióres
 16. Melhorar animações para seleção de mais de um contrato
 18. Corrigir alinhamento de gráficos
@@ -24,6 +23,7 @@
 27. Incluir imagens auxiliares
 28. Testes de interface
 29. Deixar barra de status roxa
+30. Separar estilo de status em botão
 
 
 ## Concluidos
@@ -33,5 +33,6 @@
 8. Desabilitar checkbox quando data final não for preenchida - 12/03/24
 11. Generalizar dropdown para aceitar qualquer tipo com um extrator de valor - 24/01/24
 12. Desabilitar botão de alarme quando tempo de fim não for selecionado - 06/02/24
+14. Layout de botão desativado outline - 13/03/24
 17. Animar gráfico de tentativas - 12/03/24
 26. Corrigir esforço médio - 04/03/24

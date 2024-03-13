@@ -323,6 +323,17 @@ describe('TextButton', () => {
 
     })
 
+    it('does not fire an event when disabled and outlined', () => {
+        
+        let fired = false;
+
+        render(<TextButton label='TEST' accessibilityLabel='test' onPress={() => { fired = true; }} status='outline-disabled'/>);
+        fireEvent.press(screen.getByText('TEST'));
+
+        expect(fired).toBe(false);
+
+    })
+
     it('can be rendered on any size', () => {
 
         let sizes = '';
@@ -352,6 +363,7 @@ describe('TextButton', () => {
                 <TextButton label='DISABLED' accessibilityLabel='disabled' onPress={() => { sizes += '-d'; }} status='disabled'/>
                 <TextButton label='OUTLINED' accessibilityLabel='outlined' onPress={() => { sizes += '-o'; }} status='outlined'/>
                 <TextButton label='SECONDARY' accessibilityLabel='secondary' onPress={() => { sizes += '-s'; }} status='secondary'/>
+                <TextButton label='OUTLINE-DISABLED' accessibilityLabel='outline-disabled' onPress={() => { sizes += '-od'; }} status='outline-disabled'/>
             </>
         );
 
@@ -360,6 +372,7 @@ describe('TextButton', () => {
         fireEvent.press(screen.getByText('DISABLED'));
         fireEvent.press(screen.getByText('OUTLINED'));
         fireEvent.press(screen.getByText('SECONDARY'));
+        fireEvent.press(screen.getByText('OUTLINE-DISABLED'));
 
         expect(sizes).toBe('-a-c-o-s');
     })
