@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, LayoutAnimation } from 'react-native';
+import { View, Text, StyleSheet, LayoutAnimation, Animated, Easing, Platform } from 'react-native';
 import { Palette } from '../../../design-system';
 import State from '../../../business-logic';
 import { Attempt, Session } from '../../../business-logic/api';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
@@ -39,7 +39,7 @@ const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
 }
 
-const Bar = ({value, label, color, date, delay}: {value: number, label: string, color: string, date?: Date, delay: number}) => {
+const BarAndroid = ({value, label, color, date, delay}: {value: number, label: string, color: string, date?: Date, delay: number}) => {
 
     const [height, setHeight] = useState(9);
     const labelStyle = { ...styles.barLabel };
@@ -74,6 +74,45 @@ const Bar = ({value, label, color, date, delay}: {value: number, label: string, 
         </View>
     )
 }
+
+const BarIos = ({value, label, color, date, delay}: {value: number, label: string, color: string, date?: Date, delay: number}) => {
+
+    const labelStyle = { ...styles.barLabel };
+    if(label === '0') labelStyle.color === Palette.grey.t500;
+    const height = useRef(new Animated.Value(9)).current;
+
+    useEffect(() => {
+        setTimeout(() => {
+            Animated.timing(height, {
+                toValue: value > 0 ? value * 140 : 9,
+                duration: 300,
+                useNativeDriver: false
+            }).start()
+        }, delay)
+    }, [value])
+
+    const barStyle = { 
+        ...styles.bar, 
+        backgroundColor: color,
+        height
+    };
+
+    const dateString = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth()+1).padStart(2, '0')}` : '';
+
+    return (
+        <View style={{overflow: 'visible'}}>
+            <Text style={styles.barLabel}>
+                {label === '0' ? '-' : label}
+            </Text>
+            <Animated.View style={barStyle}/>
+            <Text style={styles.dateLabel}>
+                {dateString}
+            </Text>
+        </View>
+    )
+}
+
+const Bar = Platform.OS === 'ios' ? BarIos : BarAndroid;
 
 export default Graph;
 
