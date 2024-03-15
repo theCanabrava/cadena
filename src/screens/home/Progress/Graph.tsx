@@ -63,7 +63,7 @@ const BarAndroid = ({value, label, color, date, delay}: {value: number, label: s
     const dateString = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth()+1).padStart(2, '0')}` : '';
 
     return (
-        <View style={{overflow: 'visible'}}>
+        <View style={styles.barContainer}>
             <Text style={styles.barLabel}>
                 {label === '0' ? '-' : label}
             </Text>
@@ -100,7 +100,7 @@ const BarIos = ({value, label, color, date, delay}: {value: number, label: strin
     const dateString = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth()+1).padStart(2, '0')}` : '';
 
     return (
-        <View style={{overflow: 'visible'}}>
+        <View style={styles.barContainer}>
             <Text style={styles.barLabel}>
                 {label === '0' ? '-' : label}
             </Text>
@@ -158,9 +158,9 @@ const extractGraphData = {
         label: (session: Session) => {
             const duration = session.endTime.getTime() - session.startTime.getTime();
             const hours = Math.floor(duration / (1000 * 60 * 60)); 
-            const hourDecimal = Math.floor(duration/ (1000 * 60 * 6)) % 10;
+            const minutes = Math.floor(duration/ (1000 * 60)) % 60;
 
-            return `${hours}.${hourDecimal}`;
+            return `${hours}:${String(minutes).padStart(2, '0')}`;
         },
         barColor: getBarColor
     },
@@ -184,8 +184,13 @@ const styles = StyleSheet.create(
             height:181
         },
 
+        barContainer: {
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'center'
+        },
+
         barLabel: {
-            width: 18,
             height: 18,
             textAlign: 'center',
             textAlignVertical: 'center',
