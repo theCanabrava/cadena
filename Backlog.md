@@ -12,7 +12,6 @@
 13. Animar transição de cards de escalada
 15. Permitir usuário salvar seção de dias anterióres
 16. Melhorar animações para seleção de mais de um contrato
-19. Organizar calculos para gráficos em regras de negócio
 20. Intervalo para transição entre teclado e dropdown
 21. Remover onsight de status possível
 22. Implementação de splash screen
@@ -36,4 +35,5 @@
 14. Layout de botão desativado outline - 13/03/24
 17. Animar gráfico de tentativas - 12/03/24
 18. Corrigir alinhamento de gráficos - 14/03/24
+19. Organizar calculos para gráficos em regras de negócio - 15/03/24
 26. Corrigir esforço médio - 04/03/24
