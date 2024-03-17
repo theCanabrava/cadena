@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, ReactElement, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Modal, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
 import Icon from "./icons";
 import Palette from "./Palette";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type DropdownProps<T> = { 
     option?: T, 
@@ -34,8 +35,10 @@ function Dropdown<T> ({
 {
 
     const [ open, setOpen ] = openHandlers;
+    const { bottom } = useSafeAreaInsets();
     const selectedStyle = {...styles.selected};
     if(option === undefined) selectedStyle.color = Palette.grey.t600;
+
 
     return (
         <>
@@ -83,6 +86,7 @@ function Dropdown<T> ({
                         <View style={styles.modal}>
                             <FlatList 
                                 ListHeaderComponent={Header}
+                                ListFooterComponent={<View style={{height: bottom + 8}}/>}
                                 data={options}
                                 renderItem={({item}) => {
 
@@ -104,6 +108,7 @@ function Dropdown<T> ({
                                         return renderCell(item, onPress);
                                     }
                                 }}
+                                
                             />
                         </View>
                     </View>
@@ -203,4 +208,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 8,
     },
+
+    footer: {
+        height: 16
+    }
 })
