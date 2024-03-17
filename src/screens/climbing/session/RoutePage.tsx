@@ -66,7 +66,7 @@ const RoutePage = ({attempt, setAttempt, last, onClose, setAllowScroll}: RoutePa
             <View style={styles.checkboxRow}>
                 <Checkbox
                     label='Cadena'
-                    isChecked={attempt.status === 'redpoint' || attempt.status === 'onsight'}
+                    isChecked={attempt.status === 'redpoint'}
                     onChecked={(c) => {
                         if(c) setAttempt({...attempt, status: 'redpoint'});
                         else setAttempt({...attempt, status: 'worked'});
@@ -75,7 +75,7 @@ const RoutePage = ({attempt, setAttempt, last, onClose, setAllowScroll}: RoutePa
                 />
                 <Checkbox
                     label='Finalizado'
-                    isChecked={attempt.status === 'redpoint' || attempt.status === 'onsight' || attempt.status === 'worked'}
+                    isChecked={attempt.status === 'redpoint' || attempt.status === 'worked'}
                     onChecked={(c) => {
                         if(c) setAttempt({...attempt, status: 'worked'});
                         else setAttempt({...attempt, status: 'unfinished'});

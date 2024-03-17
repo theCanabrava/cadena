@@ -13,15 +13,13 @@
 15. Permitir usuário salvar seção de dias anterióres
 16. Melhorar animações para seleção de mais de um contrato
 20. Intervalo para transição entre teclado e dropdown
-21. Remover onsight de status possível
 22. Implementação de splash screen
 23. Transformar em genérica a interface para acessar o storage
 24. Implementar interface de loading pra home
 25. Corrigir graduação média
 27. Incluir imagens auxiliares
 28. Testes de interface
-29. Deixar barra de status roxa
-30. Separar estilo de status em botão
+30. Separar estilo de status em botão - 
 31. Normalizar valores de gráficos
 
 
@@ -36,4 +34,6 @@
 17. Animar gráfico de tentativas - 12/03/24
 18. Corrigir alinhamento de gráficos - 14/03/24
 19. Organizar calculos para gráficos em regras de negócio - 15/03/24
+21. Remover onsight de status possível - 17/03/24
 26. Corrigir esforço médio - 04/03/24
+29. Deixar barra de status roxa - 17/03/24

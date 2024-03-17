@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import Icon, { IconSource } from './icons';
 import Palette from './Palette';
@@ -8,9 +8,11 @@ type TextButtonProps =
     label: string,
     onPress: () => void,
     accessibilityLabel: string,
-    status?: 'active' | 'disabled' | 'outlined' | 'carefull' | 'secondary' | 'outline-disabled',
+    status?: 'active' | 'outlined' | 'carefull' | 'secondary',
+    disabled?: boolean,
     size?: 'small' | 'large',
-    sourceLeft?: IconSource
+    sourceLeft?: IconSource,
+    debug?: boolean
 }
 const TextButton = ({
     label, 
@@ -18,49 +20,43 @@ const TextButton = ({
     accessibilityLabel, 
     status = 'active', 
     size = 'large',
-    sourceLeft
+    sourceLeft,
+    disabled = false,
+    debug = false
 }: TextButtonProps) =>
 {
-    const [ buttonStyle, setButtonStyle ] = useState({...styles.button})
-    const [ labelStyle, setLabelStyle ] = useState({...styles.label})
+    //const [ buttonStyle, setButtonStyle ] = useState({...styles.button})
+    //const [ labelStyle, setLabelStyle ] = useState({...styles.label})
+    const styleString = useMemo(() => {
+        if (disabled && status === 'outlined') return 'outline-disabled';
+        else if (disabled) return 'disabled';
+        else return status; 
+    }, [disabled, status])
 
-    useEffect(() =>
-    {
-        setButtonStyle(b => 
-        ({
-            ...b,
-            backgroundColor: STYLE_MAP.buttonColor[status],
-            borderWidth: STYLE_MAP.borderWidth[status],
-            borderColor: STYLE_MAP.fontColor[status]
-        }))
+    const buttonStyle = useMemo(() => ({
+        ...styles.button,
+        backgroundColor: STYLE_MAP.buttonColor[styleString],
+        borderWidth: STYLE_MAP.borderWidth[styleString],
+        borderColor: STYLE_MAP.fontColor[styleString],
+        height: STYLE_MAP.buttonSize[size]
+    }), [styleString, size]);
 
-        setLabelStyle(l =>
-        ({
-            ...l,
-            color: STYLE_MAP.fontColor[status]
-        }))
-    }, [status])
+    const labelStyle = useMemo(() => ({
+        ...styles.label,
+        color: STYLE_MAP.fontColor[styleString],
+        fontSize: STYLE_MAP.fontSize[size]
+    }), [styleString, size]);
 
-    useEffect(() =>
-    {
-        setButtonStyle(b => 
-        ({
-            ...b,
-            height: STYLE_MAP.buttonSize[size]
-        }))
-
-        setLabelStyle(l => 
-        ({
-            ...l,
-            fontSize: STYLE_MAP.fontSize[size]
-        }))
-    }, [size])
+    if(debug) {
+        console.log(`Status: ${status}, diasbled: ${disabled}`)
+        console.log('Style string', styleString);
+    }
 
     return (
         <TouchableOpacity
             onPress={onPress}
             accessibilityLabel={accessibilityLabel}
-            disabled={status === 'disabled' || status === 'outline-disabled'}
+            disabled={disabled}
         >
             <View style={buttonStyle}>
                 {

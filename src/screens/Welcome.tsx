@@ -74,7 +74,7 @@ const Welcome = () =>
             navigation.navigate('login/add-gym');
           }}
           accessibilityLabel='registrar'
-          status={username.length > 0 && grade !== undefined ? 'active' : 'disabled'}
+          disabled={!(username.length > 0 && grade !== undefined)}
         />
       </View>
     </View>

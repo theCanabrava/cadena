@@ -45,7 +45,7 @@ const AboutYou = () =>
                     accessibilityLabel='ver-perfil'
                     size='small'
                     sourceLeft='profile'
-                    status='disabled'
+                    disabled
                 />
             </View>
         </View>

@@ -107,7 +107,7 @@ const AddGym = () =>
               await State.dispatch.profileActions.logIn();
             }}
             accessibilityLabel='continuar'
-            status={getRegisterStatus(climbingGyms)}
+            disabled={getRegisterStatus(climbingGyms)}
           />
         </View>
       </View>
@@ -147,12 +147,12 @@ const AddGym = () =>
 
 export default AddGym;
 
-const getRegisterStatus = (gyms: ClimbingGym[]): "active" | "disabled" => {
+const getRegisterStatus = (gyms: ClimbingGym[]) => {
   for(let gym of gyms) {
-    if(gym.name === '') return 'disabled';
-    else if(gym.type !== "gym" && gym.type !== "craig") return "disabled";
+    if(gym.name === '') return true;
+    else if(gym.type !== "gym" && gym.type !== "craig") return true;
   }
-  return 'active';
+  return false;
 }
 
 const styles = StyleSheet.create(

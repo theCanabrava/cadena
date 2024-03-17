@@ -66,8 +66,7 @@ export default RouteCell;
 const STATUS_MAP = {
     unfinished: 'Não finalizado',
     worked: 'Trabalhado',
-    redpoint: 'Cadena',
-    onsight: 'Onsight'
+    redpoint: 'Cadena'
 }
 
 const styles = StyleSheet.create(

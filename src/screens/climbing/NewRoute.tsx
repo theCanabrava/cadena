@@ -123,7 +123,7 @@ const NewRoute = () =>
                     label='CADASTRAR'
                     accessibilityLabel='cadastrar'
                     onPress={saveRoute}
-                    status={selectedGrade !== undefined && name !== '' && modality !== undefined ? 'active' : 'disabled'}
+                    disabled={selectedGrade === undefined || name === '' || modality === undefined}
                 />
             </View>
         </View>

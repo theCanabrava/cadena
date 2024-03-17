@@ -110,5 +110,5 @@ export type Attempt = {
     id: string;
     route?: Route;
     dificulty: 1 | 2 | 3 | 4 | 5;
-    status: 'unfinished' | 'worked' | 'redpoint' | 'onsight';
+    status: 'unfinished' | 'worked' | 'redpoint' ;
 }

@@ -44,7 +44,7 @@ const Latest = () =>
                     accessibilityLabel='ver-detalhes'
                     size='small'
                     sourceLeft='mountain-details'
-                    status='disabled'
+                    disabled
                 />
             </View>
         </View>

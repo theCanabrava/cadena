@@ -83,14 +83,14 @@ describe('Dropdown', () => {
         let selected: {id: string, value: string} | undefined = undefined;
 
         render(
-            <Dropdown
-                options={options}
-                extractOption={(i) => ({...i})}
-                selectedOption={o => {selected = o}}
-                label='Test'
-                placeholder='PLACEHOLDER'
-                accessibilityLabel='test'
-            />
+                <Dropdown
+                    options={options}
+                    extractOption={(i) => ({...i})}
+                    selectedOption={o => {selected = o}}
+                    label='Test'
+                    placeholder='PLACEHOLDER'
+                    accessibilityLabel='test'
+                />
         )
 
         fireEvent.press(screen.getByText('PLACEHOLDER'));
@@ -109,22 +109,22 @@ describe('Dropdown', () => {
         let selected: {id: string, value: string} | undefined = undefined;
 
         render(
-            <Dropdown
-                options={options}
-                extractOption={(i) => ({...i})}
-                selectedOption={o => {selected = o}}
-                label='Test'
-                placeholder='PLACEHOLDER'
-                accessibilityLabel='test'
-                obrigatory
-                Header={
-                    <TextButton
-                        label='HEADER'
-                        onPress={() => {selected = {id: 'header', value: 'header'}}}
-                        accessibilityLabel='header'
-                    />
-                }
-            />
+                <Dropdown
+                    options={options}
+                    extractOption={(i) => ({...i})}
+                    selectedOption={o => {selected = o}}
+                    label='Test'
+                    placeholder='PLACEHOLDER'
+                    accessibilityLabel='test'
+                    obrigatory
+                    Header={
+                        <TextButton
+                            label='HEADER'
+                            onPress={() => {selected = {id: 'header', value: 'header'}}}
+                            accessibilityLabel='header'
+                        />
+                    }
+                />
         )
 
         fireEvent.press(screen.getByText('PLACEHOLDER'));
@@ -316,7 +316,7 @@ describe('TextButton', () => {
         
         let fired = false;
 
-        render(<TextButton label='TEST' accessibilityLabel='test' onPress={() => { fired = true; }} status='disabled'/>);
+        render(<TextButton label='TEST' accessibilityLabel='test' onPress={() => { fired = true; }} disabled/>);
         fireEvent.press(screen.getByText('TEST'));
 
         expect(fired).toBe(false);
@@ -327,7 +327,7 @@ describe('TextButton', () => {
         
         let fired = false;
 
-        render(<TextButton label='TEST' accessibilityLabel='test' onPress={() => { fired = true; }} status='outline-disabled'/>);
+        render(<TextButton label='TEST' accessibilityLabel='test' onPress={() => { fired = true; }} disabled/>);
         fireEvent.press(screen.getByText('TEST'));
 
         expect(fired).toBe(false);
@@ -360,10 +360,10 @@ describe('TextButton', () => {
             <>
                 <TextButton label='ACTIVE' accessibilityLabel='active' onPress={() => { sizes += '-a'; }} status='active'/>
                 <TextButton label='CAREFULL' accessibilityLabel='carefull' onPress={() => { sizes += '-c'; }} status='carefull'/>
-                <TextButton label='DISABLED' accessibilityLabel='disabled' onPress={() => { sizes += '-d'; }} status='disabled'/>
+                <TextButton label='DISABLED' accessibilityLabel='disabled' onPress={() => { sizes += '-d'; }} status='active' disabled/>
                 <TextButton label='OUTLINED' accessibilityLabel='outlined' onPress={() => { sizes += '-o'; }} status='outlined'/>
                 <TextButton label='SECONDARY' accessibilityLabel='secondary' onPress={() => { sizes += '-s'; }} status='secondary'/>
-                <TextButton label='OUTLINE-DISABLED' accessibilityLabel='outline-disabled' onPress={() => { sizes += '-od'; }} status='outline-disabled'/>
+                <TextButton label='OUTLINE-DISABLED' accessibilityLabel='outline-disabled' onPress={() => { sizes += '-od'; }} status='outlined' disabled/>
             </>
         );
 
