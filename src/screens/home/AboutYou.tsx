@@ -3,7 +3,7 @@ import { Icon, Palette, TextButton } from '../../design-system';
 import Label from './shared/Label';
 import State from '../../business-logic';
 import { useMemo } from 'react';
-import { Session } from '../../business-logic/api';
+import { Grade, Session } from '../../business-logic/api';
 
 const AboutYou = () =>
 {
@@ -15,7 +15,7 @@ const AboutYou = () =>
         return {
             averageLength: getAverageLength(sessions),
             favorite: getFavoriteMode(sessions),
-            averageGrade: getAverageDificulty(sessions),
+            averageGrade: getFavoriteDificulty(sessions),
             maxGrade: getMaxGrade(sessions)
         }
 
@@ -155,27 +155,46 @@ const getFavoriteMode = (sessions: Session[]) => {
 
 }
 
-const getAverageDificulty = (sessions: Session[]) => {
 
-    const account = {
-        grade: sessions[0].attempts[0].route!.grade,
-        diference: 0
-    }
+const getFavoriteDificulty = (sessions: Session[]) => {
+
+    const counter = countDificulties(sessions);
+    return getMostAttemptedGrade(counter);
+
+}
+
+const countDificulties = (sessions: Session[]) => {
+    const counter: {grade: Grade, ammount: number}[] = [];
 
     for(let session of sessions) {
         for(let attempt of session.attempts) {
-            if(account.grade.hardness === attempt.route!.grade.hardness) account.diference += 1;
-            else account.diference -= 1;
+            if(attempt.route !== undefined) {
 
-            if(account.diference <= 0) {
-                account.diference = 0;
-                account.grade = attempt.route!.grade;
+                let index = counter.findIndex(c => c.grade.name === attempt.route?.grade.name);
+                if(index === -1) {
+                    counter.push(
+                        {
+                            grade: attempt.route!.grade,
+                            ammount: 1
+                        }
+                    )
+                } else counter[index].ammount += 1;
+
             }
         }
     }
 
-    return account.grade;
+    return counter;
+}
 
+const getMostAttemptedGrade = (counter: {grade: Grade, ammount: number}[]) => {
+    let maxAttempts = counter[0];
+
+    for(let count of counter) {
+        if(count.ammount > maxAttempts.ammount) maxAttempts = count;
+    }
+
+    return maxAttempts.grade;
 }
 
 const getMaxGrade = (sessions: Session[]) => {
