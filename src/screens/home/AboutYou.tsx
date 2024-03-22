@@ -35,7 +35,7 @@ const AboutYou = () =>
                 <Label title='Já foi escalar' value={`${sessions.length} vezes`}/>
                 <Label title='Escala' value={`${summary.averageLength} vias por seção`}/>
                 <Label title='Modalidade favorita' value={`${summary.favorite}`}/>
-                <Label title='Graduação média' value={summary.averageGrade.name} color={summary.averageGrade.palette.t900}/>
+                <Label title='Graduação favorita' value={summary.averageGrade.name} color={summary.averageGrade.palette.t900}/>
             </View>
             <ClimbUpTo grade={summary.maxGrade.name} palette={summary.maxGrade.palette}/>
             <View style={styles.buttonContainer}>

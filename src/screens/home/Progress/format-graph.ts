@@ -18,7 +18,7 @@ const getBarColor = (attempts: Attempt[]) => {
     let hardness = -1;
 
     for(let attempt of attempts) {
-        if(attempt.route?.grade.hardness ?? -1 > hardness) {
+        if((attempt.route?.grade.hardness ?? -1) > hardness) {
             hardness = attempt.route!.grade.hardness;
             color = attempt.route!.grade.palette.t600;
         }
