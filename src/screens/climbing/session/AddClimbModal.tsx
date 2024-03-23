@@ -123,7 +123,6 @@ const AddClimbModal = ({display, onClose}: {display: boolean, onClose: () => voi
                             accessibilityLabel='incluir-mais-via'
                             status='outlined'
                             disabled={workingAttempts.find(a => a.route === undefined) !== undefined}
-                            debug
                         />
                     </View>
                 </View>

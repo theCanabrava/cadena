@@ -11,8 +11,7 @@ type TextButtonProps =
     status?: 'active' | 'outlined' | 'carefull' | 'secondary',
     disabled?: boolean,
     size?: 'small' | 'large',
-    sourceLeft?: IconSource,
-    debug?: boolean
+    sourceLeft?: IconSource
 }
 const TextButton = ({
     label, 
@@ -21,8 +20,7 @@ const TextButton = ({
     status = 'active', 
     size = 'large',
     sourceLeft,
-    disabled = false,
-    debug = false
+    disabled = false
 }: TextButtonProps) =>
 {
     //const [ buttonStyle, setButtonStyle ] = useState({...styles.button})
@@ -46,11 +44,6 @@ const TextButton = ({
         color: STYLE_MAP.fontColor[styleString],
         fontSize: STYLE_MAP.fontSize[size]
     }), [styleString, size]);
-
-    if(debug) {
-        console.log(`Status: ${status}, diasbled: ${disabled}`)
-        console.log('Style string', styleString);
-    }
 
     return (
         <TouchableOpacity

@@ -10,11 +10,12 @@ const Graph = ({mode}: {mode: 'ammount' | 'duration' | 'effort'}) => {
 
     const barElements = useMemo(() => {
         const max = FormatGraph[mode].max(sessions);
+        const min = FormatGraph[mode].min(sessions);
         const bE = sessions.map((s, i) => (
     
             <Bar
                 key={s.id}
-                value={FormatGraph[mode].value(s, max)}
+                value={FormatGraph[mode].value(s, max, max === min ? 0 : min)}
                 label={FormatGraph[mode].label(s)}
                 color={FormatGraph[mode].barColor(s.attempts)}
                 date={s.startTime}
