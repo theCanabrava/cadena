@@ -19,7 +19,6 @@
 25. Corrigir graduação média
 27. Incluir imagens auxiliares
 28. Testes de interface
-30. Separar estilo de status em botão - 
 31. Normalizar valores de gráficos
 
 
@@ -37,3 +36,4 @@
 21. Remover onsight de status possível - 17/03/24
 26. Corrigir esforço médio - 04/03/24
 29. Deixar barra de status roxa - 17/03/24
+30. Separar estilo de status em botão - 17/03/24

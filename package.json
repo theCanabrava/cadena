@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "get-coverage": "jest --coverage"
+    "get-coverage": "jest --coverage",
+    "bundle-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output native-bundle/android/index.android.bundle --assets-dest native-bundle/android/assets"
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.3.1",
