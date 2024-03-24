@@ -65,7 +65,7 @@ const NewClimb = () =>
                         startTime.setHours(startHour.getHours());
                         startTime.setMinutes(startHour.getMinutes());
                         State.dispatch.climbingActions.editCurrentSession(
-                            {...currentSession, startTime, expectedEndTime: undefined}
+                            {...currentSession, startTime, expectedEndTime: undefined, finished: false}
                         )
                     }}
                     obrigatory
@@ -78,7 +78,7 @@ const NewClimb = () =>
                             accessibilityLabel='inicio'
                             onSelected={startTime => {
                                 State.dispatch.climbingActions.editCurrentSession(
-                                    {...currentSession, startTime, expectedEndTime: undefined}
+                                    {...currentSession, startTime, expectedEndTime: undefined, finished: false }
                                 )
                             }}
                             obrigatory
@@ -98,11 +98,15 @@ const NewClimb = () =>
 
                                 if(expectedEndTime.getTime() < currentSession.startTime.getTime()) {
                                     State.dispatch.climbingActions.editCurrentSession(
-                                        {...currentSession, expectedEndTime: undefined}
+                                        {...currentSession, expectedEndTime: undefined, finished: false }
+                                    )
+                                } else if (expectedEndTime.getTime() >= new Date().getTime()) {
+                                    State.dispatch.climbingActions.editCurrentSession(
+                                        {...currentSession, expectedEndTime, finished: false }
                                     )
                                 } else {
                                     State.dispatch.climbingActions.editCurrentSession(
-                                        {...currentSession, expectedEndTime }
+                                        {...currentSession, endTime: expectedEndTime, expectedEndTime , finished: true }
                                     )
                                 }
                             }}

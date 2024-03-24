@@ -56,7 +56,9 @@ const Session = () =>
                         <TextButton
                             label='FINALIZAR SEÇÃO'
                             onPress={() => {
-                                State.dispatch.climbingActions.editCurrentSession({...currentSession, endTime: new Date()});
+                                if(currentSession.finished === false) {
+                                    State.dispatch.climbingActions.editCurrentSession({...currentSession, endTime: new Date()});
+                                }
                                 setModals({add: false, finish: true})
                             }}
                             accessibilityLabel='finalizar'
@@ -122,7 +124,7 @@ const SessionDetails = () =>
                     Início: <Text style={styles.detailValue}>{FormatDate.toHour(currentSession.startTime)}</Text>
                 </Text>
                 {
-                    currentSession.expectedEndTime !== undefined &&
+                    currentSession.expectedEndTime !== undefined && currentSession.finished === false &&
                     <>
                         <Text style={[styles.detailTitle, styles.end]}>
                             Fim: <Text style={styles.detailValue}>{FormatDate.toHour(currentSession.expectedEndTime)}</Text>
@@ -131,6 +133,12 @@ const SessionDetails = () =>
                             Restante: <Text style={styles.detailValue}>{remainingTime}</Text>
                         </Text>
                     </>
+                }
+                {
+                    currentSession.finished &&
+                    <Text style={[styles.detailTitle, styles.end]}>
+                        Fim: <Text style={styles.detailValue}>{FormatDate.toHour(currentSession.endTime)}</Text>
+                    </Text>
                 }
             </View>
             <Text style={styles.detailTitle}>

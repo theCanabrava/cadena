@@ -156,6 +156,7 @@ const Climbing: typeof api.Climbing = {
                 attempts: attempts,
                 edittingAttempt: undefined,
                 observation: s.observation,
+                finished: true
             }
             
         })

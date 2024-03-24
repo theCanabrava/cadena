@@ -10,7 +10,6 @@
 9. Criar uma tela separada para seleção da via escalada
 10. Passar onClose dos modais para gerenciamento de estados
 13. Animar transição de cards de escalada
-15. Permitir usuário salvar seção de dias anterióres
 16. Melhorar animações para seleção de mais de um contrato
 20. Intervalo para transição entre teclado e dropdown
 22. Implementação de splash screen
@@ -28,6 +27,7 @@
 11. Generalizar dropdown para aceitar qualquer tipo com um extrator de valor - 24/01/24
 12. Desabilitar botão de alarme quando tempo de fim não for selecionado - 06/02/24
 14. Layout de botão desativado outline - 13/03/24
+15. Permitir usuário salvar seção de dias anterióres - 24/03/24
 17. Animar gráfico de tentativas - 12/03/24
 18. Corrigir alinhamento de gráficos - 14/03/24
 19. Organizar calculos para gráficos em regras de negócio - 15/03/24

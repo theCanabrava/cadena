@@ -95,6 +95,7 @@ export type Session = {
     attempts: Attempt[],
     edittingAttempt?: Attempt,
     observation: string,
+    finished: boolean
 }
 
 export type Route = {

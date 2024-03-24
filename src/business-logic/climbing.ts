@@ -23,7 +23,8 @@ const getBlankSession: () => Session = () => ({
     playsAlarm: false,
     routeObjective: 0,
     attempts: [],
-    observation: ''
+    observation: '',
+    finished: false
 })
 
 export const useClimbingStore = create<ClimbingState>(() => ({
@@ -62,7 +63,8 @@ export const climbingActions = {
             playsAlarm: false,
             routeObjective: 0,
             attempts: [],
-            observation: ''
+            observation: '',
+            finished: false
         }
 
         useClimbingStore.setState(() => ({ currentSession }))
