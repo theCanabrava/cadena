@@ -28,13 +28,31 @@ const getBarColor = (attempts: Attempt[]) => {
 
 }
 
+const linearInterpolation = ({x, xMin, xMax, yMin, yMax}: {x: number, xMin: number, xMax: number, yMin: number, yMax: number}) => {
+
+    const a = (yMax - yMin) / (xMax - xMin);
+    const b = yMin - (a * xMin);
+
+    return (x * a) + b;
+
+}
+
+const MAX_OFFSET = 1;
 const MIN_OFFSET = 0.2;
 const FormatGraph = {
 
     ammount: {
         max: (sessions: Session[]) =>  Math.max(...sessions.map(s => s.attempts.length)),
         min: (sessions: Session[]) =>  Math.min(...sessions.map(s => s.attempts.length)),
-        value: (session: Session, max: number, min: number ) => (session.attempts.length - min + MIN_OFFSET)/(max - min + MIN_OFFSET),
+        value: (session: Session, max: number, min: number) => {
+            return linearInterpolation({
+                x: session.attempts.length,
+                xMax: max,
+                xMin: min,
+                yMax: MAX_OFFSET,
+                yMin: MIN_OFFSET
+            });
+        },
         label: (session: Session) => String(session.attempts.length),
         barColor: getBarColor
     },
@@ -42,7 +60,15 @@ const FormatGraph = {
     duration: {
         max: (sessions: Session[]) =>  Math.max(...sessions.map(s => s.endTime.getTime() - s.startTime.getTime())),
         min: (sessions: Session[]) =>  Math.min(...sessions.map(s => s.endTime.getTime() - s.startTime.getTime())),
-        value: (session: Session, max: number, min: number) => (session.endTime.getTime() - session.startTime.getTime() - min + MIN_OFFSET)/(max - min + MIN_OFFSET),
+        value: (session: Session, max: number, min: number) => {
+            return linearInterpolation({
+                x: session.endTime.getTime() - session.startTime.getTime(),
+                xMax: max,
+                xMin: min,
+                yMax: MAX_OFFSET,
+                yMin: MIN_OFFSET
+            });
+        },
         label: (session: Session) => {
             const duration = session.endTime.getTime() - session.startTime.getTime();
             const hours = Math.floor(duration / (1000 * 60 * 60)); 
@@ -56,7 +82,15 @@ const FormatGraph = {
     effort: {
         max: (sessions: Session[]) =>  Math.max(...sessions.map(s => getAverageEffort(s.attempts))),
         min: (sessions: Session[]) =>  Math.min(...sessions.map(s => getAverageEffort(s.attempts))),
-        value: (session: Session, max: number, min: number) => (getAverageEffort(session.attempts) - min + MIN_OFFSET)/(max - min + MIN_OFFSET),
+        value: (session: Session, max: number, min: number) => {
+            return linearInterpolation({
+                x: getAverageEffort(session.attempts),
+                xMax: max,
+                xMin: min,
+                yMax: MAX_OFFSET,
+                yMin: MIN_OFFSET
+            });
+        },
         label: (session: Session) => String(Math.round(getAverageEffort(session.attempts)*10)/10),
         barColor: getBarColor
     }

@@ -11,3 +11,4 @@
 7. Opção final em área segura - 16/03/24
 8. Correção de cor do gráfico - 22/03/24
 9. Correção de graduação favorita - 22/03/24
+10. Correção de offset no gráfico de escalada - 25/03/24
