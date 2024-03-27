@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, ReactElement, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Modal, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TouchableWithoutFeedback, Dimensions, FlatList, Keyboard } from 'react-native';
 import Icon from "./icons";
 import Palette from "./Palette";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -46,7 +46,13 @@ function Dropdown<T> ({
                 <Text style={styles.label}>
                     {label}
                 </Text>
-                <TouchableOpacity onPress={() => {setOpen(true)}} accessibilityLabel={accessibilityLabel}>
+                <TouchableOpacity 
+                    onPress={() => {
+                        setOpen(true);
+                        Keyboard.dismiss();
+                    }} 
+                    accessibilityLabel={accessibilityLabel}
+                >
                     <View style={styles.dropdown}>
                         <Text style={selectedStyle}>
                             { option === undefined ? placeholder : extractOption(option).value }

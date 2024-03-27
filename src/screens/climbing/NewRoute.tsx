@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import State from '../../business-logic';
 import { Grade } from '../../business-logic/api';
-import { CircleButton, Dropdown, Input, KeyboardListener, Palette, TextButton } from '../../design-system';
+import { CircleButton, Dropdown, Input, Palette, TextButton } from '../../design-system';
 import { HomeNavigationProps, NewRouteRouteProps } from '../../navigator/HomeStack';
 import Header from '../shared/Header';
 import uuid from 'react-native-uuid';
@@ -25,7 +25,7 @@ const NewRoute = () =>
     const [ name, setName ] = useState('');
     const [ selectedGrade, setSelectedGrade ] = useState<Grade | undefined>();
     const [ modality, setModality ] = useState<Modality | undefined>();
-    const [ showCamera, setShowCamera ] = useState(true);
+    const [ showCamera, setShowCamera ] = useState(false);
     const [ formStyle ] = useState({...styles.form});
     const navigation = useNavigation<HomeNavigationProps>();
     const { grades, currentSession, workingAttempts } = State.stateHooks.useClimbingStore();
@@ -63,10 +63,6 @@ const NewRoute = () =>
 
     return (
         <View style={styles.container}>
-            <KeyboardListener
-                onShow={() => { setShowCamera(false) }}
-                onHide={() => { setShowCamera(true) } }
-            />
             <Header title='Nova via'/>
             <View style={formStyle}>
                 <Text style={styles.intro}>

@@ -11,7 +11,6 @@
 10. Passar onClose dos modais para gerenciamento de estados
 13. Animar transição de cards de escalada
 16. Melhorar animações para seleção de mais de um contrato
-20. Intervalo para transição entre teclado e dropdown
 23. Transformar em genérica a interface para acessar o storage
 27. Incluir imagens auxiliares
 28. Testes de interface
@@ -29,6 +28,7 @@
 17. Animar gráfico de tentativas - 12/03/24
 18. Corrigir alinhamento de gráficos - 14/03/24
 19. Organizar calculos para gráficos em regras de negócio - 15/03/24
+20. Intervalo para transição entre teclado e dropdown - 27/03/24
 21. Remover onsight de status possível - 17/03/24
 22. Implementação de splash screen - 26/03/24
 24. Implementar interface de loading pra home - 26/03/24
