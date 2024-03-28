@@ -2,6 +2,9 @@
 
 >**Nota**: Lembre-se sempre de incluir a data em que um ponto for concluido 
 
+## Etapa 2
+Vizualização de seções e edição de rotas.
+
 ## Ativos
 2. Interface de registro com botão pequeno quando teclado estiver visível.
 4. Readme md
